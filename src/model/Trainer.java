@@ -1,12 +1,13 @@
 package model;
 
-public class Trainer {
+public class Trainer extends User {
 
     private int trainerID;
     private String specialisation;
 
     // Constructor
-    public Trainer(int trainerID, String specialisation) {
+    public Trainer(String name, String mail, String phone, int trainerID, String specialisation) {
+        super(name, mail, phone);
         this.trainerID = trainerID;
         this.specialisation = specialisation;
     }

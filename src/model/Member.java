@@ -1,15 +1,17 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.List;
 
-public class Member {
+public class Member extends User {
 
     private int memberID;
     private LocalDate registrationDate;
     private String membershipType;
 
     // Constructor
-    public Member(int memberID, LocalDate registrationDate, String membershipType) {
+    public Member(String name, String mail, String phone, int memberID, LocalDate registrationDate, String membershipType) {
+        super(name, mail, phone);
         this.memberID = memberID;
         this.registrationDate = registrationDate;
         this.membershipType = membershipType;
