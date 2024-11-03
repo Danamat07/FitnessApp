@@ -22,6 +22,20 @@ public class Trainer extends User {
         return specialisation;
     }
 
+    @Override
+    public String getName() {
+        return super.getName();
+    }
+
+    @Override
+    public String getMail() {
+        return super.getMail();
+    }
+
+    @Override
+    public String getPhone() {
+        return super.getPhone();
+    }
     // Setters
 
     public void setTrainerID(int trainerID) {
@@ -30,5 +44,20 @@ public class Trainer extends User {
 
     public void setSpecialisation(String specialisation) {
         this.specialisation = specialisation;
+    }
+
+    @Override
+    public void setName(String name) {
+        super.setName(name);
+    }
+
+    @Override
+    public void setMail(String mail) {
+        super.setMail(mail);
+    }
+
+    @Override
+    public void setPhone(String phone) {
+        super.setPhone(phone);
     }
 }

@@ -33,7 +33,7 @@ public class User {
         this.name = name;
     }
 
-    public void setMil(String mail) {
+    public void setMail(String mail) {
         this.mail = mail;
     }
 
