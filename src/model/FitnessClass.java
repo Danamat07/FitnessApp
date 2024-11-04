@@ -2,8 +2,8 @@ package model;
 
 import java.util.List;
 
-public class FitnessClass {
-    private int fitnessClassId;
+public class FitnessClass implements Identifiable {
+    private int fitnessClassID;
     private String name;
     private int duration;
     private Trainer trainer;
@@ -16,8 +16,8 @@ public class FitnessClass {
     private List<Member> members;
 
     //Constructor
-    public FitnessClass(int fitnessClassId, String name, int duration, Trainer trainer, Room room, int participantsCount, Schedule schedule, Location location, List<Feedback> feedback, List<Member> members, List<Equipment> equipment){
-        this.fitnessClassId = fitnessClassId;
+    public FitnessClass(int fitnessClassID, String name, int duration, Trainer trainer, Room room, int participantsCount, Schedule schedule, Location location, List<Feedback> feedback, List<Member> members, List<Equipment> equipment){
+        this.fitnessClassID = this.fitnessClassID;
         this.name = name;
         this.duration = duration;
         this.trainer = trainer;
@@ -30,10 +30,15 @@ public class FitnessClass {
         this.members = members;
     }
 
+    @Override
+    public int getID() {
+        return fitnessClassID;
+    }
+
     //Getters
 
-    public int getFitnessClassId() {
-        return fitnessClassId;
+    public int getFitnessClassID() {
+        return fitnessClassID;
     }
 
     public String getName() {
@@ -78,8 +83,8 @@ public class FitnessClass {
 
     //Setters
 
-    public void setFitnessClassId(int fitnessClassId) {
-        this.fitnessClassId = fitnessClassId;
+    public void setFitnessClassID(int fitnessClassID) {
+        this.fitnessClassID = fitnessClassID;
     }
 
     public void setName(String name) {

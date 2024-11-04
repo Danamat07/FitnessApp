@@ -1,25 +1,30 @@
 package model;
 
-public class Feedback {
-    private int feedbackId;
+public class Feedback implements Identifiable {
+    private int feedbackID;
     private Member member;
     private FitnessClass fitnessClass;
     private int rating;
     private String comment;
 
     //Constructor
-    public Feedback(int feedbackId, Member member, FitnessClass fitnessClass, int rating, String comment){
-        this.feedbackId = feedbackId;
+    public Feedback(int feedbackID, Member member, FitnessClass fitnessClass, int rating, String comment){
+        this.feedbackID = this.feedbackID;
         this.member = member;
         this.fitnessClass = fitnessClass;
         this.rating = rating;
         this. comment = comment;
     }
 
+    @Override
+    public int getID() {
+        return feedbackID;
+    }
+
     //Getters
 
-    public int getFeedbackId() {
-        return feedbackId;
+    public int getFeedbackID() {
+        return feedbackID;
     }
 
     public Member getMember() {
@@ -40,8 +45,8 @@ public class Feedback {
 
     //Setters
 
-    public void setFeedbackId(int feedbackId) {
-        this.feedbackId = feedbackId;
+    public void setFeedbackID(int feedbackId) {
+        this.feedbackID = feedbackID;
     }
 
     public void setMember(Member member) {

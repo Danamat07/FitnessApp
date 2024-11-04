@@ -2,7 +2,7 @@ package model;
 
 import java.time.LocalDateTime;
 
-public class Reservation {
+public class Reservation implements Identifiable {
     private int reservationID;
     private Member member;
     private FitnessClass fitnessClass;
@@ -14,6 +14,11 @@ public class Reservation {
         this.member = member;
         this.fitnessClass = fitnessClass;
         this.reservationDate = reservationDate;
+    }
+
+    @Override
+    public int getID() {
+        return reservationID;
     }
 
     //Getters

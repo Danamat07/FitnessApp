@@ -1,7 +1,7 @@
 package model;
 import java.util.List;
 
-public class Membership {
+public class Membership implements Identifiable {
 
     private int membershipID;
     private String type;
@@ -14,6 +14,11 @@ public class Membership {
         this.type = type;
         this.members = members;
         this.price = price;
+    }
+
+    @Override
+    public int getID() {
+        return membershipID;
     }
 
     // Getters

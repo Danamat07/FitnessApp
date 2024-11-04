@@ -3,7 +3,7 @@ package model;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Member extends User {
+public class Member extends User implements Identifiable {
 
     private int memberID;
     private LocalDate registrationDate;
@@ -17,6 +17,11 @@ public class Member extends User {
         this.registrationDate = registrationDate;
         this.membershipType = membershipType;
         this.fitnessClasses = fitnessClasses;
+    }
+
+    @Override
+    public int getID() {
+        return memberID;
     }
 
     // Getters

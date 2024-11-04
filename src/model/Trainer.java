@@ -1,6 +1,6 @@
 package model;
 
-public class Trainer extends User {
+public class Trainer extends User implements Identifiable {
 
     private int trainerID;
     private String specialisation;
@@ -10,6 +10,11 @@ public class Trainer extends User {
         super(name, mail, phone);
         this.trainerID = trainerID;
         this.specialisation = specialisation;
+    }
+
+    @Override
+    public int getID() {
+        return trainerID;
     }
 
     // Getters

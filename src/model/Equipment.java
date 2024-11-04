@@ -2,7 +2,7 @@ package model;
 
 import java.util.List;
 
-public class Equipment {
+public class Equipment implements Identifiable {
     private int equipmentID;
     private String name;
     private int quantity;
@@ -14,6 +14,11 @@ public class Equipment {
         this.name = name;
         this.quantity = quantity;
         this.fitnessClasses = fitnessClasses;
+    }
+
+    @Override
+    public int getID() {
+        return equipmentID;
     }
 
     //Getters

@@ -1,22 +1,27 @@
 package model;
 
-public class Location {
-    private int locationId;
+public class Location implements Identifiable {
+    private int locationID;
     private String name;
     private String adress;
 
     //Constructor
 
     public Location(int locationId, String name, String adress){
-        this.locationId = locationId;
+        this.locationID = locationID;
         this.name = name;
         this.adress = adress;
     }
 
+    @Override
+    public int getID() {
+        return locationID;
+    }
+
     //Getters
 
-    public int getLocationId() {
-        return locationId;
+    public int getLocationID() {
+        return locationID;
     }
 
     public String getName() {
@@ -29,8 +34,8 @@ public class Location {
 
     //Setters
 
-    public void setLocationId(int locationId) {
-        this.locationId = locationId;
+    public void setLocationID(int locationID) {
+        this.locationID = locationID;
     }
 
     public void setName(String name) {

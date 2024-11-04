@@ -2,24 +2,29 @@ package model;
 
 import java.time.LocalDateTime;
 
-public class Schedule {
-    private int scheduleId;
+public class Schedule implements Identifiable {
+    private int scheduleID;
     private FitnessClass fitnessClass;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
     //Constructor
-    public Schedule(int scheduleId, FitnessClass fitnessClass, LocalDateTime startTime, LocalDateTime endTime){
-        this.scheduleId = scheduleId;
+    public Schedule(int scheduleID, FitnessClass fitnessClass, LocalDateTime startTime, LocalDateTime endTime){
+        this.scheduleID = scheduleID;
         this.fitnessClass = fitnessClass;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
+    @Override
+    public int getID() {
+        return scheduleID;
+    }
+
     //Getters
 
-    public int getScheduleId() {
-        return scheduleId;
+    public int getScheduleID() {
+        return scheduleID;
     }
 
     public FitnessClass getFitnessClass() {
@@ -36,8 +41,8 @@ public class Schedule {
 
     //Setters
 
-    public void setScheduleId(int scheduleId) {
-        this.scheduleId = scheduleId;
+    public void setScheduleID(int scheduleID) {
+        this.scheduleID = this.scheduleID;
     }
 
     public void setFitnessClass(FitnessClass fitnessClass) {
