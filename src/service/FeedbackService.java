@@ -5,13 +5,12 @@ import repository.IRepository;
 
 import java.util.List;
 
-public class ServiceFeedback {
+public class FeedbackService {
     private final IRepository<Feedback> feedbackRepository;
 
-    public ServiceFeedback(IRepository<Feedback> feedbackRepository) {
+    public FeedbackService(IRepository<Feedback> feedbackRepository) {
         this.feedbackRepository = feedbackRepository;
     }
-
 
     public Feedback getFeedback(int id){
         return feedbackRepository.read(id);
