@@ -1,7 +1,6 @@
 package model;
 
 import java.time.LocalDateTime;
-import model.Tuple;
 
 public class Attendence {
 
@@ -16,8 +15,8 @@ public class Attendence {
         this.reservationDate = reservationDate;
     }
 
-    public Tuple<Integer, Integer> getID(int id1, int id2) {
-        return new Tuple<>(id1, id2);
+    public Tuple<Integer, Integer> getID(int memberID, int classID) {
+        return new Tuple<>(memberID, classID);
     }
 
     // Getters
