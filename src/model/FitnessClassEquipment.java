@@ -13,10 +13,6 @@ public class FitnessClassEquipment {
         this.quantity = quantity;
     }
 
-    public Tuple<Integer, Integer> getID(int equpmentID, int classID) {
-        return new Tuple<>(equpmentID, classID);
-    }
-
     // Getters
 
     public int getClassID() {

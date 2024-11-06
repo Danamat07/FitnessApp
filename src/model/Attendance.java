@@ -2,21 +2,17 @@ package model;
 
 import java.time.LocalDateTime;
 
-public class Attendence {
+public class Attendance {
 
     private int memberID;
     private int classID;
     public LocalDateTime reservationDate;
 
     // Constructor
-    public Attendence(int memberID, int classID, LocalDateTime reservationDate) {
+    public Attendance(int memberID, int classID, LocalDateTime reservationDate) {
         this.memberID = memberID;
         this.classID = classID;
         this.reservationDate = reservationDate;
-    }
-
-    public Tuple<Integer, Integer> getID(int memberID, int classID) {
-        return new Tuple<>(memberID, classID);
     }
 
     // Getters

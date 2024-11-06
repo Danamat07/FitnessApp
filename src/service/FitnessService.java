@@ -15,8 +15,10 @@ public class FitnessService {
     private final IRepository<Room> roomRepository;
     private final IRepository<Schedule> scheduleRepository;
     private final IRepository<Trainer> trainerRepository;
+    private final IRepository<Attendance> attendanceRepository;
+    private final IRepository<FitnessClassEquipment> fitnessClassEquipmentRepository;
 
-    public FitnessService(IRepository<Equipment> equipmentRepository, IRepository<Feedback> feedbackRepository, IRepository<FitnessClass> fitnessClassRepository, IRepository<Location> locationRepository, IRepository<Member> memberRepository, IRepository<Membership> membershipRepository, IRepository<Reservation> reservationRepository, IRepository<Room> roomRepository, IRepository<Schedule> scheduleRepository, IRepository<Trainer> trainerRepository) {
+    public FitnessService(IRepository<Equipment> equipmentRepository, IRepository<Feedback> feedbackRepository, IRepository<FitnessClass> fitnessClassRepository, IRepository<Location> locationRepository, IRepository<Member> memberRepository, IRepository<Membership> membershipRepository, IRepository<Reservation> reservationRepository, IRepository<Room> roomRepository, IRepository<Schedule> scheduleRepository, IRepository<Trainer> trainerRepository, IRepository<Attendance> attendanceRepository, IRepository<FitnessClassEquipment> fitnessClassEquipmentRepository) {
         this.equipmentRepository = equipmentRepository;
         this.feedbackRepository = feedbackRepository;
         this.fitnessClassRepository = fitnessClassRepository;
@@ -27,6 +29,8 @@ public class FitnessService {
         this.roomRepository = roomRepository;
         this.scheduleRepository = scheduleRepository;
         this.trainerRepository = trainerRepository;
+        this.attendanceRepository = attendanceRepository;
+        this.fitnessClassEquipmentRepository = fitnessClassEquipmentRepository;
     }
 
     public Equipment getEquipment(int id){
@@ -51,6 +55,7 @@ public class FitnessService {
         if (equipmentRepository.read(id) == null){
             throw new IllegalArgumentException("Equipment with ID" + id + " does not exist");
         }
+        equipmentRepository.delete(id);
     }
 
     public List<Equipment> getAllEquipments(){
@@ -79,6 +84,7 @@ public class FitnessService {
         if (feedbackRepository.read(id) == null){
             throw new IllegalArgumentException("Feedback with ID" + id + " does not exist");
         }
+        feedbackRepository.delete(id);
     }
 
     public List<Feedback> getAllFeedbacks(){
@@ -107,6 +113,7 @@ public class FitnessService {
         if (fitnessClassRepository.read(id) == null){
             throw new IllegalArgumentException("FitnessClass with ID" + id + " does not exist");
         }
+        fitnessClassRepository.delete(id);
     }
 
     public List<FitnessClass> getAllFitnessClasses(){
@@ -135,6 +142,7 @@ public class FitnessService {
         if (locationRepository.read(id) == null){
             throw new IllegalArgumentException("Location with ID" + id + " does not exist");
         }
+        locationRepository.delete(id);
     }
 
     public List<Location> getAllLocations(){
@@ -221,6 +229,7 @@ public class FitnessService {
         if (reservationRepository.read(id) == null){
             throw new IllegalArgumentException("Reservation with ID" + id + " does not exist");
         }
+        reservationRepository.delete(id);
     }
 
     public List<Reservation> getAllReservations(){
@@ -249,6 +258,7 @@ public class FitnessService {
         if (roomRepository.read(id) == null){
             throw new IllegalArgumentException("Room with ID" + id + " does not exist");
         }
+        roomRepository.delete(id);
     }
 
     public List<Room> getAllRooms(){
@@ -277,6 +287,7 @@ public class FitnessService {
         if (scheduleRepository.read(id) == null){
             throw new IllegalArgumentException("Schedule with ID" + id + " does not exist");
         }
+        scheduleRepository.delete(id);
     }
 
     public List<Schedule> getAllSchedules(){
@@ -305,6 +316,7 @@ public class FitnessService {
         if (trainerRepository.read(id) == null){
             throw new IllegalArgumentException("Trainer with ID" + id + " does not exist");
         }
+        trainerRepository.delete(id);
     }
 
     public List<Trainer> getAllTrainers(){
