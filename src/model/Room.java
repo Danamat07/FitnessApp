@@ -54,4 +54,14 @@ public class Room implements Identifiable {
     public void setLocation(Location location) {
         this.location = location;
     }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "roomID=" + roomID +
+                ", name='" + name + '\'' +
+                ", maxCapacity=" + maxCapacity +
+                ", location=" + location +
+                '}';
+    }
 }

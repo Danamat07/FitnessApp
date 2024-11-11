@@ -65,4 +65,12 @@ public class Trainer extends User implements Identifiable {
     public void setPhone(String phone) {
         super.setPhone(phone);
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " -> Trainer{" +
+                "trainerID=" + trainerID +
+                ", specialisation='" + specialisation + '\'' +
+                '}';
+    }
 }

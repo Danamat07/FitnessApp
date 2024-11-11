@@ -56,4 +56,14 @@ public class Membership implements Identifiable {
     public void setPrice(float price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "Membership{" +
+                "membershipID=" + membershipID +
+                ", type='" + type + '\'' +
+                ", members=" + members +
+                ", price=" + price +
+                '}';
+    }
 }

@@ -126,4 +126,21 @@ public class FitnessClass implements Identifiable {
     public void setMembers(List<Member> members) {
         this.members = members;
     }
+
+    @Override
+    public String toString() {
+        return "FitnessClass{" +
+                "fitnessClassID=" + fitnessClassID +
+                ", name='" + name + '\'' +
+                ", duration=" + duration +
+                ", trainer=" + trainer +
+                ", room=" + room +
+                ", participantsCount=" + participantsCount +
+                ", schedule=" + schedule +
+                ", location=" + location +
+                ", feedback=" + feedback +
+                ", equipment=" + equipment +
+                ", members=" + members +
+                '}';
+    }
 }

@@ -41,4 +41,13 @@ public class FitnessClassEquipment {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    @Override
+    public String toString() {
+        return "FitnessClassEquipment{" +
+                "equpmentID=" + equpmentID +
+                ", classID=" + classID +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

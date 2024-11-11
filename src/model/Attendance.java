@@ -42,4 +42,13 @@ public class Attendance {
     public void setReservationDate(LocalDateTime reservationDate) {
         this.reservationDate = reservationDate;
     }
+
+    @Override
+    public String toString() {
+        return "Attendance{" +
+                "memberID=" + memberID +
+                ", classID=" + classID +
+                ", reservationDate=" + reservationDate +
+                '}';
+    }
 }

@@ -56,4 +56,14 @@ public class Schedule implements Identifiable {
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
+
+    @Override
+    public String toString() {
+        return "Schedule{" +
+                "scheduleID=" + scheduleID +
+                ", fitnessClass=" + fitnessClass +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
+    }
 }

@@ -55,4 +55,14 @@ public class Equipment implements Identifiable {
     public void setFitnessClasses(List<FitnessClass> fitnessClasses) {
         this.fitnessClasses = fitnessClasses;
     }
+
+    @Override
+    public String toString() {
+        return "Equipment{" +
+                "equipmentID=" + equipmentID +
+                ", name='" + name + '\'' +
+                ", quantity=" + quantity +
+                ", fitnessClasses=" + fitnessClasses +
+                '}';
+    }
 }

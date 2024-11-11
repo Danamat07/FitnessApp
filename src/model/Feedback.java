@@ -64,4 +64,15 @@ public class Feedback implements Identifiable {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    @Override
+    public String toString() {
+        return "Feedback{" +
+                "feedbackID=" + feedbackID +
+                ", member=" + member +
+                ", fitnessClass=" + fitnessClass +
+                ", rating=" + rating +
+                ", comment='" + comment + '\'' +
+                '}';
+    }
 }

@@ -89,4 +89,14 @@ public class Member extends User implements Identifiable {
     public void setPhone(String phone) {
         super.setPhone(phone);
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " -> Member{" +
+                "memberID=" + memberID +
+                ", registrationDate=" + registrationDate +
+                ", membershipType='" + membershipType + '\'' +
+                ", fitnessClasses=" + fitnessClasses +
+                '}';
+    }
 }

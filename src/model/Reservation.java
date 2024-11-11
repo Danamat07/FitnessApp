@@ -56,4 +56,14 @@ public class Reservation implements Identifiable {
     public void setReservationDate(LocalDateTime reservationDate) {
         this.reservationDate = reservationDate;
     }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "reservationID=" + reservationID +
+                ", member=" + member +
+                ", fitnessClass=" + fitnessClass +
+                ", reservationDate=" + reservationDate +
+                '}';
+    }
 }

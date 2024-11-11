@@ -45,4 +45,13 @@ public class Location implements Identifiable {
     public void setAdress(String adress) {
         this.adress = adress;
     }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "locationID=" + locationID +
+                ", name='" + name + '\'' +
+                ", adress='" + adress + '\'' +
+                '}';
+    }
 }
