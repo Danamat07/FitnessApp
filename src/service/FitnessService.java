@@ -606,7 +606,7 @@ public class FitnessService {
     // Get FitnessClassEquipment by equipmentID and classID
     public FitnessClassEquipment getFitnessClassEquipment(int equipmentID, int classID) {
         for (FitnessClassEquipment equipment : fitnessClassEquipmentRepository.getAll()) {
-            if (equipment.getEqupmentID() == equipmentID && equipment.getClassID() == classID) {
+            if (equipment.getEquipmentID() == equipmentID && equipment.getClassID() == classID) {
                 return equipment;
             }
         }
@@ -639,13 +639,15 @@ public class FitnessService {
         if (existingEquipment == null) {
             throw new IllegalArgumentException("Fitness class equipment for class " + classID + " and equipment " + equipmentID + " does not exist.");
         }
-        fitnessClassEquipmentRepository.delete(existingEquipment.getEqupmentID());
+        fitnessClassEquipmentRepository.delete(existingEquipment.getEquipmentID());
     }
 
     // Retrieve all fitness class equipment
     public List<FitnessClassEquipment> getAllFitnessClassEquipments() {
         return fitnessClassEquipmentRepository.getAll();
     }
+
+    //  ----- Complex Methods -----
 
     // Helper method to retrieve equipment list for a given fitness class
     private List<FitnessClassEquipment> getEquipmentForFitnessClass(int classID) {
@@ -657,5 +659,48 @@ public class FitnessService {
         }
         return classEquipmentList;
     }
+
+    // Helper method to check for common equipment between classes
+    private boolean hasCommonEquipment( int classID, List<FitnessClassEquipment> targetEquipmentList) {
+        List<FitnessClassEquipment> classEquipmentList = getEquipmentForFitnessClass(classID);
+        for (FitnessClassEquipment targetEquipment : targetEquipmentList) {
+            for (FitnessClassEquipment equipment : classEquipmentList) {
+                if (equipment.getEquipmentID() == targetEquipment.getEquipmentID()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // Complex method, retuns similar classes based on trainer and equipment
+    public List<FitnessClass> getSimilarFitnessClasses( int fitnesClassID ) {
+        //get the target fitness class based on the provided ID
+        FitnessClass targetClass = getFitnessClass(fitnesClassID);
+        if ( targetClass == null ) {
+            throw new IllegalArgumentException("Fitness class with ID" + fitnesClassID + " doesn't exist.");
+        }
+        List<FitnessClass> similarClasses = new ArrayList<>();
+        //get equipment list and trainer for the target class
+        Trainer targetTrainer = targetClass.getTrainer();
+        List<FitnessClassEquipment> targetEquipmentList = getEquipmentForFitnessClass(fitnesClassID);
+        //iterate through all fitness clasees
+        for(FitnessClass fitnessClass : getAllFitnessClasses()) {
+            //skip if it's the same class as the target
+            if( fitnessClass.equals(targetClass )) {
+                continue;
+            }
+            //check if the trainer matches
+            boolean sameTrainer = fitnessClass.getTrainer().equals(targetTrainer);
+            //check if there is any common equipment
+            boolean commonEquipment = hasCommonEquipment(fitnessClass.getFitnessClassID(), targetEquipmentList);
+            //add to similar classes list if trainer or equipment match
+            if( sameTrainer || commonEquipment) {
+                similarClasses.add(fitnessClass);
+            }
+        }
+        return similarClasses;
+    }
+
 
 }

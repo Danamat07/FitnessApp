@@ -19,7 +19,7 @@ public class FitnessClassEquipment {
         return classID;
     }
 
-    public int getEqupmentID() {
+    public int getEquipmentID() {
         return equpmentID;
     }
 
