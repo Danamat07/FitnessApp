@@ -1,6 +1,9 @@
 package service;
 import model.*;
 import repository.IRepository;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class FitnessService {
@@ -18,6 +21,7 @@ public class FitnessService {
     private final IRepository<Attendance> attendanceRepository;
     private final IRepository<FitnessClassEquipment> fitnessClassEquipmentRepository;
 
+    // Service constructor
     public FitnessService(IRepository<Equipment> equipmentRepository, IRepository<Feedback> feedbackRepository, IRepository<FitnessClass> fitnessClassRepository, IRepository<Location> locationRepository, IRepository<Member> memberRepository, IRepository<Membership> membershipRepository, IRepository<Reservation> reservationRepository, IRepository<Room> roomRepository, IRepository<Schedule> scheduleRepository, IRepository<Trainer> trainerRepository, IRepository<Attendance> attendanceRepository, IRepository<FitnessClassEquipment> fitnessClassEquipmentRepository) {
         this.equipmentRepository = equipmentRepository;
         this.feedbackRepository = feedbackRepository;
@@ -33,293 +37,613 @@ public class FitnessService {
         this.fitnessClassEquipmentRepository = fitnessClassEquipmentRepository;
     }
 
-    public Equipment getEquipment(int id){
-        return equipmentRepository.read(id);
+    //  ----- Equipment -----
+
+    // Get equipment by ID, returning null if it doesn't exist
+    public Equipment getEquipment(int equipmentID) {
+        return equipmentRepository.read(equipmentID);
     }
 
-    public void addEquipment(Equipment Equipment){
-        if (equipmentRepository.read(Equipment.getID()) != null){
-            throw new IllegalArgumentException("Equipment with ID" + Equipment.getID() + " already exists");
+    // Add new equipment to the repository if it doesn't already exist
+    public void addEquipment(int equipmentID, String name, int quantity) {
+        Equipment existingEquipment = getEquipment(equipmentID);
+        if (existingEquipment != null) {
+            throw new IllegalArgumentException("Equipment with ID " + equipmentID + " already exists.");
         }
-        equipmentRepository.create(Equipment);
+        Equipment newEquipment = new Equipment(equipmentID, name, quantity, List.of());
+        equipmentRepository.create(newEquipment);
     }
 
-    public void updateEquipment(Equipment Equipment){
-        if(equipmentRepository.read((Equipment.getID())) == null){
-            throw new IllegalArgumentException("Equipment with ID" + Equipment.getID() + " does not exist");
+    // Update an existing equipment item
+    public void updateEquipment(int equipmentID, String name, int quantity) {
+        Equipment existingEquipment = getEquipment(equipmentID);
+        if (existingEquipment == null) {
+            throw new IllegalArgumentException("Equipment with ID " + equipmentID + " doesn't exist.");
         }
-        equipmentRepository.update(Equipment);
+        existingEquipment.setName(name);
+        existingEquipment.setQuantity(quantity);
+        equipmentRepository.update(existingEquipment);
     }
 
-    public void deleteEquipment(int id){
-        if (equipmentRepository.read(id) == null){
-            throw new IllegalArgumentException("Equipment with ID" + id + " does not exist");
+    // Delete an equipment item by ID
+    public void deleteEquipment(int equipmentID) {
+        Equipment existingEquipment = getEquipment(equipmentID);
+        if (existingEquipment == null) {
+            throw new IllegalArgumentException("Equipment with ID " + equipmentID + " doesn't exist.");
         }
-        equipmentRepository.delete(id);
+        equipmentRepository.delete(equipmentID);
     }
 
+    // Retrieve all equipment
     public List<Equipment> getAllEquipments(){
         return equipmentRepository.getAll();
     }
 
-    public Feedback getFeedback(int id){
-        return feedbackRepository.read(id);
-    }
-
-    public void addFeedback(Feedback Feedback){
-        if (feedbackRepository.read(Feedback.getID()) != null){
-            throw new IllegalArgumentException("Feedback with ID" + Feedback.getID() + " already exists");
+    // Update the quantity of an existing equipment item
+    public void updateQuantity(int equipmentID, int quantity) {
+        Equipment existingEquipment = getEquipment(equipmentID);
+        if (existingEquipment == null) {
+            throw new IllegalArgumentException("Equipment with ID " + equipmentID + " doesn't exist.");
         }
-        feedbackRepository.create(Feedback);
+        existingEquipment.setQuantity(quantity);
+        equipmentRepository.update(existingEquipment);
     }
 
-    public void updateFeedback(Feedback Feedback){
-        if(feedbackRepository.read((Feedback.getID())) == null){
-            throw new IllegalArgumentException("Feedback with ID" + Feedback.getID() + " does not exist");
+    //  ----- Feedback -----
+
+    // Get feedback by ID, returning null if it doesn't exist
+    public Feedback getFeedback(int feedbackID) {
+        return feedbackRepository.read(feedbackID);
+    }
+
+    // Add new feedback to the repository if it doesn't already exist
+    public void addFeedback(int feedbackID, Member member, FitnessClass fitnessClass, int rating, String comment) {
+        Feedback existingFeedback = getFeedback(feedbackID);
+        if (existingFeedback != null) {
+            throw new IllegalArgumentException("Feedback with ID " + feedbackID + " already exists.");
         }
-        feedbackRepository.update(Feedback);
+        Feedback newFeedback = new Feedback(feedbackID, member, fitnessClass, rating, comment);
+        feedbackRepository.create(newFeedback);
     }
 
-    public void deleteFeedback(int id){
-        if (feedbackRepository.read(id) == null){
-            throw new IllegalArgumentException("Feedback with ID" + id + " does not exist");
+    // Update an existing feedback item
+    public void updateFeedback(int feedbackID, Member member, FitnessClass fitnessClass, int rating, String comment) {
+        Feedback existingFeedback = getFeedback(feedbackID);
+        if (existingFeedback == null) {
+            throw new IllegalArgumentException("Feedback with ID " + feedbackID + " doesn't exist.");
         }
-        feedbackRepository.delete(id);
+        existingFeedback.setMember(member);
+        existingFeedback.setFitnessClass(fitnessClass);
+        existingFeedback.setRating(rating);
+        existingFeedback.setComment(comment);
+        feedbackRepository.update(existingFeedback);
     }
 
+    // Delete a feedback item by ID
+    public void deleteFeedback(int feedbackID) {
+        Feedback existingFeedback = getFeedback(feedbackID);
+        if (existingFeedback == null) {
+            throw new IllegalArgumentException("Feedback with ID " + feedbackID + " doesn't exist.");
+        }
+        feedbackRepository.delete(feedbackID);
+    }
+
+    // Retrieve all feedbacks
     public List<Feedback> getAllFeedbacks(){
         return feedbackRepository.getAll();
     }
 
-    public FitnessClass getFitnessClass(int id){
-        return fitnessClassRepository.read(id);
+    //  ----- FitnessClass -----
+
+    // Retrieve a fitness class by its ID
+    public FitnessClass getFitnessClass(int fitnessClassID) {
+        return fitnessClassRepository.read(fitnessClassID);
     }
 
-    public void addFitnessClass(FitnessClass FitnessClass){
-        if (fitnessClassRepository.read(FitnessClass.getID()) != null){
-            throw new IllegalArgumentException("FitnessClass with ID" + FitnessClass.getID() + " already exists");
+    // Add a new fitness class to the repository
+    public void addFitnessClass(int fitnessClassID, String name, int duration, Trainer trainer, Room room,
+                                int participantsCount, Schedule schedule, Location location,
+                                List<Feedback> feedback, List<Member> members, List<Equipment> equipment) {
+        FitnessClass existingClass = getFitnessClass(fitnessClassID);
+        if (existingClass != null) {
+            throw new IllegalArgumentException("Class with ID " + fitnessClassID + " already exists.");
         }
-        fitnessClassRepository.create(FitnessClass);
+        FitnessClass newFitnessClass = new FitnessClass(fitnessClassID, name, duration, trainer, room,
+                participantsCount, schedule, location, feedback,
+                members, equipment);
+        fitnessClassRepository.create(newFitnessClass);
     }
 
-    public void updateFitnessClass(FitnessClass FitnessClass){
-        if(fitnessClassRepository.read((FitnessClass.getID())) == null){
-            throw new IllegalArgumentException("FitnessClass with ID" + FitnessClass.getID() + " does not exist");
+    // Update an existing fitness class
+    public void updateFitnessClass(int fitnessClassID, String name, int duration, Trainer trainer, Room room,
+                                   int participantsCount, Schedule schedule, Location location,
+                                   List<Feedback> feedback, List<Member> members, List<Equipment> equipment) {
+        FitnessClass existingFitnessClass = getFitnessClass(fitnessClassID);
+        if (existingFitnessClass == null) {
+            throw new IllegalArgumentException("Fitness class with ID " + fitnessClassID + " does not exist.");
         }
-        fitnessClassRepository.update(FitnessClass);
+        existingFitnessClass.setName(name);
+        existingFitnessClass.setDuration(duration);
+        existingFitnessClass.setTrainer(trainer);
+        existingFitnessClass.setRoom(room);
+        existingFitnessClass.setParticipantsCount(participantsCount);
+        existingFitnessClass.setSchedule(schedule);
+        existingFitnessClass.setLocation(location);
+        existingFitnessClass.setFeedback(feedback);
+        existingFitnessClass.setEquipment(equipment);
+        existingFitnessClass.setMembers(members);
+
+        fitnessClassRepository.update(existingFitnessClass);
     }
 
-    public void deleteFitnessClass(int id){
-        if (fitnessClassRepository.read(id) == null){
-            throw new IllegalArgumentException("FitnessClass with ID" + id + " does not exist");
+    // Delete a fitness class by its ID
+    public void deleteFitnessClass(int fitnessClassID) {
+        FitnessClass existingFitnessClass = getFitnessClass(fitnessClassID);
+        if (existingFitnessClass == null) {
+            throw new IllegalArgumentException("Fitness class with ID " + fitnessClassID + " does not exist.");
         }
-        fitnessClassRepository.delete(id);
+        fitnessClassRepository.delete(fitnessClassID);
     }
 
-    public List<FitnessClass> getAllFitnessClasses(){
+    // Retrieve all fitness classes
+    public List<FitnessClass> getAllFitnessClasses() {
         return fitnessClassRepository.getAll();
     }
 
-    public Location getLocation(int id){
-        return locationRepository.read(id);
+    //  ----- Location -----
+
+    // Get location by ID, returning null if it doesn't exist
+    public Location getLocation(int locationID) {
+        return locationRepository.read(locationID);
     }
 
-    public void addLocation(Location Location){
-        if (locationRepository.read(Location.getID()) != null){
-            throw new IllegalArgumentException("Location with ID" + Location.getID() + " already exists");
+    // Add new location to the repository if it doesn't already exist
+    public void addLocation(int locationID, String name, String address) {
+        Location existingLocation = getLocation(locationID);
+        if (existingLocation != null) {
+            throw new IllegalArgumentException("Location with ID " + locationID + " already exists.");
         }
-        locationRepository.create(Location);
+        Location newLocation = new Location(locationID, name, address);
+        locationRepository.create(newLocation);
     }
 
-    public void updateLocation(Location Location){
-        if(locationRepository.read((Location.getID())) == null){
-            throw new IllegalArgumentException("Location with ID" + Location.getID() + " does not exist");
+    // Update an existing location item
+    public void updateLocation(int locationID, String name, String address) {
+        Location existingLocation = getLocation(locationID);
+        if (existingLocation == null) {
+            throw new IllegalArgumentException("Location with ID " + locationID + " doesn't exist.");
         }
-        locationRepository.update(Location);
+        existingLocation.setName(name);
+        existingLocation.setAdress(address);
+        locationRepository.update(existingLocation);
     }
 
-    public void deleteLocation(int id){
-        if (locationRepository.read(id) == null){
-            throw new IllegalArgumentException("Location with ID" + id + " does not exist");
+    // Delete a location item by ID
+    public void deleteLocation(int locationID) {
+        Location existingLocation = getLocation(locationID);
+        if (existingLocation == null) {
+            throw new IllegalArgumentException("Location with ID " + locationID + " doesn't exist.");
         }
-        locationRepository.delete(id);
+        locationRepository.delete(locationID);
     }
 
+    // Retrieve all locations
     public List<Location> getAllLocations(){
         return locationRepository.getAll();
     }
 
-    public Member getMember(int id) {
-        return memberRepository.read(id);
+    //  ----- Member -----
+
+    // Get member by ID, returning null if it doesn't exist
+    public Member getMember(int memberID) {
+        return memberRepository.read(memberID);
     }
 
-    public void addMember(Member member) {
-        if (memberRepository.read(member.getID()) != null) {
-            throw  new IllegalArgumentException("Member with ID " + member.getID() + " already exists.");
+    // Add new member to the repository if it doesn't already exist
+    public void addMember(int memberID, String name, String mail, String phone, LocalDate registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
+        Member existingMember = getMember(memberID);
+        if (existingMember != null) {
+            throw new IllegalArgumentException("Member with ID " + memberID + " already exists.");
         }
-        memberRepository.create(member);
+        Member newMember = new Member(name, mail, phone, memberID, registrationDate, membershipType, fitnessClasses);
+        memberRepository.create(newMember);
     }
 
-    public void updateMember(Member member) {
-        if (memberRepository.read(member.getID()) == null) {
-            throw new IllegalArgumentException("Member with ID " + member.getID() + " does not exist.");
+    // Update an existing member
+    public void updateMember(int memberID, String name, String mail, String phone, LocalDate registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
+        Member existingMember = getMember(memberID);
+        if (existingMember == null) {
+            throw new IllegalArgumentException("Member with ID " + memberID + " doesn't exist.");
         }
-        memberRepository.update(member);
+        existingMember.setName(name);
+        existingMember.setMail(mail);
+        existingMember.setPhone(phone);
+        existingMember.setRegistrationDate(registrationDate);
+        existingMember.setMembershipType(membershipType);
+        existingMember.setFitnessClasses(fitnessClasses);
+        memberRepository.update(existingMember);
     }
 
-    public void deleteMember(int id) {
-        if (memberRepository.read(id) == null) {
-            throw new IllegalArgumentException("Member with ID " + id + " does not exist.");
+    // Delete a member by ID
+    public void deleteMember(int memberID) {
+        Member existingMember = getMember(memberID);
+        if (existingMember == null) {
+            throw new IllegalArgumentException("Member with ID " + memberID + " doesn't exist.");
         }
-        memberRepository.delete(id);
+        memberRepository.delete(memberID);
     }
 
+    // Retrieve all members
     public List<Member> getAllMembers() {
         return memberRepository.getAll();
     }
 
-    public Membership getMembership(int id) {
-        return membershipRepository.read(id);
-    }
-
-    public void addMembership(Membership membership) {
-        if (membershipRepository.read(membership.getID()) != null) {
-            throw  new IllegalArgumentException("Membership with ID " + membership.getID() + " already exists.");
+    // Update the membership type of existing member
+    public void updateMemberMembershipType(int memberID, String membershipType) {
+        Member existingMember = getMember(memberID);
+        if (existingMember == null) {
+            throw new IllegalArgumentException("Member with ID " + memberID + " doesn't exist.");
         }
-        membershipRepository.create(membership);
+        existingMember.setMembershipType(membershipType);
+        memberRepository.update(existingMember);
     }
 
-    public void updateMembership(Membership membership) {
-        if (membershipRepository.read(membership.getID()) == null) {
-            throw new IllegalArgumentException("Membership with ID " + membership.getID() + " does not exist.");
+    //  ----- Membership -----
+
+    // Get membership by ID, returning null if it doesn't exist
+    public Membership getMembership(int membershipID) {
+        return membershipRepository.read(membershipID);
+    }
+
+    // Add a new membership to the repository if it doesn't already exist
+    public void addMembership(int membershipID, String type, List<Member> members, float price) {
+        Membership existingMembership = getMembership(membershipID);
+        if (existingMembership != null) {
+            throw new IllegalArgumentException("Membership with ID " + membershipID + " already exists.");
         }
-        membershipRepository.update(membership);
+        Membership newMembership = new Membership(membershipID, type, members, price);
+        membershipRepository.create(newMembership);
     }
 
-    public void deleteMembership(int id) {
-        if (membershipRepository.read(id) == null) {
-            throw new IllegalArgumentException("Membership with ID " + id + " does not exist.");
+    // Update an existing membership
+    public void updateMembership(int membershipID, String type, List<Member> members, float price) {
+        Membership existingMembership = getMembership(membershipID);
+        if (existingMembership == null) {
+            throw new IllegalArgumentException("Membership with ID " + membershipID + " doesn't exist.");
         }
-        membershipRepository.delete(id);
+        existingMembership.setType(type);
+        existingMembership.setMembers(members);
+        existingMembership.setPrice(price);
+        membershipRepository.update(existingMembership);
     }
 
+    // Delete a membership by ID
+    public void deleteMembership(int membershipID) {
+        Membership existingMembership = getMembership(membershipID);
+        if (existingMembership == null) {
+            throw new IllegalArgumentException("Membership with ID " + membershipID + " doesn't exist.");
+        }
+        membershipRepository.delete(membershipID);
+    }
+
+    // Retrieve all memberships
     public List<Membership> getAllMemberships() {
         return membershipRepository.getAll();
     }
 
-    public Reservation getReservation(int id){
-        return reservationRepository.read(id);
-    }
-
-    public void addReservation(Reservation reservation){
-        if (reservationRepository.read(reservation.getID()) != null){
-            throw new IllegalArgumentException("Reservation with ID" + reservation.getID() + " already exists");
+    // Update the list of members of a specific membership
+    public void updateMembershipMembers(int membershipID, List<Member> members) {
+        Membership existingMembership = getMembership(membershipID);
+        if (existingMembership == null) {
+            throw new IllegalArgumentException("Membership with ID " + membershipID + " doesn't exist.");
         }
-        reservationRepository.create(reservation);
+        existingMembership.setMembers(members);
+        membershipRepository.update(existingMembership);
     }
 
-    public void updateReservation(Reservation reservation){
-        if(reservationRepository.read((reservation.getID())) == null){
-            throw new IllegalArgumentException("Reservation with ID" + reservation.getID() + " does not exist");
+    //  ----- Reservation -----
+
+    // Get reservation by ID, returning null if it doesn't exist
+    public Reservation getReservation(int reservationID) {
+        return reservationRepository.read(reservationID);
+    }
+
+    // Add a new reservation to the repository if it doesn't already exist
+    public void addReservation(int reservationID, Member member, FitnessClass fitnessClass, LocalDateTime reservationDate) {
+        Reservation existingReservation = getReservation(reservationID);
+        if (existingReservation != null) {
+            throw new IllegalArgumentException("Reservation with ID " + reservationID + " already exists.");
         }
-        reservationRepository.update(reservation);
+        Reservation newReservation = new Reservation(reservationID, member, fitnessClass, reservationDate);
+        reservationRepository.create(newReservation);
     }
 
-    public void deleteReservation(int id){
-        if (reservationRepository.read(id) == null){
-            throw new IllegalArgumentException("Reservation with ID" + id + " does not exist");
+    // Update an existing reservation
+    public void updateReservation(int reservationID, Member member, FitnessClass fitnessClass, LocalDateTime reservationDate) {
+        Reservation existingReservation = getReservation(reservationID);
+        if (existingReservation == null) {
+            throw new IllegalArgumentException("Reservation with ID " + reservationID + " doesn't exist.");
         }
-        reservationRepository.delete(id);
+        existingReservation.setMember(member);
+        existingReservation.setFitnessClass(fitnessClass);
+        existingReservation.setReservationDate(reservationDate);
+        reservationRepository.update(existingReservation);
     }
 
+    // Delete a reservation by ID
+    public void deleteReservation(int reservationID) {
+        Reservation existingReservation = getReservation(reservationID);
+        if (existingReservation == null) {
+            throw new IllegalArgumentException("Reservation with ID " + reservationID + " doesn't exist.");
+        }
+        reservationRepository.delete(reservationID);
+    }
+
+    // Retrieve all reservations
     public List<Reservation> getAllReservations(){
         return reservationRepository.getAll();
     }
 
-    public Room getRoom(int id){
-        return roomRepository.read(id);
-    }
-
-    public void addRoom(Room room){
-        if (roomRepository.read(room.getID()) != null){
-            throw new IllegalArgumentException("Room with ID" + room.getID() + " already exists");
+    // Update the reservation date of an existing reservation
+    public void updateReservationDate(int reservationID, LocalDateTime reservationDate) {
+        Reservation existingReservation = getReservation(reservationID);
+        if (existingReservation == null) {
+            throw new IllegalArgumentException("Reservation with ID " + reservationID + " doesn't exist.");
         }
-        roomRepository.create(room);
+        existingReservation.setReservationDate(reservationDate);
+        reservationRepository.update(existingReservation);
     }
 
-    public void updateRoom(Room room){
-        if(roomRepository.read((room.getID())) == null){
-            throw new IllegalArgumentException("Room with ID" + room.getID() + " does not exist");
+    // Update the fitness class of a specific reservation
+    public void updateReservationFitnessClass(int reservationID, FitnessClass fitnessClass) {
+        Reservation existingReservation = getReservation(reservationID);
+        if (existingReservation == null) {
+            throw new IllegalArgumentException("Reservation with ID " + reservationID + " doesn't exist.");
         }
-        roomRepository.update(room);
+        existingReservation.setFitnessClass(fitnessClass);
+        reservationRepository.update(existingReservation);
     }
 
-    public void deleteRoom(int id){
-        if (roomRepository.read(id) == null){
-            throw new IllegalArgumentException("Room with ID" + id + " does not exist");
+    //  ----- Room -----
+
+    // Get room by ID, returning null if it doesn't exist
+    public Room getRoom(int roomID) {
+        return roomRepository.read(roomID);
+    }
+
+    // Add a new room to the repository if it doesn't already exist
+    public void addRoom(int roomID, String name, int maxCapacity, Location location) {
+        Room existingRoom = getRoom(roomID);
+        if (existingRoom != null) {
+            throw new IllegalArgumentException("Room with ID " + roomID + " already exists.");
         }
-        roomRepository.delete(id);
+        Room newRoom = new Room(roomID, name, maxCapacity, location);
+        roomRepository.create(newRoom);
     }
 
+    // Update an existing room
+    public void updateRoom(int roomID, String name, int maxCapacity, Location location) {
+        Room existingRoom = getRoom(roomID);
+        if (existingRoom == null) {
+            throw new IllegalArgumentException("Room with ID " + roomID + " doesn't exist.");
+        }
+        existingRoom.setName(name);
+        existingRoom.setMaxCapacity(maxCapacity);
+        existingRoom.setLocation(location);
+        roomRepository.update(existingRoom);
+    }
+
+    // Delete a room by ID
+    public void deleteRoom(int roomID) {
+        Room existingRoom = getRoom(roomID);
+        if (existingRoom == null) {
+            throw new IllegalArgumentException("Room with ID " + roomID + " doesn't exist.");
+        }
+        roomRepository.delete(roomID);
+    }
+
+    // Retrieve all rooms
     public List<Room> getAllRooms(){
         return roomRepository.getAll();
     }
 
-    public Schedule getSchedule(int id){
-        return scheduleRepository.read(id);
+    //  ----- Schedule -----
+
+    // Get schedule by ID, returning null if it doesn't exist
+    public Schedule getSchedule(int scheduleID) {
+        return scheduleRepository.read(scheduleID);
     }
 
-    public void addSchedule(Schedule schedule){
-        if (scheduleRepository.read(schedule.getID()) != null){
-            throw new IllegalArgumentException("Schedule with ID" + schedule.getID() + " already exists");
+    // Add a new schedule to the repository if it doesn't already exist
+    public void addSchedule(int scheduleID, FitnessClass fitnessClass, LocalDateTime startTime, LocalDateTime endTime) {
+        Schedule existingSchedule = getSchedule(scheduleID);
+        if (existingSchedule != null) {
+            throw new IllegalArgumentException("Schedule with ID " + scheduleID + " already exists.");
         }
-        scheduleRepository.create(schedule);
+        Schedule newSchedule = new Schedule(scheduleID, fitnessClass, startTime, endTime);
+        scheduleRepository.create(newSchedule);
     }
 
-    public void updateSchedule(Schedule schedule){
-        if(scheduleRepository.read((schedule.getID())) == null){
-            throw new IllegalArgumentException("Schedule with ID" + schedule.getID() + " does not exist");
+    // Update an existing schedule
+    public void updateSchedule(int scheduleID, FitnessClass fitnessClass, LocalDateTime startTime, LocalDateTime endTime) {
+        Schedule existingSchedule = getSchedule(scheduleID);
+        if (existingSchedule == null) {
+            throw new IllegalArgumentException("Schedule with ID " + scheduleID + " doesn't exist.");
         }
-        scheduleRepository.update(schedule);
+        existingSchedule.setFitnessClass(fitnessClass);
+        existingSchedule.setStartTime(startTime);
+        existingSchedule.setEndTime(endTime);
+        scheduleRepository.update(existingSchedule);
     }
 
-    public void deleteSchedule(int id){
-        if (scheduleRepository.read(id) == null){
-            throw new IllegalArgumentException("Schedule with ID" + id + " does not exist");
+    // Delete a schedule by ID
+    public void deleteSchedule(int scheduleID) {
+        Schedule existingSchedule = getSchedule(scheduleID);
+        if (existingSchedule == null) {
+            throw new IllegalArgumentException("Schedule with ID " + scheduleID + " doesn't exist.");
         }
-        scheduleRepository.delete(id);
+        scheduleRepository.delete(scheduleID);
     }
 
+    // Retrieve all schedules
     public List<Schedule> getAllSchedules(){
         return scheduleRepository.getAll();
     }
 
-    public Trainer getTrainer(int id){
-        return trainerRepository.read(id);
-    }
-
-    public void addTrainer(Trainer trainer){
-        if (trainerRepository.read(trainer.getID()) != null){
-            throw new IllegalArgumentException("Trainer with ID" + trainer.getID() + " already exists");
+    // Update only the start time of an existing schedule
+    public void updateScheduleStartTime(int scheduleID, LocalDateTime startTime) {
+        Schedule existingSchedule = getSchedule(scheduleID);
+        if (existingSchedule == null) {
+            throw new IllegalArgumentException("Schedule with ID " + scheduleID + " doesn't exist.");
         }
-        trainerRepository.create(trainer);
+        existingSchedule.setStartTime(startTime);
+        scheduleRepository.update(existingSchedule);
     }
 
-    public void updateTrainer(Trainer trainer){
-        if(trainerRepository.read((trainer.getID())) == null){
-            throw new IllegalArgumentException("Trainer with ID" + trainer.getID() + " does not exist");
+    // Update only the end time of an existing schedule
+    public void updateScheduleEndTime(int scheduleID, LocalDateTime endTime) {
+        Schedule existingSchedule = getSchedule(scheduleID);
+        if (existingSchedule == null) {
+            throw new IllegalArgumentException("Schedule with ID " + scheduleID + " doesn't exist.");
         }
-        trainerRepository.update(trainer);
+        existingSchedule.setEndTime(endTime);
+        scheduleRepository.update(existingSchedule);
     }
 
-    public void deleteTrainer(int id){
-        if (trainerRepository.read(id) == null){
-            throw new IllegalArgumentException("Trainer with ID" + id + " does not exist");
+    //  ----- Trainer -----
+
+    // Get trainer by ID, returning null if it doesn't exist
+    public Trainer getTrainer(int trainerID) {
+        return trainerRepository.read(trainerID);
+    }
+
+    // Add a new trainer to the repository if it doesn't already exist
+    public void addTrainer(int trainerID, String name, String mail, String phone, String specialisation) {
+        Trainer existingTrainer = getTrainer(trainerID);
+        if (existingTrainer != null) {
+            throw new IllegalArgumentException("Trainer with ID " + trainerID + " already exists.");
         }
-        trainerRepository.delete(id);
+        Trainer newTrainer = new Trainer(name, mail, phone, trainerID, specialisation);
+        trainerRepository.create(newTrainer);
     }
 
+    // Update an existing trainer
+    public void updateTrainer(int trainerID, String name, String mail, String phone, String specialisation) {
+        Trainer existingTrainer = getTrainer(trainerID);
+        if (existingTrainer == null) {
+            throw new IllegalArgumentException("Trainer with ID " + trainerID + " doesn't exist.");
+        }
+        existingTrainer.setName(name);
+        existingTrainer.setMail(mail);
+        existingTrainer.setPhone(phone);
+        existingTrainer.setSpecialisation(specialisation);
+        trainerRepository.update(existingTrainer);
+    }
+
+    // Delete a trainer by ID
+    public void deleteTrainer(int trainerID) {
+        Trainer existingTrainer = getTrainer(trainerID);
+        if (existingTrainer == null) {
+            throw new IllegalArgumentException("Trainer with ID " + trainerID + " doesn't exist.");
+        }
+        trainerRepository.delete(trainerID);
+    }
+
+    // Retrieve all trainers
     public List<Trainer> getAllTrainers(){
         return trainerRepository.getAll();
     }
+
+    //  ----- Attendance -----
+
+    // Get attendance by memberID and classID
+    public Attendance getAttendance(int memberID, int classID) {
+        for (Attendance attendance : attendanceRepository.getAll()) {
+            if (attendance.getMemberID() == memberID && attendance.getClassID() == classID) {
+                return attendance;
+            }
+        }
+        return null;
+    }
+
+    // Add a new attendance record if it doesn't already exist
+    public void addAttendance(int memberID, int classID, LocalDateTime reservationDate) {
+        Attendance existingAttendance = getAttendance(memberID, classID);
+        if (existingAttendance != null) {
+            throw new IllegalArgumentException("Attendance for member " + memberID + " in class " + classID + " already exists.");
+        }
+        Attendance newAttendance = new Attendance(memberID, classID, reservationDate);
+        attendanceRepository.create(newAttendance);
+    }
+
+    // Update an existing attendance record
+    public void updateAttendance(int memberID, int classID, LocalDateTime reservationDate) {
+        Attendance existingAttendance = getAttendance(memberID, classID);
+        if (existingAttendance == null) {
+            throw new IllegalArgumentException("Attendance for member " + memberID + " in class " + classID + " does not exist.");
+        }
+        existingAttendance.setReservationDate(reservationDate);
+        attendanceRepository.update(existingAttendance);
+    }
+
+    // Delete an attendance record by memberID and classID
+    public void deleteAttendance(int memberID, int classID) {
+        Attendance existingAttendance = getAttendance(memberID, classID);
+        if (existingAttendance == null) {
+            throw new IllegalArgumentException("Attendance for member " + memberID + " in class " + classID + " does not exist.");
+        }
+        attendanceRepository.delete(existingAttendance.getMemberID());  // Assuming memberID is unique here
+    }
+
+    // Retrieve all attendance records
+    public List<Attendance> getAllAttendances() {
+        return attendanceRepository.getAll();
+    }
+
+    //  ----- FitnessClass Equipment -----
+
+    // Get FitnessClassEquipment by equipmentID and classID
+    public FitnessClassEquipment getFitnessClassEquipment(int equipmentID, int classID) {
+        for (FitnessClassEquipment equipment : fitnessClassEquipmentRepository.getAll()) {
+            if (equipment.getEqupmentID() == equipmentID && equipment.getClassID() == classID) {
+                return equipment;
+            }
+        }
+        return null;
+    }
+
+    // Add a new fitness class equipment record if it doesn't already exist
+    public void addFitnessClassEquipment(int equipmentID, int classID, int quantity) {
+        FitnessClassEquipment existingEquipment = getFitnessClassEquipment(equipmentID, classID);
+        if (existingEquipment != null) {
+            throw new IllegalArgumentException("Fitness class equipment for class " + classID + " and equipment " + equipmentID + " already exists.");
+        }
+        FitnessClassEquipment newFitnessClassEquipment = new FitnessClassEquipment(equipmentID, classID, quantity);
+        fitnessClassEquipmentRepository.create(newFitnessClassEquipment);
+    }
+
+    // Update quantity of an existing fitness class equipment
+    public void updateFitnessClassEquipmentQuantity(int equipmentID, int classID, int quantity) {
+        FitnessClassEquipment existingFitnessClassEquipment = getFitnessClassEquipment(equipmentID, classID);
+        if (existingFitnessClassEquipment == null) {
+            throw new IllegalArgumentException("Fitness class equipment with Equipment ID " + equipmentID + " does not exist.");
+        }
+        existingFitnessClassEquipment.setQuantity(quantity);
+        fitnessClassEquipmentRepository.update(existingFitnessClassEquipment);
+    }
+
+    // Delete a fitness class equipment record by equipmentID and classID
+    public void deleteFitnessClassEquipment(int equipmentID, int classID) {
+        FitnessClassEquipment existingEquipment = getFitnessClassEquipment(equipmentID, classID);
+        if (existingEquipment == null) {
+            throw new IllegalArgumentException("Fitness class equipment for class " + classID + " and equipment " + equipmentID + " does not exist.");
+        }
+        fitnessClassEquipmentRepository.delete(existingEquipment.getEqupmentID());
+    }
+
+    // Retrieve all fitness class equipment
+    public List<FitnessClassEquipment> getAllFitnessClassEquipments() {
+        return fitnessClassEquipmentRepository.getAll();
+    }
+
 }
