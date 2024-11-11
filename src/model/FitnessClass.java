@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class FitnessClass implements Identifiable {
@@ -79,6 +80,20 @@ public class FitnessClass implements Identifiable {
 
     public List<Member> getMembers() {
         return members;
+    }
+
+    public LocalDateTime getStartTime() {
+        if (schedule != null) {
+            return schedule.getStartTime();
+        }
+        return null;
+    }
+
+    public LocalDateTime getEndTime() {
+        if (schedule != null) {
+            return schedule.getEndTime();
+        }
+        return null;
     }
 
     //Setters
