@@ -4,6 +4,7 @@ import repository.IRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FitnessService {
@@ -644,6 +645,17 @@ public class FitnessService {
     // Retrieve all fitness class equipment
     public List<FitnessClassEquipment> getAllFitnessClassEquipments() {
         return fitnessClassEquipmentRepository.getAll();
+    }
+
+    // Helper method to retrieve equipment list for a given fitness class
+    private List<FitnessClassEquipment> getEquipmentForFitnessClass(int classID) {
+        List<FitnessClassEquipment> classEquipmentList = new ArrayList<>();
+        for (FitnessClassEquipment equipment : fitnessClassEquipmentRepository.getAll()) {
+            if (equipment.getClassID() == classID) {
+                classEquipmentList.add(equipment);
+            }
+        }
+        return classEquipmentList;
     }
 
 }
