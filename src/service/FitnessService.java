@@ -673,18 +673,18 @@ public class FitnessService {
         return false;
     }
 
-    // Complex method, retuns similar classes based on trainer and equipment
-    public List<FitnessClass> getSimilarFitnessClasses( int fitnesClassID ) {
+    // Complex method, returns similar classes based on trainer and equipment
+    public List<FitnessClass> getSimilarFitnessClasses( int fitnessClassID ) {
         //get the target fitness class based on the provided ID
-        FitnessClass targetClass = getFitnessClass(fitnesClassID);
+        FitnessClass targetClass = getFitnessClass(fitnessClassID);
         if ( targetClass == null ) {
-            throw new IllegalArgumentException("Fitness class with ID" + fitnesClassID + " doesn't exist.");
+            throw new IllegalArgumentException("Fitness class with ID" + fitnessClassID + " doesn't exist.");
         }
         List<FitnessClass> similarClasses = new ArrayList<>();
         //get equipment list and trainer for the target class
         Trainer targetTrainer = targetClass.getTrainer();
-        List<FitnessClassEquipment> targetEquipmentList = getEquipmentForFitnessClass(fitnesClassID);
-        //iterate through all fitness clasees
+        List<FitnessClassEquipment> targetEquipmentList = getEquipmentForFitnessClass(fitnessClassID);
+        //iterate through all fitness classes
         for(FitnessClass fitnessClass : getAllFitnessClasses()) {
             //skip if it's the same class as the target
             if( fitnessClass.equals(targetClass )) {
@@ -702,5 +702,42 @@ public class FitnessService {
         return similarClasses;
     }
 
+    // Helper method to check if there is a scheduling conflict for a room
+    private boolean isRoomScheduleConflict(int roomID, LocalDateTime newStartTime, LocalDateTime newEndTime, int currentScheduleID) {
+        List<Schedule> allSchedules = scheduleRepository.getAll();
+        for(Schedule schedule : allSchedules) {
+            //check if the schedule is in the same room, and it is not the current schedule (to avoid self-conflict)
+            if(schedule.getFitnessClass().getRoom().getRoomID() == roomID && schedule.getScheduleID() != currentScheduleID) {
+                LocalDateTime existingStartTime = schedule.getStartTime();
+                LocalDateTime existingEndTime = schedule.getEndTime();
+                //check if the new time overlaps with the existing schedule
+                if((newStartTime.isBefore(existingEndTime) && newEndTime.isAfter(existingStartTime))) {
+                    return true;    //conflict found
+                }
+            }
+        }
+        return false;   // no conflict
+    }
+
+    // Complex method, reschedule a fitness class
+    public void rescheduleClass(int fitnessClassID, LocalDateTime newStartTime, LocalDateTime newEndTime) {
+        //find the fitness class
+        FitnessClass fitnessClass = fitnessClassRepository.read(fitnessClassID);
+        if(fitnessClass == null) {
+            throw new IllegalArgumentException("Fitness class with ID " + fitnessClassID + " does not exist.");
+        }
+        //get the room and schedule associated with the fitness class
+        Room room = fitnessClass.getRoom();
+        Schedule currentSchedule = fitnessClass.getSchedule();
+        //check for scheduling conflicts in the room
+        if(isRoomScheduleConflict(room.getRoomID(), newStartTime, newEndTime, currentSchedule.getScheduleID())) {
+            throw  new IllegalArgumentException("The new schedule conflicts with anther class in the same room.");
+        }
+        //update the schedule
+        currentSchedule.setStartTime(newStartTime);
+        currentSchedule.setEndTime(newEndTime);
+        //save the updated schedule
+        scheduleRepository.update(currentSchedule);
+    }
 
 }
