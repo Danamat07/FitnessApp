@@ -51,7 +51,7 @@ public class FitnessService {
         if (existingEquipment != null) {
             throw new IllegalArgumentException("Equipment with ID " + equipmentID + " already exists.");
         }
-        Equipment newEquipment = new Equipment(equipmentID, name, quantity, List.of());
+        Equipment newEquipment = new Equipment(equipmentID, name, quantity, fitnessClasses);
         equipmentRepository.create(newEquipment);
     }
 
@@ -63,6 +63,7 @@ public class FitnessService {
         }
         existingEquipment.setName(name);
         existingEquipment.setQuantity(quantity);
+        existingEquipment.setFitnessClasses(fitnessClasses);
         equipmentRepository.update(existingEquipment);
     }
 
@@ -78,16 +79,6 @@ public class FitnessService {
     // Retrieve all equipment
     public List<Equipment> getAllEquipments(){
         return equipmentRepository.getAll();
-    }
-
-    // Update the quantity of an existing equipment item
-    public void updateQuantity(int equipmentID, int quantity) {
-        Equipment existingEquipment = getEquipment(equipmentID);
-        if (existingEquipment == null) {
-            throw new IllegalArgumentException("Equipment with ID " + equipmentID + " doesn't exist.");
-        }
-        existingEquipment.setQuantity(quantity);
-        equipmentRepository.update(existingEquipment);
     }
 
     //  ----- Feedback -----
@@ -279,16 +270,6 @@ public class FitnessService {
         return memberRepository.getAll();
     }
 
-    // Update the membership type of existing member
-    public void updateMemberMembershipType(int memberID, String membershipType) {
-        Member existingMember = getMember(memberID);
-        if (existingMember == null) {
-            throw new IllegalArgumentException("Member with ID " + memberID + " doesn't exist.");
-        }
-        existingMember.setMembershipType(membershipType);
-        memberRepository.update(existingMember);
-    }
-
     //  ----- Membership -----
 
     // Get membership by ID, returning null if it doesn't exist
@@ -332,16 +313,6 @@ public class FitnessService {
         return membershipRepository.getAll();
     }
 
-    // Update the list of members of a specific membership
-    public void updateMembershipMembers(int membershipID, List<Member> members) {
-        Membership existingMembership = getMembership(membershipID);
-        if (existingMembership == null) {
-            throw new IllegalArgumentException("Membership with ID " + membershipID + " doesn't exist.");
-        }
-        existingMembership.setMembers(members);
-        membershipRepository.update(existingMembership);
-    }
-
     //  ----- Reservation -----
 
     // Get reservation by ID, returning null if it doesn't exist
@@ -383,26 +354,6 @@ public class FitnessService {
     // Retrieve all reservations
     public List<Reservation> getAllReservations(){
         return reservationRepository.getAll();
-    }
-
-    // Update the reservation date of an existing reservation
-    public void updateReservationDate(int reservationID, LocalDateTime reservationDate) {
-        Reservation existingReservation = getReservation(reservationID);
-        if (existingReservation == null) {
-            throw new IllegalArgumentException("Reservation with ID " + reservationID + " doesn't exist.");
-        }
-        existingReservation.setReservationDate(reservationDate);
-        reservationRepository.update(existingReservation);
-    }
-
-    // Update the fitness class of a specific reservation
-    public void updateReservationFitnessClass(int reservationID, FitnessClass fitnessClass) {
-        Reservation existingReservation = getReservation(reservationID);
-        if (existingReservation == null) {
-            throw new IllegalArgumentException("Reservation with ID " + reservationID + " doesn't exist.");
-        }
-        existingReservation.setFitnessClass(fitnessClass);
-        reservationRepository.update(existingReservation);
     }
 
     //  ----- Room -----
@@ -489,26 +440,6 @@ public class FitnessService {
     // Retrieve all schedules
     public List<Schedule> getAllSchedules(){
         return scheduleRepository.getAll();
-    }
-
-    // Update only the start time of an existing schedule
-    public void updateScheduleStartTime(int scheduleID, LocalDateTime startTime) {
-        Schedule existingSchedule = getSchedule(scheduleID);
-        if (existingSchedule == null) {
-            throw new IllegalArgumentException("Schedule with ID " + scheduleID + " doesn't exist.");
-        }
-        existingSchedule.setStartTime(startTime);
-        scheduleRepository.update(existingSchedule);
-    }
-
-    // Update only the end time of an existing schedule
-    public void updateScheduleEndTime(int scheduleID, LocalDateTime endTime) {
-        Schedule existingSchedule = getSchedule(scheduleID);
-        if (existingSchedule == null) {
-            throw new IllegalArgumentException("Schedule with ID " + scheduleID + " doesn't exist.");
-        }
-        existingSchedule.setEndTime(endTime);
-        scheduleRepository.update(existingSchedule);
     }
 
     //  ----- Trainer -----
@@ -647,59 +578,178 @@ public class FitnessService {
         return fitnessClassEquipmentRepository.getAll();
     }
 
-    //  ----- Complex Methods -----
-
-    // Helper method to retrieve equipment list for a given fitness class
-    private List<FitnessClassEquipment> getEquipmentForFitnessClass(int classID) {
-        List<FitnessClassEquipment> classEquipmentList = new ArrayList<>();
-        for (FitnessClassEquipment equipment : fitnessClassEquipmentRepository.getAll()) {
-            if (equipment.getClassID() == classID) {
-                classEquipmentList.add(equipment);
-            }
-        }
-        return classEquipmentList;
-    }
-
-    // Helper method to check for common equipment between classes
-    private boolean hasCommonEquipment( int classID, List<FitnessClassEquipment> targetEquipmentList) {
-        List<FitnessClassEquipment> classEquipmentList = getEquipmentForFitnessClass(classID);
-        for (FitnessClassEquipment targetEquipment : targetEquipmentList) {
-            for (FitnessClassEquipment equipment : classEquipmentList) {
-                if (equipment.getEquipmentID() == targetEquipment.getEquipmentID()) {
-                    return true;
+//    //  ----- Complex Methods -----
+//
+//    // Helper method to retrieve equipment list for a given fitness class
+//    private List<FitnessClassEquipment> getEquipmentForFitnessClass(int classID) {
+//        List<FitnessClassEquipment> classEquipmentList = new ArrayList<>();
+//        for (FitnessClassEquipment equipment : fitnessClassEquipmentRepository.getAll()) {
+//            if (equipment.getClassID() == classID) {
+//                classEquipmentList.add(equipment);
+//            }
+//        }
+//        return classEquipmentList;
+//    }
+//
+//    // Helper method to check for common equipment between classes
+//    private boolean hasCommonEquipment( int classID, List<FitnessClassEquipment> targetEquipmentList) {
+//        List<FitnessClassEquipment> classEquipmentList = getEquipmentForFitnessClass(classID);
+//        for (FitnessClassEquipment targetEquipment : targetEquipmentList) {
+//            for (FitnessClassEquipment equipment : classEquipmentList) {
+//                if (equipment.getEquipmentID() == targetEquipment.getEquipmentID()) {
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
+//
+//    // Complex method, returns similar classes based on trainer and equipment
+//    public List<FitnessClass> getSimilarFitnessClasses( int fitnessClassID ) {
+//        //get the target fitness class based on the provided ID
+//        FitnessClass targetClass = getFitnessClass(fitnessClassID);
+//        if ( targetClass == null ) {
+//            throw new IllegalArgumentException("Fitness class with ID" + fitnessClassID + " doesn't exist.");
+//        }
+//        List<FitnessClass> similarClasses = new ArrayList<>();
+//        //get equipment list and trainer for the target class
+//        Trainer targetTrainer = targetClass.getTrainer();
+//        List<FitnessClassEquipment> targetEquipmentList = getEquipmentForFitnessClass(fitnessClassID);
+//        //iterate through all fitness classes
+//        for(FitnessClass fitnessClass : getAllFitnessClasses()) {
+//            //skip if it's the same class as the target
+//            if( fitnessClass.equals(targetClass )) {
+//                continue;
+//            }
+//            //check if the trainer matches
+//            boolean sameTrainer = fitnessClass.getTrainer().equals(targetTrainer);
+//            //check if there is any common equipment
+//            boolean commonEquipment = hasCommonEquipment(fitnessClass.getFitnessClassID(), targetEquipmentList);
+//            //add to similar classes list if trainer or equipment match
+//            if( sameTrainer || commonEquipment) {
+//                similarClasses.add(fitnessClass);
+//            }
+//        }
+//        return similarClasses;
+//    }
+//
+//    // Helper method to check if there is a scheduling conflict for a room
+//    private boolean isRoomScheduleConflict(int roomID, LocalDateTime newStartTime, LocalDateTime newEndTime, int currentScheduleID) {
+//        List<Schedule> allSchedules = scheduleRepository.getAll();
+//        for(Schedule schedule : allSchedules) {
+//            //check if the schedule is in the same room, and it is not the current schedule (to avoid self-conflict)
+//            if(schedule.getFitnessClass().getRoom().getRoomID() == roomID && schedule.getScheduleID() != currentScheduleID) {
+//                LocalDateTime existingStartTime = schedule.getStartTime();
+//                LocalDateTime existingEndTime = schedule.getEndTime();
+//                //check if the new time overlaps with the existing schedule
+//                if((newStartTime.isBefore(existingEndTime) && newEndTime.isAfter(existingStartTime))) {
+//                    return true;    //conflict found
+//                }
+//            }
+//        }
+//        return false;   // no conflict
+//    }
+//
+//    // Complex method, reschedule a fitness class
+//    public void rescheduleClass(int fitnessClassID, LocalDateTime newStartTime, LocalDateTime newEndTime) {
+//        //find the fitness class
+//        FitnessClass fitnessClass = fitnessClassRepository.read(fitnessClassID);
+//        if(fitnessClass == null) {
+//            throw new IllegalArgumentException("Fitness class with ID " + fitnessClassID + " does not exist.");
+//        }
+//        //get the room and schedule associated with the fitness class
+//        Room room = fitnessClass.getRoom();
+//        Schedule currentSchedule = fitnessClass.getSchedule();
+//        //check for scheduling conflicts in the room
+//        if(isRoomScheduleConflict(room.getRoomID(), newStartTime, newEndTime, currentSchedule.getScheduleID())) {
+//            throw  new IllegalArgumentException("The new schedule conflicts with anther class in the same room.");
+//        }
+//        //update the schedule
+//        currentSchedule.setStartTime(newStartTime);
+//        currentSchedule.setEndTime(newEndTime);
+//        //save the updated schedule
+//        scheduleRepository.update(currentSchedule);
+//    }
+//
+//    // ------------------------------------------------------------------------------
+//
+//    // This method displays the courses allocated to a trainer
+//    public List<Map<String, Object>> getTrainerCourses(int trainerID) {
+//        // Find the trainer by ID
+//        Trainer trainer = trainerRepository.read(trainerID);
+//        if (trainer == null) {
+//            throw new IllegalArgumentException("Trainer with ID " + trainerID + " not found.");
+//        }
+//        // Get all fitness classes from the repository
+//        List<FitnessClass> allFitnessClasses = fitnessClassRepository.getAll();
+//        List<Map<String, Object>> courseDetails = new ArrayList<>();
+//        // Loop through each fitness class to find those that belong to the trainer
+//        for (FitnessClass fitnessClass : allFitnessClasses) {
+//            // Check if the trainer of the fitness class matches the provided trainerID
+//            if (fitnessClass.getTrainer().getTrainerID() == trainerID) {
+//                // Get the associated room for the fitness class
+//                Room room = fitnessClass.getRoom();
+//                Location location = null;
+//                if (room != null) {
+//                    location = room.getLocation(); // Get the location of the room if room is available
+//                }
+//                // Create a map with the necessary information about the fitness class
+//                Map<String, Object> course = new HashMap<>();
+//                course.put("name", fitnessClass.getName());
+//                course.put("duration", fitnessClass.getDuration());
+//                // If room is available, add its name, otherwise add "N/A"
+//                if (room != null) {
+//                    course.put("room", room.getName());
+//                } else {
+//                    course.put("room", "N/A");
+//                }
+//                // If location is available, add its string representation, otherwise add "N/A"
+//                if (location != null) {
+//                    course.put("location", location.toString());
+//                } else {
+//                    course.put("location", "N/A");
+//                }
+//                // Add the number of participants in the course
+//                course.put("participants", fitnessClass.getParticipantsCount());
+//                // Add the start and end time of the course
+//                course.put("startTime", fitnessClass.getStartTime());
+//                course.put("endTime", fitnessClass.getEndTime());
+//                // Add the course details map to the list
+//                courseDetails.add(course);
+//            }
+//        }
+//        // Return the list of course details for the given trainer
+//        return courseDetails;
+//    }
+//
+    // Method to get available classes for a trainer
+    public List<FitnessClass> getTrainerAvailableClasses(int trainerID) {
+        List<FitnessClass> availableClasses = new ArrayList<>();
+        List<FitnessClass> allClasses = fitnessClassRepository.getAll(); // Get all fitness classes
+        // Loop through all classes to find the ones for the given trainer and not yet started
+        for (FitnessClass fitnessClass : allClasses) {
+            // Check if the class is managed by the trainer and hasn't started yet
+            if (fitnessClass.getTrainer().getID() == trainerID) {
+                // Make sure the schedule is not null and the start time is after the current time
+                if (fitnessClass.getSchedule() != null && fitnessClass.getSchedule().getStartTime().isAfter(LocalDateTime.now())) {
+                    availableClasses.add(fitnessClass);
                 }
             }
         }
-        return false;
+        return availableClasses;
     }
 
-    // Complex method, retuns similar classes based on trainer and equipment
-    public List<FitnessClass> getSimilarFitnessClasses( int fitnesClassID ) {
-        //get the target fitness class based on the provided ID
-        FitnessClass targetClass = getFitnessClass(fitnesClassID);
-        if ( targetClass == null ) {
-            throw new IllegalArgumentException("Fitness class with ID" + fitnesClassID + " doesn't exist.");
-        }
-        List<FitnessClass> similarClasses = new ArrayList<>();
-        //get equipment list and trainer for the target class
-        Trainer targetTrainer = targetClass.getTrainer();
-        List<FitnessClassEquipment> targetEquipmentList = getEquipmentForFitnessClass(fitnesClassID);
-        //iterate through all fitness clasees
-        for(FitnessClass fitnessClass : getAllFitnessClasses()) {
-            //skip if it's the same class as the target
-            if( fitnessClass.equals(targetClass )) {
-                continue;
-            }
-            //check if the trainer matches
-            boolean sameTrainer = fitnessClass.getTrainer().equals(targetTrainer);
-            //check if there is any common equipment
-            boolean commonEquipment = hasCommonEquipment(fitnessClass.getFitnessClassID(), targetEquipmentList);
-            //add to similar classes list if trainer or equipment match
-            if( sameTrainer || commonEquipment) {
-                similarClasses.add(fitnessClass);
+    // Method to get all available classes
+    public List<FitnessClass> getAllAvailableClasses() {
+        List<FitnessClass> availableClasses = new ArrayList<>();
+        List<FitnessClass> allClasses = fitnessClassRepository.getAll();
+        for (FitnessClass fitnessClass : allClasses) {
+            if (fitnessClass.getSchedule() != null && fitnessClass.getSchedule().getStartTime().isAfter(LocalDateTime.now())) {
+                availableClasses.add(fitnessClass);
             }
         }
-        return similarClasses;
+        return availableClasses;
     }
+
 
 }
