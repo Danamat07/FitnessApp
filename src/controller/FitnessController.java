@@ -691,4 +691,11 @@ public class FitnessController {
             }
         }
     }
+
+    // ------------------------------------------------------------------
+
+    // Get available classes for trainer
+    public List<FitnessClass> getTrainerAvailableClasses(int trainerID) {
+        return fitnessService.getTrainerAvailableClasses(trainerID);
+    }
 }

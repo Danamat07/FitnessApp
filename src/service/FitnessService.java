@@ -4,6 +4,7 @@ import repository.IRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FitnessService {
@@ -721,22 +722,22 @@ public class FitnessService {
 //        return courseDetails;
 //    }
 //
-//    // Method to get available classes for a trainer
-//    public List<FitnessClass> getAvailableClasses(int trainerID) {
-//        List<FitnessClass> availableClasses = new ArrayList<>();
-//        List<FitnessClass> allClasses = fitnessClassRepository.getAll(); // Get all fitness classes
-//        // Loop through all classes to find the ones for the given trainer and not yet started
-//        for (FitnessClass fitnessClass : allClasses) {
-//            // Check if the class is managed by the trainer and hasn't started yet
-//            if (fitnessClass.getTrainer().getID() == trainerID) {
-//                // Make sure the schedule is not null and the start time is after the current time
-//                if (fitnessClass.getSchedule() != null && fitnessClass.getSchedule().getStartTime().isAfter(LocalDateTime.now())) {
-//                    availableClasses.add(fitnessClass);
-//                }
-//            }
-//        }
-//        return availableClasses;
-//    }
+    // Method to get available classes for a trainer
+    public List<FitnessClass> getTrainerAvailableClasses(int trainerID) {
+        List<FitnessClass> availableClasses = new ArrayList<>();
+        List<FitnessClass> allClasses = fitnessClassRepository.getAll(); // Get all fitness classes
+        // Loop through all classes to find the ones for the given trainer and not yet started
+        for (FitnessClass fitnessClass : allClasses) {
+            // Check if the class is managed by the trainer and hasn't started yet
+            if (fitnessClass.getTrainer().getID() == trainerID) {
+                // Make sure the schedule is not null and the start time is after the current time
+                if (fitnessClass.getSchedule() != null && fitnessClass.getSchedule().getStartTime().isAfter(LocalDateTime.now())) {
+                    availableClasses.add(fitnessClass);
+                }
+            }
+        }
+        return availableClasses;
+    }
 
 
 }
