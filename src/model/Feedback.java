@@ -1,15 +1,14 @@
 package model;
 
 public class Feedback implements Identifiable {
-    private int feedbackID;
+    private int id;
     private Member member;
     private FitnessClass fitnessClass;
     private int rating;
     private String comment;
 
     //Constructor
-    public Feedback(int feedbackID, Member member, FitnessClass fitnessClass, int rating, String comment){
-        this.feedbackID = this.feedbackID;
+    public Feedback(Member member, FitnessClass fitnessClass, int rating, String comment){
         this.member = member;
         this.fitnessClass = fitnessClass;
         this.rating = rating;
@@ -17,15 +16,16 @@ public class Feedback implements Identifiable {
     }
 
     @Override
-    public int getID() {
-        return feedbackID;
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     //Getters
-
-    public int getFeedbackID() {
-        return feedbackID;
-    }
 
     public Member getMember() {
         return member;
@@ -44,10 +44,6 @@ public class Feedback implements Identifiable {
     }
 
     //Setters
-
-    public void setFeedbackID(int feedbackId) {
-        this.feedbackID = feedbackID;
-    }
 
     public void setMember(Member member) {
         this.member = member;
@@ -68,7 +64,7 @@ public class Feedback implements Identifiable {
     @Override
     public String toString() {
         return "Feedback{" +
-                "feedbackID=" + feedbackID +
+                "id=" + id +
                 ", member=" + member +
                 ", fitnessClass=" + fitnessClass +
                 ", rating=" + rating +

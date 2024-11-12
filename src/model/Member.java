@@ -5,30 +5,30 @@ import java.util.List;
 
 public class Member extends User implements Identifiable {
 
-    private int memberID;
+    private int id;
     private LocalDate registrationDate;
     private String membershipType;
     private List<FitnessClass> fitnessClasses;
 
     // Constructor
-    public Member(String name, String mail, String phone, int memberID, LocalDate registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
+    public Member(String name, String mail, String phone, LocalDate registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
         super(name, mail, phone);
-        this.memberID = memberID;
         this.registrationDate = registrationDate;
         this.membershipType = membershipType;
         this.fitnessClasses = fitnessClasses;
     }
 
     @Override
-    public int getID() {
-        return memberID;
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     // Getters
-
-    public int getMemberID() {
-        return memberID;
-    }
 
     public LocalDate getRegistrationDate() {
         return registrationDate;
@@ -57,10 +57,6 @@ public class Member extends User implements Identifiable {
         return super.getPhone();
     }
     // Setters
-
-    public void setMemberID(int memberID) {
-        this.memberID = memberID;
-    }
 
     public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
@@ -92,9 +88,8 @@ public class Member extends User implements Identifiable {
 
     @Override
     public String toString() {
-        return super.toString() + " -> Member{" +
-                "memberID=" + memberID +
-                ", registrationDate=" + registrationDate +
+        return "Member{" +
+                "registrationDate=" + registrationDate +
                 ", membershipType='" + membershipType + '\'' +
                 ", fitnessClasses=" + fitnessClasses +
                 '}';

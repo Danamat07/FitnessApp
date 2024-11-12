@@ -13,10 +13,10 @@ public class InMemoryRepository<T extends Identifiable> implements IRepository<T
     // Add a new entity to the repository if its ID doesn't already exist
     @Override
     public void create(T obj) {
-        if (storage.containsKey(obj.getID())) {
-            throw new IllegalArgumentException("Entity with ID " + obj.getID() + " already exists.");
+        if (storage.containsKey(obj.getId())) {
+            throw new IllegalArgumentException("Entity with ID " + obj.getId() + " already exists.");
         }
-        storage.putIfAbsent(obj.getID(), obj);
+        storage.putIfAbsent(obj.getId(), obj);
     }
 
     // Get an entity by ID
@@ -28,10 +28,10 @@ public class InMemoryRepository<T extends Identifiable> implements IRepository<T
     // Updates an existing entity
     @Override
     public void update(T obj) {
-        if (!storage.containsKey(obj.getID())) {
-            throw new IllegalArgumentException("Entity with ID " + obj.getID() + " doesn't exist.");
+        if (!storage.containsKey(obj.getId())) {
+            throw new IllegalArgumentException("Entity with ID " + obj.getId() + " doesn't exist.");
         }
-        storage.replace(obj.getID(), obj);
+        storage.replace(obj.getId(), obj);
     }
 
     // Delete entity by ID

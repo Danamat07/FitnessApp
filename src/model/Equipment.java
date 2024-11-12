@@ -3,29 +3,29 @@ package model;
 import java.util.List;
 
 public class Equipment implements Identifiable {
-    private int equipmentID;
+    private int id;
     private String name;
     private int quantity;
     private List<FitnessClass> fitnessClasses;
 
     //Constructor
-    public Equipment(int equipmentID, String name, int quantity, List<FitnessClass> fitnessClasses){
-        this.equipmentID = equipmentID;
+    public Equipment(String name, int quantity, List<FitnessClass> fitnessClasses){
         this.name = name;
         this.quantity = quantity;
         this.fitnessClasses = fitnessClasses;
     }
 
     @Override
-    public int getID() {
-        return equipmentID;
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     //Getters
-
-    public int getEquipmentID() {
-        return equipmentID;
-    }
 
     public String getName() {
         return name;
@@ -38,11 +38,9 @@ public class Equipment implements Identifiable {
     public List<FitnessClass> getFitnessClasses() {
         return fitnessClasses;
     }
+
     //Setters
 
-    public void setEquipmentID(int equipmentID) {
-        this.equipmentID = equipmentID;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -59,7 +57,7 @@ public class Equipment implements Identifiable {
     @Override
     public String toString() {
         return "Equipment{" +
-                "equipmentID=" + equipmentID +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", quantity=" + quantity +
                 ", fitnessClasses=" + fitnessClasses +

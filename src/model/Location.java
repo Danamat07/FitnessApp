@@ -1,28 +1,28 @@
 package model;
 
 public class Location implements Identifiable {
-    private int locationID;
+    private int id;
     private String name;
     private String adress;
 
     //Constructor
 
-    public Location(int locationId, String name, String adress){
-        this.locationID = locationID;
+    public Location(String name, String adress){
         this.name = name;
         this.adress = adress;
     }
 
     @Override
-    public int getID() {
-        return locationID;
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     //Getters
-
-    public int getLocationID() {
-        return locationID;
-    }
 
     public String getName() {
         return name;
@@ -33,10 +33,6 @@ public class Location implements Identifiable {
     }
 
     //Setters
-
-    public void setLocationID(int locationID) {
-        this.locationID = locationID;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -49,7 +45,7 @@ public class Location implements Identifiable {
     @Override
     public String toString() {
         return "Location{" +
-                "locationID=" + locationID +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", adress='" + adress + '\'' +
                 '}';

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class FitnessClass implements Identifiable {
-    private int fitnessClassID;
+    private int id;
     private String name;
     private int duration;
     private Trainer trainer;
@@ -17,8 +17,7 @@ public class FitnessClass implements Identifiable {
     private List<Member> members;
 
     //Constructor
-    public FitnessClass(int fitnessClassID, String name, int duration, Trainer trainer, Room room, int participantsCount, Schedule schedule, Location location, List<Feedback> feedback, List<Member> members, List<Equipment> equipment){
-        this.fitnessClassID = this.fitnessClassID;
+    public FitnessClass(String name, int duration, Trainer trainer, Room room, int participantsCount, Schedule schedule, Location location, List<Feedback> feedback, List<Member> members, List<Equipment> equipment){
         this.name = name;
         this.duration = duration;
         this.trainer = trainer;
@@ -32,15 +31,16 @@ public class FitnessClass implements Identifiable {
     }
 
     @Override
-    public int getID() {
-        return fitnessClassID;
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     //Getters
-
-    public int getFitnessClassID() {
-        return fitnessClassID;
-    }
 
     public String getName() {
         return name;
@@ -98,10 +98,6 @@ public class FitnessClass implements Identifiable {
 
     //Setters
 
-    public void setFitnessClassID(int fitnessClassID) {
-        this.fitnessClassID = fitnessClassID;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -145,7 +141,7 @@ public class FitnessClass implements Identifiable {
     @Override
     public String toString() {
         return "FitnessClass{" +
-                "fitnessClassID=" + fitnessClassID +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", duration=" + duration +
                 ", trainer=" + trainer +

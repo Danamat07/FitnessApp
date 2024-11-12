@@ -2,26 +2,26 @@ package model;
 
 public class Trainer extends User implements Identifiable {
 
-    private int trainerID;
+    private int id;
     private String specialisation;
 
     // Constructor
-    public Trainer(String name, String mail, String phone, int trainerID, String specialisation) {
+    public Trainer(String name, String mail, String phone, String specialisation) {
         super(name, mail, phone);
-        this.trainerID = trainerID;
         this.specialisation = specialisation;
     }
 
     @Override
-    public int getID() {
-        return trainerID;
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     // Getters
-
-    public int getTrainerID() {
-        return trainerID;
-    }
 
     public String getSpecialisation() {
         return specialisation;
@@ -41,11 +41,8 @@ public class Trainer extends User implements Identifiable {
     public String getPhone() {
         return super.getPhone();
     }
-    // Setters
 
-    public void setTrainerID(int trainerID) {
-        this.trainerID = trainerID;
-    }
+    // Setters
 
     public void setSpecialisation(String specialisation) {
         this.specialisation = specialisation;
@@ -68,8 +65,8 @@ public class Trainer extends User implements Identifiable {
 
     @Override
     public String toString() {
-        return super.toString() + " -> Trainer{" +
-                "trainerID=" + trainerID +
+        return "Trainer{" +
+                "id=" + id +
                 ", specialisation='" + specialisation + '\'' +
                 '}';
     }

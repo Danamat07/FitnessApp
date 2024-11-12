@@ -3,29 +3,29 @@ import java.util.List;
 
 public class Membership implements Identifiable {
 
-    private int membershipID;
+    private int id;
     private String type;
     private List<Member> members;
     private float price;
 
     // Constructor
-    public Membership(int membershipID, String type, List<Member> members, float price) {
-        this.membershipID = membershipID;
+    public Membership(String type, List<Member> members, float price) {
         this.type = type;
         this.members = members;
         this.price = price;
     }
 
     @Override
-    public int getID() {
-        return membershipID;
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     // Getters
-
-    public int getMembershipID() {
-        return membershipID;
-    }
 
     public String getType() {
         return type;
@@ -40,10 +40,6 @@ public class Membership implements Identifiable {
     }
 
     // Setters
-
-    public void setMembershipID(int membershipID) {
-        this.membershipID = membershipID;
-    }
 
     public void setType(String type) {
         this.type = type;
@@ -60,7 +56,7 @@ public class Membership implements Identifiable {
     @Override
     public String toString() {
         return "Membership{" +
-                "membershipID=" + membershipID +
+                "id=" + id +
                 ", type='" + type + '\'' +
                 ", members=" + members +
                 ", price=" + price +

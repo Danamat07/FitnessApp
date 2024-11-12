@@ -3,29 +3,29 @@ package model;
 import java.time.LocalDateTime;
 
 public class Reservation implements Identifiable {
-    private int reservationID;
+    private int id;
     private Member member;
     private FitnessClass fitnessClass;
     private LocalDateTime reservationDate;
 
     //Constructor
-    public Reservation(int reservationID, Member member, FitnessClass fitnessClass, LocalDateTime reservationDate){
-        this.reservationID = reservationID;
+    public Reservation(Member member, FitnessClass fitnessClass, LocalDateTime reservationDate){
         this.member = member;
         this.fitnessClass = fitnessClass;
         this.reservationDate = reservationDate;
     }
 
     @Override
-    public int getID() {
-        return reservationID;
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     //Getters
-
-    public int getReservationID() {
-        return reservationID;
-    }
 
     public Member getMember() {
         return member;
@@ -40,10 +40,6 @@ public class Reservation implements Identifiable {
     }
 
     //Setters
-
-    public void setReservationID(int reservationID) {
-        this.reservationID = reservationID;
-    }
 
     public void setMember(Member member) {
         this.member = member;
@@ -60,7 +56,7 @@ public class Reservation implements Identifiable {
     @Override
     public String toString() {
         return "Reservation{" +
-                "reservationID=" + reservationID +
+                "id=" + id +
                 ", member=" + member +
                 ", fitnessClass=" + fitnessClass +
                 ", reservationDate=" + reservationDate +

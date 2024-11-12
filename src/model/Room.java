@@ -1,29 +1,29 @@
 package model;
 
 public class Room implements Identifiable {
-    private int roomID;
+    private int id;
     private String name;
     private int maxCapacity;
     private Location location;
 
     //Constructor
-    public Room(int roomID, String name, int maxCapacity, Location location){
-        this.roomID = roomID;
+    public Room(String name, int maxCapacity, Location location){
         this.name = name;
         this.maxCapacity = maxCapacity;
         this.location = location;
     }
 
     @Override
-    public int getID() {
-        return roomID;
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     //Getters
-
-    public int getRoomID() {
-        return roomID;
-    }
 
     public String getName() {
         return name;
@@ -38,10 +38,6 @@ public class Room implements Identifiable {
     }
 
     //Setters
-
-    public void setRoomID(int roomID) {
-        this.roomID = roomID;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -58,7 +54,7 @@ public class Room implements Identifiable {
     @Override
     public String toString() {
         return "Room{" +
-                "roomID=" + roomID +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", maxCapacity=" + maxCapacity +
                 ", location=" + location +
