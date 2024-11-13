@@ -6,24 +6,24 @@ import java.util.List;
 public class FitnessClass implements Identifiable {
     private int id;
     private String name;
-    private int duration;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private Trainer trainer;
     private Room room;
     private int participantsCount;
-    private Schedule schedule;
     private Location location;
     private List<Feedback> feedback;
     private List<Equipment> equipment;
     private List<Member> members;
 
     //Constructor
-    public FitnessClass(String name, int duration, Trainer trainer, Room room, int participantsCount, Schedule schedule, Location location, List<Feedback> feedback, List<Member> members, List<Equipment> equipment){
+    public FitnessClass(String name, LocalDateTime startTime, LocalDateTime endTime, Trainer trainer, Room room, int participantsCount, Location location, List<Feedback> feedback, List<Member> members, List<Equipment> equipment){
         this.name = name;
-        this.duration = duration;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.trainer = trainer;
         this.room = room;
         this.participantsCount = participantsCount;
-        this.schedule = schedule;
         this.location = location;
         this.feedback = feedback;
         this.equipment = equipment;
@@ -46,8 +46,10 @@ public class FitnessClass implements Identifiable {
         return name;
     }
 
-    public int getDuration() {
-        return duration;
+    public LocalDateTime getStartTime() {return startTime;}
+
+    public LocalDateTime getEndTime() {
+        return endTime;
     }
 
     public Trainer getTrainer() {
@@ -60,10 +62,6 @@ public class FitnessClass implements Identifiable {
 
     public int getParticipantsCount() {
         return participantsCount;
-    }
-
-    public Schedule getSchedule() {
-        return schedule;
     }
 
     public Location getLocation() {
@@ -82,28 +80,10 @@ public class FitnessClass implements Identifiable {
         return members;
     }
 
-    public LocalDateTime getStartTime() {
-        if (schedule != null) {
-            return schedule.getStartTime();
-        }
-        return null;
-    }
-
-    public LocalDateTime getEndTime() {
-        if (schedule != null) {
-            return schedule.getEndTime();
-        }
-        return null;
-    }
-
     //Setters
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
     }
 
     public void setTrainer(Trainer trainer) {
@@ -116,10 +96,6 @@ public class FitnessClass implements Identifiable {
 
     public void setParticipantsCount(int participantsCount) {
         this.participantsCount = participantsCount;
-    }
-
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
     }
 
     public void setLocation(Location location) {
@@ -138,16 +114,24 @@ public class FitnessClass implements Identifiable {
         this.members = members;
     }
 
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
     @Override
     public String toString() {
         return "FitnessClass{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", duration=" + duration +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
                 ", trainer=" + trainer +
                 ", room=" + room +
                 ", participantsCount=" + participantsCount +
-                ", schedule=" + schedule +
                 ", location=" + location +
                 ", feedback=" + feedback +
                 ", equipment=" + equipment +
