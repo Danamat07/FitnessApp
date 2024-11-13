@@ -713,7 +713,8 @@ public class FitnessService {
                 }
             }
         }
-        return upcomingClasses;
+        if (upcomingClasses != null) {return upcomingClasses;}
+        else throw new IllegalArgumentException("No existing upcoming classes at the moment.");
     }
 
     // Method to get all upcoming classes
@@ -727,7 +728,8 @@ public class FitnessService {
                     upcomingClasses.add(fitnessClass);
                 }
         }
-        return upcomingClasses;
+        if (upcomingClasses != null) {return upcomingClasses;}
+        else throw new IllegalArgumentException("No existing upcoming classes at the moment.");
     }
 
     // Helper method to check for schedule collision

@@ -639,17 +639,25 @@ public class FitnessController {
 
     // Get upcoming classes of a trainer
     public void getTrainerUpcomingClasses(int id) {
-        List<FitnessClass> upcomingClasses = fitnessService.getTrainerUpcomingClasses(id);
-        for (FitnessClass fitnessClass : upcomingClasses) {
-            fitnessClass.toString();
+        try {
+            List<FitnessClass> upcomingClasses = fitnessService.getTrainerUpcomingClasses(id);
+            for (FitnessClass fitnessClass : upcomingClasses) {
+                fitnessClass.toString();
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
         }
     }
 
     // get all upcoming classes
     public void getAllUpcomingClasses() {
-        List<FitnessClass> upcomingClasses = fitnessService.getAllUpcomingClasses();
-        for (FitnessClass fitnessClass : upcomingClasses) {
-            fitnessClass.toStringLessInfo();
+        try {
+            List<FitnessClass> upcomingClasses = fitnessService.getAllUpcomingClasses();
+            for (FitnessClass fitnessClass : upcomingClasses) {
+                fitnessClass.toStringLessInfo();
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
         }
     }
 
