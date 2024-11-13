@@ -139,7 +139,7 @@ public class FitnessClass implements Identifiable {
                 '}';
     }
 
-    public String toStringForSchedule() {
+    public String toStringLessInfo() {
         return "FitnessClass{" +
                 ", name='" + name + '\'' +
                 ", startTime=" + startTime +

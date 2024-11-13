@@ -778,7 +778,7 @@ public class FitnessService {
     public void viewSchedule() {
         List<FitnessClass> upcomingClasses = getAllUpcomingClasses();
         for(FitnessClass fitnessClass : upcomingClasses) {
-            fitnessClass.toStringForSchedule();
+            fitnessClass.toStringLessInfo();
         }
     }
 
@@ -813,7 +813,8 @@ public class FitnessService {
                 similarClasses.add(fitnessClass);
             }
         }
-        return similarClasses;
+        if (similarClasses != null) {return similarClasses;}
+        else throw new IllegalArgumentException("No similar classes found.");
     }
 
     // Method to register a member to a class

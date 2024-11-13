@@ -638,13 +638,19 @@ public class FitnessController {
     // --------------------------------------------------------------------------------------
 
     // Get upcoming classes of a trainer
-    public List<FitnessClass> getTrainerUpcomingClasses(int id) {
-        return fitnessService.getTrainerUpcomingClasses(id);
+    public void getTrainerUpcomingClasses(int id) {
+        List<FitnessClass> upcomingClasses = fitnessService.getTrainerUpcomingClasses(id);
+        for (FitnessClass fitnessClass : upcomingClasses) {
+            fitnessClass.toString();
+        }
     }
 
     // get all upcoming classes
-    public List<FitnessClass> getAllUpcomingClasses() {
-        return fitnessService.getAllUpcomingClasses();
+    public void getAllUpcomingClasses() {
+        List<FitnessClass> upcomingClasses = fitnessService.getAllUpcomingClasses();
+        for (FitnessClass fitnessClass : upcomingClasses) {
+            fitnessClass.toStringLessInfo();
+        }
     }
 
     // Schedule a new fitness class
@@ -664,18 +670,35 @@ public class FitnessController {
     }
 
     // Recommend similar classes
-    public List<FitnessClass> getSimilarClasses(FitnessClass targetClass) {
-        return fitnessService.getSimilarClasses(targetClass);
+    public void getSimilarClasses(FitnessClass targetClass) {
+        try {
+            List<FitnessClass> similarClasses = fitnessService.getSimilarClasses(targetClass);
+            for (FitnessClass fitnessClass : similarClasses) {
+                fitnessClass.toStringLessInfo();
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     // Register a member to a class
     public void registerToClass(int memberId, int classId) {
-        fitnessService.registerToClass(memberId, classId);
+        try {
+            fitnessService.registerToClass(memberId, classId);
+            System.out.println("Registration done successfully.");
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     // Drop a member from a class
     public void dropClass(int memberId, int classId) {
-        fitnessService.dropClass(memberId, classId);
+        try {
+            fitnessService.dropClass(memberId, classId);
+            System.out.println("Class dropped successfully.");
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
 }
