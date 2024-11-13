@@ -5,7 +5,9 @@ import repository.IRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class FitnessService {
 
@@ -698,13 +700,13 @@ public class FitnessService {
     // --------------------------------------------------------------------------------------
 
     // Method to get upcoming classes for a trainer
-    public List<FitnessClass> getTrainerUpcomingClasses(int id) {
+    public List<FitnessClass> getTrainerUpcomingClasses(int trainerId) {
         List<FitnessClass> upcomingClasses = new ArrayList<>();
         List<FitnessClass> allClasses = fitnessClassRepository.getAll();
         // Loop through all classes to find the ones for the given trainer and not yet started
         for (FitnessClass fitnessClass : allClasses) {
             // Check if the class is managed by the trainer and hasn't started yet
-            if(fitnessClass.getTrainer().getId() == id);{
+            if(fitnessClass.getTrainer().getId() == trainerId);{
                 // Make sure the start time is after the current time
                 if (fitnessClass.getStartTime().isAfter(LocalDateTime.now())) {
                     upcomingClasses.add(fitnessClass);
@@ -728,6 +730,18 @@ public class FitnessService {
         return upcomingClasses;
     }
 
+    // Helper method to check for schedule collision
+    public void checkForScheduleCollision(FitnessClass fitnessClass){
+        List<FitnessClass> existingClasses = fitnessClassRepository.getAll();
+        for (FitnessClass existingClass : existingClasses) {
+            if (existingClass.getRoom().getId() == fitnessClass.getRoom().getId() &&
+                    (fitnessClass.getStartTime().isBefore(existingClass.getEndTime()) &&
+                            fitnessClass.getEndTime().isAfter(existingClass.getStartTime()))) {
+                throw new IllegalStateException("The room is already booked for this time slot.");
+            }
+        }
+    }
+
     // Method to schedule a new fitness class
     public void scheduleNewClass(String className, LocalDateTime startTime, LocalDateTime endTime, int trainerId,
                                  int roomId, int participantsCount, int locationId,List<Equipment> equipment) {
@@ -748,24 +762,101 @@ public class FitnessService {
         if (endTime.isBefore(startTime)) {
             throw new IllegalArgumentException("End time cannot be before start time.");
         }
-        // Check if there is any class scheduled in the same room at the same time
-        List<FitnessClass> existingClasses = fitnessClassRepository.getAll();
-        for (FitnessClass existingClass : existingClasses) {
-            if (existingClass.getRoom().getId() == roomId &&
-                    (startTime.isBefore(existingClass.getEndTime()) &&
-                            endTime.isAfter(existingClass.getStartTime()))) {
-                throw new IllegalStateException("The room is already booked for this time slot.");
-            }
-        }
         Trainer trainer = trainerRepository.read(trainerId);
         List<Feedback> feedback = new ArrayList<>();
         List<Member> members = new ArrayList<>();
         // Create a new FitnessClass object
         FitnessClass newFitnessClass = new FitnessClass(className, startTime, endTime, trainer, room, participantsCount,
                 location, feedback, members, equipment);
+        // Check for schedule collision
+        checkForScheduleCollision(newFitnessClass);
         // Persist the new class in the repository
         fitnessClassRepository.create(newFitnessClass);
-        // Optionally, display a message that the class has been successfully scheduled
-        System.out.println("Class '" + className + "' has been successfully scheduled with trainer " + trainer.getName());
+    }
+
+    // Method to view a schedule
+    public void viewSchedule() {
+        List<FitnessClass> upcomingClasses = getAllUpcomingClasses();
+        for(FitnessClass fitnessClass : upcomingClasses) {
+            fitnessClass.toStringForSchedule();
+        }
+    }
+
+    // Helper method to determine if two classes are similar based on trainer and equipment
+    private boolean findSimilarClasses(FitnessClass fitnessClass, FitnessClass targetClass) {
+        // Check if the trainers are the same
+        if (!fitnessClass.getTrainer().equals(targetClass.getTrainer())) {
+            return false;
+        }
+        // Check if there is any common equipment
+        Set<Equipment> targetEquipmentSet = new HashSet<>(targetClass.getEquipment());
+        for (Equipment equipment : fitnessClass.getEquipment()) {
+            if (targetEquipmentSet.contains(equipment)) {
+                return true; // At least one common equipment found
+            }
+        }
+        return false; // No common equipment found
+    }
+
+    // Method to get similar fitness classes based on both trainer and equipment
+    public List<FitnessClass> getSimilarClasses(FitnessClass targetClass) {
+        List<FitnessClass> allClasses = fitnessClassRepository.getAll();
+        List<FitnessClass> similarClasses = new ArrayList<>();
+        // Iterate over all fitness classes to find similar ones
+        for (FitnessClass fitnessClass : allClasses) {
+            // Skip the target class itself
+            if (fitnessClass.getId() == targetClass.getId()) {
+                continue;
+            }
+            // Use helper method to check if this class is similar
+            if (findSimilarClasses(fitnessClass, targetClass)) {
+                similarClasses.add(fitnessClass);
+            }
+        }
+        return similarClasses;
+    }
+
+    // Method to register a member to a class
+    public void registerToClass(int memberId, int classId) {
+        // Retrieve the fitness class by ID
+        FitnessClass fitnessClass = fitnessClassRepository.read(classId);
+        if (fitnessClass == null) {
+            throw new IllegalArgumentException("Fitness class with ID " + classId + " does not exist.");
+        }
+        Member member = memberRepository.read(memberId);
+        // Check if the member is already registered
+        if (fitnessClass.getMembers().contains(member)) {
+            throw new IllegalStateException("Member is already registered for this class.");
+        }
+        // Check if the class has available slots
+        if (fitnessClass.getParticipantsCount() >= fitnessClass.getRoom().getMaxCapacity()) {
+            throw new IllegalStateException("The class is already full.");
+        }
+        // Register the member by adding them to the class's member list
+        fitnessClass.getMembers().add(member);
+        // Update the participant count
+        fitnessClass.setParticipantsCount(fitnessClass.getParticipantsCount() + 1);
+        // Persist the changes to the repository
+        fitnessClassRepository.update(fitnessClass);
+    }
+
+    // Method to drop a member from a class
+    public void dropClass(int memberId, int classId) {
+        // Retrieve the fitness class by ID
+        FitnessClass fitnessClass = fitnessClassRepository.read(classId);
+        if (fitnessClass == null) {
+            throw new IllegalArgumentException("Fitness class with ID " + classId + " does not exist.");
+        }
+        Member member = memberRepository.read(memberId);
+        // Check if the member is actually registered in the class
+        if (!fitnessClass.getMembers().contains(member)) {
+            throw new IllegalStateException("Member is not registered for this class.");
+        }
+        // Remove the member from the class's member list
+        fitnessClass.getMembers().remove(member);
+        // Update the participant count
+        fitnessClass.setParticipantsCount(fitnessClass.getParticipantsCount() - 1);
+        // Persist the changes to the repository
+        fitnessClassRepository.update(fitnessClass);
     }
 }

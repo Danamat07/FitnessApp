@@ -138,4 +138,15 @@ public class FitnessClass implements Identifiable {
                 ", members=" + members +
                 '}';
     }
+
+    public String toStringForSchedule() {
+        return "FitnessClass{" +
+                ", name='" + name + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", trainer=" + trainer +
+                ", room=" + room +
+                ", location=" + location +
+                '}';
+    }
 }

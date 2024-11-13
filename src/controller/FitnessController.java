@@ -649,8 +649,7 @@ public class FitnessController {
 
     // Schedule a new fitness class
     public void scheduleNewClass(String className, LocalDateTime startTime, LocalDateTime endTime, int trainerId,
-                                 int roomId, int participantsCount, int locationId, List<Feedback> feedback,
-                                 List<Member> members, List<Equipment> equipment) {
+                                 int roomId, int participantsCount, int locationId, List<Equipment> equipment) {
         try{
             fitnessService.scheduleNewClass(className, startTime, endTime, trainerId, roomId, participantsCount,
                     locationId, equipment);
@@ -658,4 +657,25 @@ public class FitnessController {
             System.err.println(e.getMessage());
         }
     }
+
+    // View schedule
+    public void viewSchedule() {
+        fitnessService.viewSchedule();
+    }
+
+    // Recommend similar classes
+    public List<FitnessClass> getSimilarClasses(FitnessClass targetClass) {
+        return fitnessService.getSimilarClasses(targetClass);
+    }
+
+    // Register a member to a class
+    public void registerToClass(int memberId, int classId) {
+        fitnessService.registerToClass(memberId, classId);
+    }
+
+    // Drop a member from a class
+    public void dropClass(int memberId, int classId) {
+        fitnessService.dropClass(memberId, classId);
+    }
+
 }
