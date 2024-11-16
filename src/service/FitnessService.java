@@ -428,7 +428,7 @@ public class FitnessService {
     }
 
     // Add a new membership
-    public void addMembership(String type, List<Member> members, float price) {
+    public void addMembership(String type, ArrayList<Member> members, float price) {
         if (type == null || type.trim().isEmpty()) {
             throw new IllegalArgumentException("Membership type cannot be null or empty.");
         }
@@ -448,7 +448,7 @@ public class FitnessService {
     }
 
     // Update an existing membership
-    public void updateMembership(int id, String type, List<Member> members, float price) {
+    public void updateMembership(int id, String type, ArrayList<Member> members, float price) {
         if (type == null || type.trim().isEmpty()) {
             throw new IllegalArgumentException("Membership type cannot be null or empty.");
         }

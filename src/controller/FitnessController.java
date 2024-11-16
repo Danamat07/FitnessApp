@@ -5,6 +5,7 @@ import service.FitnessService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.ArrayList;
 
 public class FitnessController {
 
@@ -406,7 +407,7 @@ public class FitnessController {
     }
 
     // Add a new membership
-    public void addMembership(String type, List<Member> members, float price) {
+    public void addMembership(String type, ArrayList<Member> members, float price) {
         try {
             fitnessService.addMembership(type, members, price);
             System.out.println("Membership added successfully.");
@@ -416,7 +417,7 @@ public class FitnessController {
     }
 
     // Update an existing membership
-    public void updateMembership(int id, String type, List<Member> members, float price) {
+    public void updateMembership(int id, String type, ArrayList<Member> members, float price) {
         try {
             fitnessService.updateMembership(id, type, members, price);
             System.out.println("Membership updated successfully.");

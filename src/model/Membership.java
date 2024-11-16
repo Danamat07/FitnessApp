@@ -1,15 +1,16 @@
 package model;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Membership implements Identifiable {
 
     private int id;
     private String type;
-    private List<Member> members;
+    private ArrayList<Member> members;
     private float price;
 
     // Constructor
-    public Membership(String type, List<Member> members, float price) {
+    public Membership(String type, ArrayList<Member> members, float price) {
         this.type = type;
         this.members = members;
         this.price = price;
@@ -45,7 +46,7 @@ public class Membership implements Identifiable {
         this.type = type;
     }
 
-    public void setMembers(List<Member> members) {
+    public void setMembers(ArrayList<Member> members) {
         this.members = members;
     }
 
