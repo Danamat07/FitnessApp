@@ -5,6 +5,7 @@ import model.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
 
@@ -82,7 +83,79 @@ public class Main {
         ArrayList<Equipment> equipmentfc1 = new ArrayList<>();
 
         FitnessClass fc1 = new FitnessClass("Yoga", LocalDateTime.of(2024, 11, 15, 10, 30), LocalDateTime.of(2024, 11, 15, 12, 30), t4, r1, 10, r1.getLocation(), feedbacksfc1, membersfc1, equipmentfc1);
-    //hello
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Welcome to the Fitness center!");
+        boolean isRunning = true;
+        while (isRunning) {
+            System.out.println("Please enter your login info:");
+            System.out.println("Full name: ");
+            String userName = scanner.nextLine();
+            System.out.println("Mail: ");
+            String userEmail = scanner.nextLine();
+            System.out.println("Phone number: ");
+            String userPhoneNumber = scanner.nextLine();
+
+            // Try to find member or trainer
+            Member member = findMemberByCredentials(membersList, userName, userEmail, userPhoneNumber);
+            Trainer trainer = findTrainerByCredentials(trainersList, userName, userEmail, userPhoneNumber);
+
+//            // Check login results and redirect to appropriate UI
+//            if (member != null) {
+//                System.out.println("Welcome, " + member.getName() + " (Member)!");
+//                int memberID = member.getId();
+//                MemberUI memberUI = new MemberUI(memberID);
+//                memberUI.showMemberOptions(memberID);
+//                isRunning = false; // Exit after successful login
+//            } else if (trainer != null) {
+//                System.out.println("Welcome, " + trainer.getName() + " (Trainer)!");
+//                int trainerID = trainer.getId();
+//                TrainerUI trainerUI = new TrainerUI(trainerID);
+//                trainerUI.showTrainerOptions(trainerID);
+//                isRunning = false; // Exit after successful login
+//            } else {
+//                // If no matching member or trainer is found
+//                System.out.println("No user found with the given credentials.");
+//                System.out.println("Do you want to try again? (y/n): ");
+//                String tryAgain = scanner.nextLine();
+//                if (!tryAgain.equalsIgnoreCase("y")) {
+//                    isRunning = false; // Exit if user doesn't want to try again
+//                }
+//            }
+        }
+
+        // Close the scanner resource when done
+        scanner.close();
+
+
 
     }
+    // filer functions -> identify user (member or trainer)
+
+    // Method to find member by name, email, and phone
+    public static Member findMemberByCredentials(ArrayList<Member> members, String name, String email, String phone) {
+        for (Member member : members) {
+            if (member.getName().equalsIgnoreCase(name) &&
+                    member.getMail().equalsIgnoreCase(email) &&
+                    member.getPhone().equals(phone)) {
+                return member;
+            }
+        }
+        return null;
+    }
+
+    // Method to find trainer by name, email, and phone
+    public static Trainer findTrainerByCredentials(ArrayList<Trainer> trainers, String name, String email, String phone) {
+        for (Trainer trainer : trainers) {
+            if (trainer.getName().equalsIgnoreCase(name) &&
+                    trainer.getMail().equalsIgnoreCase(email) &&
+                    trainer.getPhone().equals(phone)) {
+                return trainer;
+            }
+        }
+        return null;
+    }
+
+
 }
