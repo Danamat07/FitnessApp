@@ -12,4 +12,5 @@ public class MemberUI {
         this.fitnessController = fitnessController;
         this.scanner = new Scanner(System.in);
     }
+    //hello
 }

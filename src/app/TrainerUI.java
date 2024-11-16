@@ -11,6 +11,6 @@ public class TrainerUI {
     public TrainerUI(FitnessController fitnessController) {
         this.fitnessController = fitnessController;
         this.scanner = new Scanner(System.in);
-        //hello
+
     }
 }

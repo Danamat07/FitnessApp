@@ -82,7 +82,7 @@ public class Main {
         ArrayList<Equipment> equipmentfc1 = new ArrayList<>();
 
         FitnessClass fc1 = new FitnessClass("Yoga", LocalDateTime.of(2024, 11, 15, 10, 30), LocalDateTime.of(2024, 11, 15, 12, 30), t4, r1, 10, r1.getLocation(), feedbacksfc1, membersfc1, equipmentfc1);
-
+    //hello
 
     }
 }
