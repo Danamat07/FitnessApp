@@ -862,4 +862,19 @@ public class FitnessService {
         // Persist the changes to the repository
         fitnessClassRepository.update(fitnessClass);
     }
+
+    //get Feedback of a fitnessclass
+    public List<Feedback> getClassFeedback (int classId) {
+        //retrieve the fitness class by its Id
+        FitnessClass fitnessClass = fitnessClassRepository.read(classId);
+        if (fitnessClass == null) {
+            throw new IllegalArgumentException("Fitness class with ID" + classId + " does not exist.");
+        }
+        //retrieve the feedback list from the fitness class
+        List<Feedback> feedbackList = fitnessClass.getFeedback();
+        if (feedbackList == null || feedbackList.isEmpty()) {
+            throw new IllegalArgumentException("No feedback available for this fitness class");
+        }
+        return feedbackList;
+    }
 }

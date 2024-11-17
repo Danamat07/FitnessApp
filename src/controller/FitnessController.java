@@ -710,4 +710,16 @@ public class FitnessController {
         }
     }
 
+    //Dispaly feedback of a class
+    public void displayFeedback(int classID){
+        try {
+            List<Feedback> feedbackList = fitnessService.getClassFeedback(classID);
+            for(Feedback feedback: feedbackList){
+                feedback.toString();
+            }
+        } catch (IllegalArgumentException e){
+            System.err.println(e.getMessage());
+        }
+    }
+
 }
