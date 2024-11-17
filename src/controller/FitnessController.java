@@ -41,10 +41,11 @@ public class FitnessController {
     //Get equipment by ID
     public Equipment getEquipment(int id){
         try{
-            fitnessService.getEquipment(id);
+            return fitnessService.getEquipment(id);
         }catch (IllegalArgumentException e){
             System.err.println(e.getMessage());
         }
+        return null;
     }
 
     // Display equipment by ID
