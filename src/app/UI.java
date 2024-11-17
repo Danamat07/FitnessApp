@@ -8,6 +8,7 @@ import service.FitnessService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class UI {
@@ -23,7 +24,69 @@ public class UI {
     }
 
     public void trainerUI(int id) {
-        // trainer ui logic
+        Scanner scanner = new Scanner(System.in);
+        boolean isRunning = true;
+        while (isRunning){
+            System.out.println("==== Menu ====");
+            System.out.println("1. View my classes");
+            System.out.println("2. Schedule a nee class");
+            System.out.println("3. View feedback");
+            System.out.println("4. Logout");
+            System.out.println("Enter your choice (1/2/3 or 4): ");
+
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch (choice){
+                case 1 -> {
+                    System.out.println("------------------------------------------ ");
+                    fitnessController.getTrainerUpcomingClasses(id);
+                    System.out.println("------------------------------------------ ");
+                }
+                case 2 -> {
+                    System.out.println("------------------------------------------ ");
+                    fitnessController.getAllUpcomingClasses();
+                    System.out.println("Enter class name: ");
+                    String className = scanner.nextLine();
+                    System.out.println("Enter start time (yyyy-MM-ddTHH:mm): ");
+                    LocalDateTime startTime = LocalDateTime.parse(scanner.nextLine());
+                    System.out.println("Enter end time (yyyy-MM-ddTHH:mm): ");
+                    LocalDateTime endTime = LocalDateTime.parse(scanner.nextLine());
+                    System.out.println("--->These are your rooms options: ");
+                    fitnessController.displayAllRooms();
+                    System.out.println("Enter room by id: ");
+                    int roomId = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Enter max participants: ");
+                    int participantsCount = Integer.parseInt(scanner.nextLine());
+                    System.out.println("--->These are your location options: ");
+                    fitnessController.displayAllLocations();
+                    System.out.println("Enter location by id: ");
+                    int locationId = Integer.parseInt(scanner.nextLine());
+                    System.out.println("--->These are your equipment options: ");
+                    fitnessController.displayAllEquipment();
+                    System.out.println("Enter equipment by id: ");
+                    int equipmentId = Integer.parseInt(scanner.nextLine());
+                    List<Equipment> equipmentList = new ArrayList<>();
+                    equipmentList.add(fitnessController.getEquipment(equipmentId));
+                    fitnessController.scheduleNewClass(className,startTime,endTime,id,roomId,participantsCount,locationId,equipmentList);
+                    System.out.println("Fitness class scheduled successfully! ");
+                    System.out.println("------------------------------------------ ");
+
+                }
+                case 3-> {
+                    System.out.println("------------------------------------------ ");
+                    fitnessController.displayAllFitnessClasses();
+                    System.out.println("\n");
+                    System.out.println("Choose a class to view feedback for (by ID): ");
+                    int classId = Integer.parseInt(scanner.nextLine());
+                    fitnessController.displayFeedback(classId);
+                    System.out.println("------------------------------------------ ");
+                }
+                case 4-> {
+                    System.out.println("------------------------------------------ ");
+                    System.out.println("Logging out...");
+                    isRunning = false;
+                }
+            }
+        }
     }
 
     public void memberUI(int id) {

@@ -38,6 +38,15 @@ public class FitnessController {
         }
     }
 
+    //Get equipment by ID
+    public Equipment getEquipment(int id){
+        try{
+            fitnessService.getEquipment(id);
+        }catch (IllegalArgumentException e){
+            System.err.println(e.getMessage());
+        }
+    }
+
     // Display equipment by ID
     public void displayEquipmentById(int id) {
         try {
