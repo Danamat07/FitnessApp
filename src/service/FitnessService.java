@@ -770,10 +770,17 @@ public class FitnessService {
         // Create a new FitnessClass object
         FitnessClass newFitnessClass = new FitnessClass(className, startTime, endTime, trainer, room, participantsCount,
                 location, feedback, members, equipment);
+        newFitnessClass.setId(getClassNextId());
         // Check for schedule collision
         checkForScheduleCollision(newFitnessClass);
         // Persist the new class in the repository
         fitnessClassRepository.create(newFitnessClass);
+    }
+
+    // Helper method to find fitness class next id
+    public int getClassNextId() {
+        List<FitnessClass> fitnessClasses = fitnessClassRepository.getAll();
+        return fitnessClasses.size() + 1;
     }
 
     // Method to view a schedule

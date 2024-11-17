@@ -129,13 +129,13 @@ public class FitnessClass implements Identifiable {
                 ", name='" + name + '\'' +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
-                ", trainer=" + trainer +
+                ", trainer=" + (trainer != null ? trainer.getName() : "null") +
                 ", room=" + room +
                 ", participantsCount=" + participantsCount +
-                ", location=" + location +
-                ", feedback=" + feedback +
-                ", equipment=" + equipment +
-                ", members=" + members +
+                ", location=" + (location != null ? location.getName() : "null") +
+                ", feedbackCount=" + (feedback != null ? feedback.size() : 0) +
+                ", equipment=" + (equipment != null ? equipment.size() : 0) +
+                ", membersCount=" + (members != null ? members.size() : 0) +
                 '}';
     }
 

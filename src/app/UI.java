@@ -90,7 +90,7 @@ public class UI {
     }
 
     public void memberUI(int id) {
-        // member ui logic
+        // ...
     }
 
     public void login() {

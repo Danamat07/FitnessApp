@@ -653,7 +653,7 @@ public class FitnessController {
         try {
             List<FitnessClass> upcomingClasses = fitnessService.getTrainerUpcomingClasses(id);
             for (FitnessClass fitnessClass : upcomingClasses) {
-                fitnessClass.toString();
+                System.out.println(fitnessClass.toString());
             }
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -665,7 +665,7 @@ public class FitnessController {
         try {
             List<FitnessClass> upcomingClasses = fitnessService.getAllUpcomingClasses();
             for (FitnessClass fitnessClass : upcomingClasses) {
-                fitnessClass.toStringLessInfo();
+                System.out.println(fitnessClass.toStringLessInfo());
             }
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -725,7 +725,7 @@ public class FitnessController {
         try {
             List<Feedback> feedbackList = fitnessService.getClassFeedback(classID);
             for(Feedback feedback: feedbackList){
-                feedback.toString();
+                System.out.println(feedback.toString());
             }
         } catch (IllegalArgumentException e){
             System.err.println(e.getMessage());

@@ -66,7 +66,6 @@ public class Feedback implements Identifiable {
         return "Feedback{" +
                 "id=" + id +
                 ", member=" + member +
-                ", fitnessClass=" + fitnessClass +
                 ", rating=" + rating +
                 ", comment='" + comment + '\'' +
                 '}';
