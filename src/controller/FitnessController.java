@@ -725,10 +725,27 @@ public class FitnessController {
         try {
             List<Feedback> feedbackList = fitnessService.getClassFeedback(classID);
             for(Feedback feedback: feedbackList){
-                System.out.println(feedback.toString());
+                System.out.println("Rating: " + feedback.getRating() + "/5 -> " + feedback.getComment());
             }
         } catch (IllegalArgumentException e){
             System.err.println(e.getMessage());
+        }
+    }
+
+    // Display classes taught by a trainer
+    public void displayClassesOfTrainer(int trainerId) {
+        try {
+            List<FitnessClass> classes = fitnessService.getAllClassesByTrainer(trainerId);
+            if (classes.isEmpty()) {
+                System.out.println("No fitness classes found for trainer with ID: " + trainerId);
+                return;
+            }
+            for (FitnessClass fitnessClass : classes) {
+                System.out.println("Class ID: " + fitnessClass.getId() +
+                        ", Name: " + fitnessClass.getName());
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
         }
     }
 

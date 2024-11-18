@@ -884,4 +884,21 @@ public class FitnessService {
         }
         return feedbackList;
     }
+
+    // Method to get all classes taught by a trainer
+    public ArrayList<FitnessClass> getAllClassesByTrainer(int trainerId) {
+        List<FitnessClass> classes = getAllFitnessClasses();
+        return filterByTrainerID(trainerId, classes);
+    }
+
+    // Helper method to filter classes by trainer id
+    public ArrayList<FitnessClass> filterByTrainerID(int id, List<FitnessClass> classList) {
+        ArrayList<FitnessClass> filteredList = new ArrayList<>();
+        for (FitnessClass fitnessClass : classList) {
+            if(fitnessClass.getTrainer().getId() == id) {
+                filteredList.add(fitnessClass);
+            }
+        }
+        return filteredList;
+    }
 }

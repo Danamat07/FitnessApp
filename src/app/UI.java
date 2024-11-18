@@ -29,7 +29,7 @@ public class UI {
         while (isRunning){
             System.out.println("==== Menu ====");
             System.out.println("1. View my classes");
-            System.out.println("2. Schedule a nee class");
+            System.out.println("2. Schedule a new class");
             System.out.println("3. View feedback");
             System.out.println("4. Logout");
             System.out.println("Enter your choice (1/2/3 or 4): ");
@@ -73,7 +73,7 @@ public class UI {
                 }
                 case 3-> {
                     System.out.println("------------------------------------------ ");
-                    fitnessController.displayAllFitnessClasses();
+                    fitnessController.displayClassesOfTrainer(id);
                     System.out.println("\n");
                     System.out.println("Choose a class to view feedback for (by ID): ");
                     int classId = Integer.parseInt(scanner.nextLine());
@@ -298,7 +298,7 @@ public class UI {
         f1Members.add(m1);
         f1Members.add(m3);
         ArrayList<Feedback> fBackForFClass1List = new ArrayList<>();
-        FitnessClass fClass1 = new FitnessClass("kickboxing", LocalDateTime.of(2024, 11, 20, 12, 30), LocalDateTime.of(2024, 11, 20, 14, 30), t3, r2, 18, r2.getLocation(), fBackForFClass1List, f1Members, eqForFClass1);
+        FitnessClass fClass1 = new FitnessClass("kickboxing", LocalDateTime.of(2024, 11, 20, 12, 30), LocalDateTime.of(2024, 11, 20, 14, 30), t1, r2, 18, r2.getLocation(), fBackForFClass1List, f1Members, eqForFClass1);
         fClass1.setId(1);
         Feedback fBack1 = new Feedback(m1, fClass1, 4, "Had a great time but the class was a little too exhausting for a beginner");
         fBack1.setId(1);
