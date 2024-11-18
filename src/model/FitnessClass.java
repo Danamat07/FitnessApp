@@ -133,7 +133,6 @@ public class FitnessClass implements Identifiable {
                 ", room=" + room +
                 ", participantsCount=" + participantsCount +
                 ", location=" + (location != null ? location.getName() : "null") +
-                ", feedbackCount=" + (feedback != null ? feedback.size() : 0) +
                 ", equipment=" + (equipment != null ? equipment.size() : 0) +
                 ", membersCount=" + (members != null ? members.size() : 0) +
                 '}';
@@ -141,6 +140,7 @@ public class FitnessClass implements Identifiable {
 
     public String toStringLessInfo() {
         return "FitnessClass{" +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +

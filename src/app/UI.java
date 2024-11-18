@@ -71,7 +71,7 @@ public class UI {
                     System.out.println("------------------------------------------ ");
 
                 }
-                case 3-> {
+                case 3 -> {
                     System.out.println("------------------------------------------ ");
                     fitnessController.displayClassesOfTrainer(id);
                     System.out.println("\n");
@@ -80,7 +80,7 @@ public class UI {
                     fitnessController.displayFeedback(classId);
                     System.out.println("------------------------------------------ ");
                 }
-                case 4-> {
+                case 4 -> {
                     System.out.println("------------------------------------------ ");
                     System.out.println("Logging out...");
                     isRunning = false;
@@ -90,7 +90,48 @@ public class UI {
     }
 
     public void memberUI(int id) {
-        // ...
+        Scanner scanner = new Scanner(System.in);
+        boolean isRunning = true;
+        while (isRunning){
+            System.out.println("==== Menu ====");
+            System.out.println("1. View upcoming classes");
+            System.out.println("2. Register to class");
+            System.out.println("3. Drop class");
+            System.out.println("4. Get similar classes");
+            System.out.println("5. Logout");
+            System.out.println("Enter your choice (1/2/3 or 4): ");
+
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch (choice){
+                case 1 -> {
+                    System.out.println("------------------------------------------ ");
+                    fitnessController.viewSchedule();
+                    System.out.println("------------------------------------------ ");
+                }
+                case 2 -> {
+                    System.out.println("------------------------------------------ ");
+                    fitnessController.viewSchedule();
+                    System.out.println("Which class would you like to book? (enter class ID): ");
+                    int classId = Integer.parseInt(scanner.nextLine());
+                    fitnessController.registerToClass(id, classId);
+                    System.out.println("------------------------------------------ ");
+                }
+                case 3 -> {
+                    System.out.println("------------------------------------------ ");
+                    fitnessController.viewSchedule();
+                    System.out.println("Which class would you like to drop? (enter class ID): ");
+                    int classId = Integer.parseInt(scanner.nextLine());
+                    fitnessController.dropClass(id, classId);
+                    System.out.println("------------------------------------------ ");
+                }
+                case 4 -> {}
+                case 5 -> {
+                    System.out.println("------------------------------------------ ");
+                    System.out.println("Logging out...");
+                    isRunning = false;
+                }
+            }
+        }
     }
 
     public void login() {

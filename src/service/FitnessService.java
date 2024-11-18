@@ -787,7 +787,7 @@ public class FitnessService {
     public void viewSchedule() {
         List<FitnessClass> upcomingClasses = getAllUpcomingClasses();
         for(FitnessClass fitnessClass : upcomingClasses) {
-            fitnessClass.toStringLessInfo();
+            System.out.println(fitnessClass.toStringLessInfo());
         }
     }
 
