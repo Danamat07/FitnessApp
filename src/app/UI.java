@@ -97,8 +97,9 @@ public class UI {
             System.out.println("1. View upcoming classes");
             System.out.println("2. Register to class");
             System.out.println("3. Drop class");
-            System.out.println("4. Get similar classes");
-            System.out.println("5. Logout");
+            System.out.println("4. View classes you participated in");
+            System.out.println("5. Get similar classes");
+            System.out.println("6. Logout");
             System.out.println("Enter your choice (1/2/3 or 4): ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -124,8 +125,21 @@ public class UI {
                     fitnessController.dropClass(id, classId);
                     System.out.println("------------------------------------------ ");
                 }
-                case 4 -> {}
+                case 4 -> {
+                    System.out.println("------------------------------------------ ");
+                    fitnessController.displayClassesByMember(id);
+                    System.out.println("------------------------------------------ ");
+                }
                 case 5 -> {
+                    System.out.println("------------------------------------------ ");
+                    fitnessController.displayClassesByMember(id);
+                    System.out.println("Choose a class to get a recommendations for similar classes (enter class ID): ");
+                    int classId = Integer.parseInt(scanner.nextLine());
+                    FitnessClass targetClass = fitnessController.findClassById(classId);
+                    fitnessController.getSimilarClasses(targetClass);
+                    System.out.println("------------------------------------------ ");
+                }
+                case 6 -> {
                     System.out.println("------------------------------------------ ");
                     System.out.println("Logging out...");
                     isRunning = false;

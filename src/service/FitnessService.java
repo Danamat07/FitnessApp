@@ -901,4 +901,26 @@ public class FitnessService {
         }
         return filteredList;
     }
+
+    // Method to get all classes in which a member has participated
+    public List<FitnessClass> getClassesByMember(int memberId) {
+        Member member = memberRepository.read(memberId);
+        List<FitnessClass> memberClasses = member.getFitnessClasses();
+        if (memberClasses == null || memberClasses.isEmpty()) {
+            throw new IllegalStateException("This member has not participated in any classes.");
+        }
+        return memberClasses;
+    }
+
+    // Method to find a class by id
+    public FitnessClass findClassById(int classId) {
+        List<FitnessClass> allClasses = getAllFitnessClasses();
+        for (FitnessClass fitnessClass : allClasses) {
+            if (fitnessClass.getId() == classId) {
+                return fitnessClass;
+            }
+        }
+        throw new IllegalArgumentException("No classes found with ID " + classId + ".");
+    }
+
 }

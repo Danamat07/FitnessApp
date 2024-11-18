@@ -693,7 +693,7 @@ public class FitnessController {
         try {
             List<FitnessClass> similarClasses = fitnessService.getSimilarClasses(targetClass);
             for (FitnessClass fitnessClass : similarClasses) {
-                fitnessClass.toStringLessInfo();
+                System.out.println(fitnessClass.toStringLessInfo());
             }
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -747,6 +747,26 @@ public class FitnessController {
         } catch (IllegalArgumentException e) {
             System.err.println("Error: " + e.getMessage());
         }
+    }
+
+    public void displayClassesByMember(int memberId) {
+        try {
+            List<FitnessClass> classes = fitnessService.getClassesByMember(memberId);
+            for (FitnessClass fitnessClass : classes) {
+                System.out.println(fitnessClass.toStringLessInfo());
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
+    public FitnessClass findClassById(int classId) {
+        try {
+            return fitnessService.findClassById(classId);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null;
     }
 
 }
