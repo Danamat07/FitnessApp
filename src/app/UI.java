@@ -212,7 +212,7 @@ public class UI {
         scanner.close();
     }
 
-    // filer functions -> identify user (member or trainer)
+    // Filer functions -> identify user (member or trainer)
 
     // Method to find member by name, email, and phone
     public static Member findMemberByCredentials(ArrayList<Member> members, String name, String email, String phone) {
