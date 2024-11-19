@@ -7,11 +7,27 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * The FitnessController class serves as the intermediary between the service layer (FitnessService) and the user interface
+ * or other components that interact with the fitness-related features. It provides methods for interacting with the underlying
+ * data and handling business logic.
+ * This controller contains methods that make use of the FitnessService to perform operations related to fitness classes,
+ * schedules, trainers, rooms, members, and other relevant entities.
+ *
+ * <p>Primary responsibilities include:</p>
+ * <ul>
+ *     <li>Invoking methods from the service layer to perform actions like scheduling, registering, updating, and deleting records.</li>
+ *     <li>Serving as a middle layer that coordinates data flow between the user interface and the service layer.</li>
+ * </ul>
+ */
 public class FitnessController {
 
     private final FitnessService fitnessService;
 
-    // Controller constructor
+    /**
+     * Constructor for initializing the FitnessController.
+     * @param fitnessService The service layer object that contains the business logic for fitness-related operations.
+     */
     public FitnessController(FitnessService fitnessService) {
         this.fitnessService = fitnessService;
     }
