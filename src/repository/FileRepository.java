@@ -6,18 +6,31 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A generic file-based repository implementation for managing entities of type T
+ * that extends the Identifiable interface. The repository provides CRUD operations
+ * and stores data in a CSV-like format in a file.
+ * @param <T> The type of objects managed by this repository. T must extend Identifiable.
+ */
 public class FileRepository<T extends Identifiable> implements IRepository<T> {
 
     private final String fileName;
     private final Class<T> type;
 
-    // Constructor
+    /**
+     * Constructor for creating a FileRepository instance.
+     * @param fileName The name of the file used for storing the data.
+     * @param type     The Class type of the objects to be managed.
+     */
     public FileRepository(String fileName, Class<T> type) {
         this.fileName = fileName;
         this.type = type;
     }
 
-    // Add a new entity to the file
+    /**
+     * Adds a new entity of type T to the file.
+     * @param obj The object to be added. Must not be null.
+     */
     @Override
     public void create(T obj) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
@@ -28,14 +41,17 @@ public class FileRepository<T extends Identifiable> implements IRepository<T> {
         }
     }
 
-    // Read an entity from the file by its ID
+    /**
+     * Reads and retrieves an entity from the file by its unique ID.
+     * @param id The unique identifier of the object to retrieve.
+     * @return The object of type T with the specified ID, or null if not found.
+     */
     @Override
     public T read(int id) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 T entity = fromCsv(line);
-                // Check if the entity matches the given ID
                 if (entity.getId() == id) {
                     return entity;
                 }
@@ -43,24 +59,23 @@ public class FileRepository<T extends Identifiable> implements IRepository<T> {
         } catch (IOException e) {
             System.err.println("Error reading from file: " + e.getMessage());
         }
-        return null;  // Return null if no entity with the given ID is found
+        return null;
     }
 
-    // Update an entity in the file
+    /**
+     * Updates an existing entity in the file by replacing it with a new version.
+     * @param obj The object containing updated data. Must already exist in the file.
+     */
     @Override
     public void update(T obj) {
         List<T> allEntities = getAll();
-        int id = obj.getId();  // Using the getId method from Identifiable
-
-        // Replace the existing entity with the updated one
+        int id = obj.getId();
         for (int i = 0; i < allEntities.size(); i++) {
             if (allEntities.get(i).getId() == id) {
                 allEntities.set(i, obj);
                 break;
             }
         }
-
-        // Re-write the file with the updated entities
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             for (T entity : allEntities) {
                 writer.write(toCsv(entity));
@@ -71,13 +86,14 @@ public class FileRepository<T extends Identifiable> implements IRepository<T> {
         }
     }
 
-    // Delete an entity from the file by its ID
+    /**
+     * Deletes an entity from the file by its unique ID.
+     * @param id The unique identifier of the object to delete.
+     */
     @Override
     public void delete(int id) {
         List<T> allEntities = getAll();
         allEntities.removeIf(entity -> entity.getId() == id);
-
-        // Re-write the file with the remaining entities
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             for (T entity : allEntities) {
                 writer.write(toCsv(entity));
@@ -88,7 +104,10 @@ public class FileRepository<T extends Identifiable> implements IRepository<T> {
         }
     }
 
-    // Retrieve all entities from the file
+    /**
+     * Retrieves all entities of type T from the file.
+     * @return A list of all objects stored in the file. Returns an empty list if no objects are found.
+     */
     @Override
     public List<T> getAll() {
         List<T> entities = new ArrayList<>();
@@ -103,7 +122,11 @@ public class FileRepository<T extends Identifiable> implements IRepository<T> {
         return entities;
     }
 
-    // Convert an object to a CSV string
+    /**
+     * Converts an object of type T into a CSV string representation.
+     * @param obj The object to convert to CSV.
+     * @return A string in CSV format representing the object.
+     */
     private String toCsv(T obj) {
         StringBuilder csv = new StringBuilder();
         Field[] fields = type.getDeclaredFields();
@@ -115,10 +138,14 @@ public class FileRepository<T extends Identifiable> implements IRepository<T> {
                 System.err.println("Error accessing field: " + e.getMessage());
             }
         }
-        return csv.substring(0, csv.length() - 1);  // Remove last comma
+        return csv.substring(0, csv.length() - 1);
     }
 
-    // Convert a CSV string to an object
+    /**
+     * Converts a CSV string into an object of type T.
+     * @param line The CSV string to convert.
+     * @return An object of type T with values populated from the CSV string, or null in case of errors.
+     */
     private T fromCsv(String line) {
         try {
             T obj = type.getDeclaredConstructor().newInstance();
@@ -135,7 +162,12 @@ public class FileRepository<T extends Identifiable> implements IRepository<T> {
         return null;
     }
 
-    // Convert a string value to the appropriate field type
+    /**
+     * Converts a string value to the appropriate type based on the field type.
+     * @param fieldType The Class type of the field.
+     * @param value     The string value to convert.
+     * @return The converted value as an Object, or the original string if no conversion is applicable.
+     */
     private Object convertValue(Class<?> fieldType, String value) {
         if (fieldType == int.class) {
             return Integer.parseInt(value);
@@ -146,7 +178,6 @@ public class FileRepository<T extends Identifiable> implements IRepository<T> {
         } else if (fieldType == boolean.class) {
             return Boolean.parseBoolean(value);
         }
-        // Add other types as needed
         return value;
     }
 }
