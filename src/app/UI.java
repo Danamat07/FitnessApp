@@ -11,12 +11,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * The UI (User Interface) class is responsible for handling user input and output for fitness-related operations.
+ * It interacts with the `FitnessController` to perform actions related to managing members, trainers, fitness classes,
+ * schedules, and other related entities. The `UI` class acts as the interface between the user and the system's underlying
+ * functionality provided by the `FitnessController` and `FitnessService` layers.
+ * This class provides a basic text-based interface, typically used in console applications, for the user to interact
+ * with the fitness management system.
+ * <p>Primary responsibilities:</p>
+ * <ul>
+ *     <li>Prompting the user for input to manage members, classes, trainers, etc.</li>
+ *     <li>Displaying relevant information, such as lists of members, trainers, or classes.</li>
+ *     <li>Interacting with the `FitnessController` to perform actions based on user input (e.g., register members to classes).</li>
+ * </ul>
+ */
 public class UI {
 
     private final FitnessController fitnessController;
     private final ArrayList<Member> fitnessmembers;
     private final ArrayList<Trainer> fitnesstraines;
 
+    /**
+     * Constructor to initialize the UI with necessary dependencies.
+     * @param fitnessController The controller object that manages interactions with the service layer.
+     * @param fitnessmembers The list of fitness members, representing the users interacting with the system.
+     * @param fitnesstraines The list of trainers available for fitness classes.
+     */
     public UI(FitnessController fitnessController, ArrayList<Member> fitnessmembers, ArrayList<Trainer> fitnesstraines) {
         this.fitnessController = fitnessController;
         this.fitnessmembers = fitnessmembers;
