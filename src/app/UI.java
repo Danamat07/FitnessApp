@@ -242,100 +242,100 @@ public class UI {
         // loading data
 
         // trainers
-        Trainer t1 = new Trainer("Sabin Matei", "sabinmatei@gmail.com", "0746912336", "weight lifting");
-        Trainer t2 = new Trainer("Tudor Ratiu", "tudorratiu@gmail.com", "0733912375", "cardio");
-        Trainer t3 = new Trainer("Rusai Denis", "rusaidenis@gmail.com", "0734119845", "kickboxing");
-        Trainer t4 = new Trainer("Ana Popescu", "anapopescu@gmail.com", "0734829450", "yoga");
-        Trainer t5 = new Trainer("Alina Carcea", "alinacarcea@gmail.com", "0745012367", "pilates");
-        t1.setId(1);
-        t2.setId(2);
-        t3.setId(3);
-        t4.setId(4);
-        t5.setId(5);
+        Trainer trainer1 = new Trainer("Sabin Matei", "sabinmatei@gmail.com", "0746912336", "weight lifting, cardio");
+        Trainer trainer2 = new Trainer("Tudor Ratiu", "tudorratiu@gmail.com", "0733912375", "cardio, weight lifting, kickboxing");
+        Trainer trainer3 = new Trainer("Rusai Denis", "rusaidenis@gmail.com", "0734119845", "kickboxing, weight lifting");
+        Trainer trainer4 = new Trainer("Ana Popescu", "anapopescu@gmail.com", "0734829450", "yoga, pilates");
+        Trainer trainer5 = new Trainer("Alina Carcea", "alinacarcea@gmail.com", "0745012367", "pilates, yoga");
+        trainer1.setId(1);
+        trainer2.setId(2);
+        trainer3.setId(3);
+        trainer4.setId(4);
+        trainer5.setId(5);
 
         ArrayList<Trainer> trainersList = new ArrayList<>();
-        trainersList.add(t1);
-        trainersList.add(t2);
-        trainersList.add(t3);
-        trainersList.add(t4);
-        trainersList.add(t5);
+        trainersList.add(trainer1);
+        trainersList.add(trainer2);
+        trainersList.add(trainer3);
+        trainersList.add(trainer4);
+        trainersList.add(trainer5);
 
         // locations
-        Location l1 = new Location("Revo Fit", "Str. Manastur nr.24");
-        Location l2 = new Location("Revo Star", "Str. Buna Ziua nr.102");
-        l1.setId(1);
-        l2.setId(2);
+        Location location1 = new Location("Revo Fit", "Str. Manastur nr.24");
+        Location location2 = new Location("Revo Star", "Str. Buna Ziua nr.102");
+        location1.setId(1);
+        location2.setId(2);
 
         ArrayList<Location> locationsList = new ArrayList<>();
-        locationsList.add(l1);
-        locationsList.add(l2);
+        locationsList.add(location1);
+        locationsList.add(location2);
 
         // rooms
-        Room r1 = new Room("Room 1", 30, l1);
-        Room r2 = new Room("Room 2", 25, l2);
-        Room r3 = new Room("Room 3", 18, l2);
-        Room r4 = new Room("Room 4", 29, l1);
-        Room r5 = new Room("Room 5", 31, l1);
-        r1.setId(1);
-        r2.setId(2);
-        r3.setId(3);
-        r4.setId(4);
-        r5.setId(5);
+        Room room1 = new Room("Room 1", 30, location1);
+        Room room2 = new Room("Room 2", 25, location2);
+        Room room3 = new Room("Room 3", 18, location2);
+        Room room4 = new Room("Room 4", 29, location1);
+        Room room5 = new Room("Room 5", 31, location1);
+        room1.setId(1);
+        room2.setId(2);
+        room3.setId(3);
+        room4.setId(4);
+        room5.setId(5);
 
         ArrayList<Room> roomList = new ArrayList<>();
-        roomList.add(r1);
-        roomList.add(r2);
-        roomList.add(r3);
-        roomList.add(r4);
-        roomList.add(r5);
+        roomList.add(room1);
+        roomList.add(room2);
+        roomList.add(room3);
+        roomList.add(room4);
+        roomList.add(room5);
 
         // members
-        ArrayList<FitnessClass> mihaelaClasses = new ArrayList<>();
-        Member m1 = new Member("Hrihor Mihaela", "mihaelahrihor@gmail.com", "0758909520", LocalDate.ofYearDay(2024, 12), "Premium", mihaelaClasses);
-        m1.setId(1);
+        ArrayList<FitnessClass> member1Classes = new ArrayList<>();
+        Member member1 = new Member("Hrihor Mihaela", "mihaelahrihor@gmail.com", "0758909520", LocalDate.ofYearDay(2024, 12), "Premium", member1Classes);
+        member1.setId(1);
 
-        ArrayList<FitnessClass> danaClasses = new ArrayList<>();
-        Member m2 = new Member("Matei Dana", "mateidana@gmail.com", "0771367002", LocalDate.ofYearDay(2024, 67), "Student", danaClasses);
-        m2.setId(2);
+        ArrayList<FitnessClass> member2Classes = new ArrayList<>();
+        Member member2 = new Member("Matei Dana", "mateidana@gmail.com", "0771367002", LocalDate.ofYearDay(2024, 67), "Student", member2Classes);
+        member2.setId(2);
 
-        ArrayList<FitnessClass> mirunaClasses = new ArrayList<>();
-        Member m3 = new Member("Mitri Miruna", "mitrimiruna@gmail.com", "0758867145", LocalDate.ofYearDay(2023, 47), "Basic", mirunaClasses);
-        m3.setId(3);
+        ArrayList<FitnessClass> member3Classes = new ArrayList<>();
+        Member member3 = new Member("Mitri Miruna", "mitrimiruna@gmail.com", "0758867145", LocalDate.ofYearDay(2023, 47), "Basic", member3Classes);
+        member3.setId(3);
 
-        ArrayList<FitnessClass> kathrinClasses = new ArrayList<>();
-        Member m4 = new Member("Berceaengels Kathrin", "kathrinberceaengels@gmail.com", "0745602416", LocalDate.ofYearDay(2020, 101), "Premium", kathrinClasses);
-        m4.setId(4);
+        ArrayList<FitnessClass> member4Classes = new ArrayList<>();
+        Member member4 = new Member("Berceaengels Kathrin", "kathrinberceaengels@gmail.com", "0745602416", LocalDate.ofYearDay(2020, 101), "Premium", member4Classes);
+        member4.setId(4);
 
-        ArrayList<FitnessClass> cristianaClasses = new ArrayList<>();
-        Member m5 = new Member("Bleoca Cristiana", "cristianableoca@gmail.com", "0790143267", LocalDate.ofYearDay(2023, 258), "Student", cristianaClasses);
-        m5.setId(5);
+        ArrayList<FitnessClass> member5Classes = new ArrayList<>();
+        Member member5 = new Member("Bleoca Cristiana", "cristianableoca@gmail.com", "0790143267", LocalDate.ofYearDay(2023, 258), "Student", member5Classes);
+        member5.setId(5);
 
         ArrayList<Member> membersList = new ArrayList<>();
-        membersList.add(m1);
-        membersList.add(m2);
-        membersList.add(m3);
-        membersList.add(m4);
-        membersList.add(m5);
+        membersList.add(member1);
+        membersList.add(member2);
+        membersList.add(member3);
+        membersList.add(member4);
+        membersList.add(member5);
 
         // memberships
-        ArrayList<Member> studentMs = new ArrayList<>();
-        studentMs.add(m2);
-        studentMs.add(m5);
+        ArrayList<Member> studentMembershipList = new ArrayList<>();
+        studentMembershipList.add(member2);
+        studentMembershipList.add(member5);
 
-        Membership studentMembership = new Membership("Student", studentMs, 150);
+        Membership studentMembership = new Membership("Student", studentMembershipList, 150);
         studentMembership.setId(1);
 
-        ArrayList<Member> premiumMs = new ArrayList<>();
-        premiumMs.add(m1);
-        premiumMs.add(m4);
+        ArrayList<Member> premiumMembershipList = new ArrayList<>();
+        premiumMembershipList.add(member1);
+        premiumMembershipList.add(member4);
 
-        Membership premiumMembership = new Membership("Premium", premiumMs, 250);
+        Membership premiumMembership = new Membership("Premium", premiumMembershipList, 250);
         premiumMembership.setId(2);
 
-        ArrayList<Member> basicMs = new ArrayList<>();
-        basicMs.add(m3);
+        ArrayList<Member> basicMembershipList = new ArrayList<>();
+        basicMembershipList.add(member3);
 
-        Membership basicMembership = new Membership("Basic", basicMs, 200);
+        Membership basicMembership = new Membership("Basic", basicMembershipList, 200);
         basicMembership.setId(3);
 
         ArrayList<Membership> membershipList = new ArrayList<>();
@@ -344,112 +344,302 @@ public class UI {
         membershipList.add(studentMembership);
 
         // equipments
-        ArrayList<FitnessClass> e1FcList = new ArrayList<>();
-        Equipment e1 = new Equipment("weights", 50, e1FcList);
-        e1.setId(1);
+        ArrayList<FitnessClass> classesWithWeights = new ArrayList<>();
+        Equipment weights = new Equipment("weights", 50, classesWithWeights);
+        weights.setId(1);
 
-        ArrayList<FitnessClass> e2FcList = new ArrayList<>();
-        Equipment e2 = new Equipment("mattresses", 30, e2FcList);
-        e2.setId(2);
+        ArrayList<FitnessClass> classesWithMattresses = new ArrayList<>();
+        Equipment mattresses = new Equipment("mattresses", 30, classesWithMattresses);
+        mattresses.setId(2);
 
-        ArrayList<FitnessClass> e3FcList = new ArrayList<>();
-        Equipment e3 = new Equipment("treadmill", 10, e3FcList);
-        e3.setId(3);
+        ArrayList<FitnessClass> classesWithTreadmills = new ArrayList<>();
+        Equipment treadmill = new Equipment("treadmill", 10, classesWithTreadmills);
+        treadmill.setId(3);
 
-        ArrayList<FitnessClass> e4FcList = new ArrayList<>();
-        Equipment e4 = new Equipment("leg press", 5, e4FcList);
-        e4.setId(4);
+        ArrayList<FitnessClass> classesWithLegPresses = new ArrayList<>();
+        Equipment legPress = new Equipment("leg press", 5, classesWithLegPresses);
+        legPress.setId(4);
+
+        ArrayList<FitnessClass> classesWithFoamRollers = new ArrayList<>();
+        Equipment foamRoller = new Equipment("foam roller", 10, classesWithFoamRollers);
+        foamRoller.setId(5);
+
+        ArrayList<FitnessClass> classesWithResistenceBands = new ArrayList<>();
+        Equipment resistanceBands = new Equipment("resistance bands", 12, classesWithResistenceBands);
+        resistanceBands.setId(6);
+
+        ArrayList<FitnessClass> classesWithPilatesRings = new ArrayList<>();
+        Equipment pilatesRing = new Equipment("pilates ring", 8, classesWithPilatesRings);
+        pilatesRing.setId(7);
+
+        ArrayList<FitnessClass> classesWithYogaBlocks = new ArrayList<>();
+        Equipment yogaBlocks = new Equipment("yoga blocks", 40, classesWithYogaBlocks);
+        yogaBlocks.setId(8);
+
+        ArrayList<FitnessClass> classesWithJumpRopes = new ArrayList<>();
+        Equipment jumpRope = new Equipment("jump rope", 25, classesWithJumpRopes);
+        jumpRope.setId(9);
+
+        ArrayList<FitnessClass> classesWithAirBikes = new ArrayList<>();
+        Equipment airBike = new Equipment("air bike", 10, classesWithAirBikes);
+        airBike.setId(10);
+
+        ArrayList<FitnessClass> classesWithBoxingGloves = new ArrayList<>();
+        Equipment boxingGloves = new Equipment("boxing gloves", 10, classesWithBoxingGloves);
+        boxingGloves.setId(11);
+
+        ArrayList<FitnessClass> classesWithHeadgears = new ArrayList<>();
+        Equipment headgear = new Equipment("headgear", 10, classesWithHeadgears);
+        headgear.setId(12);
+
+        ArrayList<FitnessClass> classesWithPunchingBags = new ArrayList<>();
+        Equipment punchingBags = new Equipment("punching bags", 10, classesWithPunchingBags);
+        punchingBags.setId(13);
 
         ArrayList<Equipment> equipmentList = new ArrayList<>();
-        equipmentList.add(e1);
-        equipmentList.add(e2);
-        equipmentList.add(e3);
-        equipmentList.add(e4);
+        equipmentList.add(weights);
+        equipmentList.add(mattresses);
+        equipmentList.add(treadmill);
+        equipmentList.add(legPress);
+        equipmentList.add(foamRoller);
+        equipmentList.add(resistanceBands);
+        equipmentList.add(pilatesRing);
+        equipmentList.add(yogaBlocks);
+        equipmentList.add(jumpRope);
+        equipmentList.add(airBike);
+        equipmentList.add(boxingGloves);
+        equipmentList.add(headgear);
+        equipmentList.add(punchingBags);
 
-        // feedbacks
-        ArrayList<Equipment> eqForFClass1 = new ArrayList<>();
-        eqForFClass1.add(e4);
-        ArrayList<Member> f1Members = new ArrayList<>();
-        f1Members.add(m1);
-        f1Members.add(m3);
-        ArrayList<Feedback> fBackForFClass1List = new ArrayList<>();
-        FitnessClass fClass1 = new FitnessClass("kickboxing", LocalDateTime.of(2024, 11, 20, 12, 30), LocalDateTime.of(2024, 11, 20, 14, 30), t1, r2, 18, r2.getLocation(), fBackForFClass1List, f1Members, eqForFClass1);
-        fClass1.setId(1);
-        Feedback fBack1 = new Feedback(m1, fClass1, 4, "Had a great time but the class was a little too exhausting for a beginner");
-        fBack1.setId(1);
-        fBackForFClass1List.add(fBack1);
+        ArrayList<Equipment> yogaEquipment = new ArrayList<>();
+        yogaEquipment.add(mattresses);
+        yogaEquipment.add(foamRoller);
+        yogaEquipment.add(resistanceBands);
+        yogaEquipment.add(yogaBlocks);
+
+        ArrayList<Equipment> pilatesEquipment = new ArrayList<>();
+        pilatesEquipment.add(mattresses);
+        pilatesEquipment.add(foamRoller);
+        pilatesEquipment.add(resistanceBands);
+        pilatesEquipment.add(pilatesRing);
+
+        ArrayList<Equipment> boxEquipment = new ArrayList<>();
+        boxEquipment.add(boxingGloves);
+        boxEquipment.add(punchingBags);
+        boxEquipment.add(headgear);
+        boxEquipment.add(weights);
+
+        ArrayList<Equipment> cardioEquipment = new ArrayList<>();
+        cardioEquipment.add(jumpRope);
+        cardioEquipment.add(treadmill);
+        cardioEquipment.add(airBike);
+
+        ArrayList<Equipment> weightLiftingEquipment = new ArrayList<>();
+        weightLiftingEquipment.add(weights);
+        weightLiftingEquipment.add(legPress);
+        weightLiftingEquipment.add(airBike);
 
         // fitness classes
-        ArrayList<Equipment> eqForFClass2 = new ArrayList<>();
-        eqForFClass1.add(e3);
-        ArrayList<Member> f2Members = new ArrayList<>();
-        f2Members.add(m2);
-        f2Members.add(m4);
-        f2Members.add(m5);
-        ArrayList<Feedback> fBackForFClass2List = new ArrayList<>();
-        FitnessClass fClass2 = new FitnessClass("cardio", LocalDateTime.of(2024, 11, 27, 17, 0), LocalDateTime.of(2024, 11, 27, 18, 0), t2, r1, 11, r1.getLocation(), fBackForFClass2List, f2Members, eqForFClass2);
-        fClass2.setId(2);
-        Feedback fBack2 = new Feedback(m2, fClass2, 2, "The trainer seemed of..");
-        fBack2.setId(2);
-        fBackForFClass2List.add(fBack2);
+        ArrayList<Feedback> feedbackListForClass1 = new ArrayList<>();
+        ArrayList<Member> membersForClass1 = new ArrayList<>();
+        membersForClass1.add(member2);
+        membersForClass1.add(member3);
+        membersForClass1.add(member5);
+        FitnessClass class1 = new FitnessClass("yoga", LocalDateTime.of(2024, 4, 3, 10, 30), LocalDateTime.of(2024, 4, 3, 12, 30), trainer4, room1, 20, room1.getLocation(), feedbackListForClass1, membersForClass1, yogaEquipment);
 
-        ArrayList<Feedback> feedbackList = new ArrayList();
-        feedbackList.add(fBack1);
-        feedbackList.add(fBack2);
+        ArrayList<Feedback> feedbackListForClass2 = new ArrayList<>();
+        ArrayList<Member> membersForClass2 = new ArrayList<>();
+        membersForClass2.add(member2);
+        membersForClass2.add(member3);
+        membersForClass2.add(member1);
+        FitnessClass class2 = new FitnessClass("yoga", LocalDateTime.of(2024, 7, 3, 13, 0), LocalDateTime.of(2024, 7, 3, 15, 0), trainer5, room2, 20, room2.getLocation(), feedbackListForClass2, membersForClass2, yogaEquipment);
 
-        // reservations
-        Reservation res1 = new Reservation(m1, fClass1, LocalDateTime.of(2024, 11, 20, 12, 30));
-        Reservation res2 = new Reservation(m2, fClass2, LocalDateTime.of(2024, 11, 27, 17, 0));
-        res1.setId(1);
-        res2.setId(2);
+        ArrayList<Feedback> feedbackListForClass3 = new ArrayList<>();
+        ArrayList<Member> membersForClass3 = new ArrayList<>();
+        membersForClass3.add(member1);
+        membersForClass3.add(member3);
+        membersForClass3.add(member4);
+        FitnessClass class3 = new FitnessClass("yoga", LocalDateTime.of(2024, 12, 5, 10, 0), LocalDateTime.of(2024, 12, 5, 12, 0), trainer5, room1, 20, room1.getLocation(), feedbackListForClass3, membersForClass3, yogaEquipment);
 
-        ArrayList<Reservation> reservationsList = new ArrayList<>();
-        reservationsList.add(res1);
-        reservationsList.add(res2);
+        ArrayList<Feedback> feedbackListForClass4 = new ArrayList<>();
+        ArrayList<Member> membersForClass4 = new ArrayList<>();
+        membersForClass4.add(member1);
+        membersForClass4.add(member5);
+        membersForClass4.add(member2);
+        FitnessClass class4 = new FitnessClass("pilates", LocalDateTime.of(2024, 7, 5, 11, 30), LocalDateTime.of(2024, 7, 5, 13, 0), trainer4, room3, 20, room3.getLocation(), feedbackListForClass4, membersForClass4, pilatesEquipment);
+
+        ArrayList<Feedback> feedbackListForClass5 = new ArrayList<>();
+        ArrayList<Member> membersForClass5 = new ArrayList<>();
+        membersForClass5.add(member1);
+        membersForClass5.add(member5);
+        membersForClass5.add(member2);
+        membersForClass5.add(member4);
+        FitnessClass class5 = new FitnessClass("pilates", LocalDateTime.of(2024, 10, 10, 10, 30), LocalDateTime.of(2024, 10, 10, 12, 30), trainer4, room3, 20, room3.getLocation(), feedbackListForClass5, membersForClass5, pilatesEquipment);
+
+        ArrayList<Feedback> feedbackListForClass6 = new ArrayList<>();
+        ArrayList<Member> membersForClass6 = new ArrayList<>();
+        membersForClass6.add(member1);
+        membersForClass6.add(member2);
+        membersForClass6.add(member3);
+        membersForClass6.add(member4);
+        FitnessClass class6 = new FitnessClass("pilates", LocalDateTime.of(2024, 12, 11, 10, 30), LocalDateTime.of(2024, 12, 11, 12, 30), trainer5, room4, 20, room4.getLocation(), feedbackListForClass6, membersForClass6, pilatesEquipment);
+
+        ArrayList<Feedback> feedbackListForClass7 = new ArrayList<>();
+        ArrayList<Member> membersForClass7 = new ArrayList<>();
+        membersForClass7.add(member1);
+        membersForClass7.add(member5);
+        membersForClass7.add(member4);
+        FitnessClass class7 = new FitnessClass("kickboxing", LocalDateTime.of(2024, 4, 20, 17, 30), LocalDateTime.of(2024, 4, 20, 19, 30), trainer2, room5, 20, room5.getLocation(), feedbackListForClass7, membersForClass7, boxEquipment);
+
+        ArrayList<Feedback> feedbackListForClass8 = new ArrayList<>();
+        ArrayList<Member> membersForClass8 = new ArrayList<>();
+        membersForClass8.add(member1);
+        membersForClass8.add(member5);
+        membersForClass8.add(member2);
+        FitnessClass class8 = new FitnessClass("kickboxing", LocalDateTime.of(2024, 8, 20, 17, 30), LocalDateTime.of(2024, 8, 20, 19, 30), trainer3, room2, 20, room2.getLocation(), feedbackListForClass8, membersForClass8, boxEquipment);
+
+        ArrayList<Feedback> feedbackListForClass9 = new ArrayList<>();
+        ArrayList<Member> membersForClass9 = new ArrayList<>();
+        membersForClass9.add(member3);
+        membersForClass9.add(member4);
+        membersForClass9.add(member2);
+        FitnessClass class9 = new FitnessClass("kickboxing", LocalDateTime.of(2024, 12, 22, 15, 30), LocalDateTime.of(2024, 12, 22, 17, 30), trainer2, room4, 20, room4.getLocation(), feedbackListForClass9, membersForClass9, boxEquipment);
+
+        ArrayList<Feedback> feedbackListForClass10 = new ArrayList<>();
+        ArrayList<Member> membersForClass10 = new ArrayList<>();
+        membersForClass10.add(member3);
+        membersForClass10.add(member4);
+        membersForClass10.add(member2);
+        membersForClass10.add(member1);
+        FitnessClass class10 = new FitnessClass("cardio", LocalDateTime.of(2024, 9, 21, 13, 30), LocalDateTime.of(2024, 9, 21, 15, 30), trainer1, room4, 20, room4.getLocation(), feedbackListForClass10, membersForClass10, cardioEquipment);
+
+        ArrayList<Feedback> feedbackListForClass11 = new ArrayList<>();
+        ArrayList<Member> membersForClass11 = new ArrayList<>();
+        membersForClass11.add(member4);
+        membersForClass11.add(member5);
+        membersForClass11.add(member1);
+        FitnessClass class11 = new FitnessClass("cardio", LocalDateTime.of(2024, 1, 1, 12, 30), LocalDateTime.of(2024, 11, 1, 14, 30), trainer2, room3, 20, room3.getLocation(), feedbackListForClass11, membersForClass11, cardioEquipment);
+
+        ArrayList<Feedback> feedbackListForClass12 = new ArrayList<>();
+        ArrayList<Member> membersForClass12 = new ArrayList<>();
+        membersForClass12.add(member2);
+        membersForClass12.add(member3);
+        membersForClass12.add(member1);
+        FitnessClass class12 = new FitnessClass("cardio", LocalDateTime.of(2024, 12, 12, 12, 30), LocalDateTime.of(2024, 12, 12, 14, 30), trainer1, room5, 20, room5.getLocation(), feedbackListForClass12, membersForClass12, cardioEquipment);
+
+        ArrayList<Feedback> feedbackListForClass13 = new ArrayList<>();
+        ArrayList<Member> membersForClass13 = new ArrayList<>();
+        membersForClass13.add(member4);
+        membersForClass13.add(member5);
+        membersForClass13.add(member1);
+        FitnessClass class13 = new FitnessClass("weight lifting", LocalDateTime.of(2024, 10, 12, 10, 30), LocalDateTime.of(2024, 10, 12, 12, 30), trainer1, room1, 20, room1.getLocation(), feedbackListForClass13, membersForClass13, weightLiftingEquipment);
+
+        ArrayList<Feedback> feedbackListForClass14 = new ArrayList<>();
+        ArrayList<Member> membersForClass14 = new ArrayList<>();
+        membersForClass14.add(member4);
+        membersForClass14.add(member3);
+        membersForClass14.add(member2);
+        FitnessClass class14 = new FitnessClass("weight lifting", LocalDateTime.of(2024, 11, 2, 10, 30), LocalDateTime.of(2024, 11, 2, 12, 30), trainer2, room4, 20, room4.getLocation(), feedbackListForClass14, membersForClass14, weightLiftingEquipment);
+
+        ArrayList<Feedback> feedbackListForClass15 = new ArrayList<>();
+        ArrayList<Member> membersForClass15 = new ArrayList<>();
+        membersForClass15.add(member4);
+        membersForClass15.add(member1);
+        membersForClass15.add(member2);
+        membersForClass15.add(member5);
+        FitnessClass class15 = new FitnessClass("weight lifting", LocalDateTime.of(2024, 12, 20, 10, 30), LocalDateTime.of(2024, 12, 20, 12, 30), trainer3, room3, 20, room3.getLocation(), feedbackListForClass15, membersForClass15, weightLiftingEquipment);
+
+
+        // feedbacks
+        Feedback feedback1 = new Feedback(member2, class1, 5, "Nice energy, I really enjoyed this class!");
+        feedbackListForClass1.add(feedback1);
+        Feedback feedback2 = new Feedback(member3, class2, 4, "Great class!");
+        feedbackListForClass2.add(feedback2);
+        Feedback feedback3 = new Feedback(member4, class3, 4, "I'll definitely come again!");
+        feedbackListForClass3.add(feedback3);
+        Feedback feedback4 = new Feedback(member1, class4, 3, "Niceeee!!");
+        feedbackListForClass4.add(feedback4);
+        Feedback feedback5 = new Feedback(member4, class5, 5, "10/10");
+        feedbackListForClass5.add(feedback5);
+        Feedback feedback6 = new Feedback(member1, class6, 5, "10/10");
+        feedbackListForClass6.add(feedback6);
+        Feedback feedback7 = new Feedback(member5, class7, 3, "It was fine..");
+        feedbackListForClass7.add(feedback7);
+        Feedback feedback8 = new Feedback(member1, class8, 5, "Had a great time, I'll definitely come again!");
+        feedbackListForClass8.add(feedback8);
+        Feedback feedback9 = new Feedback(member2, class9, 4, "Great class!");
+        feedbackListForClass9.add(feedback9);
+        Feedback feedback10 = new Feedback(member3, class10, 5, "Amasingggg!!");
+        feedbackListForClass10.add(feedback10);
+        Feedback feedback11 = new Feedback(member4, class11, 3, "It was exhausting..");
+        feedbackListForClass11.add(feedback11);
+        Feedback feedback12 = new Feedback(member1, class12, 5, "10/10");
+        feedbackListForClass12.add(feedback12);
+        Feedback feedback13 = new Feedback(member5, class13, 2, "Boring..");
+        feedbackListForClass13.add(feedback13);
+        Feedback feedback14 = new Feedback(member3, class14, 1, "Eww.");
+        feedbackListForClass14.add(feedback14);
+        Feedback feedback15 = new Feedback(member1, class15, 4, "Had a great time!");
+        feedbackListForClass15.add(feedback15);
 
         // repos, services, controller and ui
-        InMemoryRepository<Equipment> equipmentRepo = new InMemoryRepository<>();
-        equipmentRepo.create(e1);
-        equipmentRepo.create(e2);
-        equipmentRepo.create(e3);
-        equipmentRepo.create(e4);
-        InMemoryRepository<Feedback> feedbackRepo = new InMemoryRepository<>();
-        feedbackRepo.create(fBack1);
-        feedbackRepo.create(fBack2);
-        InMemoryRepository<FitnessClass> fitnessClassRepo = new InMemoryRepository<>();
-        fitnessClassRepo.create(fClass1);
-        fitnessClassRepo.create(fClass2);
-        InMemoryRepository<Location> locationRepo = new InMemoryRepository<>();
-        locationRepo.create(l1);
-        locationRepo.create(l2);
-        InMemoryRepository<Member> memberRepo = new InMemoryRepository<>();
-        memberRepo.create(m1);
-        memberRepo.create(m2);
-        memberRepo.create(m3);
-        memberRepo.create(m4);
-        memberRepo.create(m5);
-        InMemoryRepository<Membership> membershipRepo = new InMemoryRepository<>();
-        membershipRepo.create(basicMembership);
-        membershipRepo.create(studentMembership);
-        membershipRepo.create(premiumMembership);
-        InMemoryRepository<Reservation> reservationRepo = new InMemoryRepository<>();
-        reservationRepo.create(res1);
-        reservationRepo.create(res2);
-        InMemoryRepository<Room> roomRepo = new InMemoryRepository<>();
-        roomRepo.create(r1);
-        roomRepo.create(r2);
-        roomRepo.create(r3);
-        roomRepo.create(r4);
-        roomRepo.create(r5);
-        InMemoryRepository<Trainer> trainerRepo = new InMemoryRepository<>();
-        trainerRepo.create(t1);
-        trainerRepo.create(t2);
-        trainerRepo.create(t3);
-        trainerRepo.create(t4);
-        trainerRepo.create(t5);
+        InMemoryRepository<Equipment> equipmentInMemoRepo = new InMemoryRepository<>();
+        equipmentInMemoRepo.create(weights);
+        equipmentInMemoRepo.create(mattresses);
+        equipmentInMemoRepo.create(treadmill);
+        equipmentInMemoRepo.create(legPress);
+        equipmentInMemoRepo.create(foamRoller);
+        equipmentInMemoRepo.create(resistanceBands);
+        equipmentInMemoRepo.create(pilatesRing);
+        equipmentInMemoRepo.create(yogaBlocks);
+        equipmentInMemoRepo.create(jumpRope);
+        equipmentInMemoRepo.create(airBike);
+        equipmentInMemoRepo.create(boxingGloves);
+        equipmentInMemoRepo.create(headgear);
+        equipmentInMemoRepo.create(punchingBags);
+        InMemoryRepository<Feedback> feedbackInMemoRepo = new InMemoryRepository<>();
+        feedbackInMemoRepo.create(feedback1);
+        feedbackInMemoRepo.create(feedback2);
+        feedbackInMemoRepo.create(feedback3);
+        feedbackInMemoRepo.create(feedback4);
+        feedbackInMemoRepo.create(feedback5);
+        feedbackInMemoRepo.create(feedback6);
+        InMemoryRepository<FitnessClass> fitnessClassInMemoRepo = new InMemoryRepository<>();
+        fitnessClassInMemoRepo.create(class1);
+        fitnessClassInMemoRepo.create(class2);
+        fitnessClassInMemoRepo.create(class3);
+        fitnessClassInMemoRepo.create(class4);
+        InMemoryRepository<Location> locationInMemoRepo = new InMemoryRepository<>();
+        locationInMemoRepo.create(location1);
+        locationInMemoRepo.create(location2);
+        InMemoryRepository<Member> memberInMemoRepo = new InMemoryRepository<>();
+        memberInMemoRepo.create(member1);
+        memberInMemoRepo.create(member2);
+        memberInMemoRepo.create(member3);
+        memberInMemoRepo.create(member4);
+        memberInMemoRepo.create(member5);
+        InMemoryRepository<Membership> membershipInMemoRepo = new InMemoryRepository<>();
+        membershipInMemoRepo.create(basicMembership);
+        membershipInMemoRepo.create(studentMembership);
+        membershipInMemoRepo.create(premiumMembership);
+        InMemoryRepository<Reservation> reservationInMemoRepo = new InMemoryRepository<>();
+//        reservationInMemoRepo.create(res1);
+//        reservationInMemoRepo.create(res2);
+        InMemoryRepository<Room> roomInMemoRepo = new InMemoryRepository<>();
+        roomInMemoRepo.create(room1);
+        roomInMemoRepo.create(room2);
+        roomInMemoRepo.create(room3);
+        roomInMemoRepo.create(room4);
+        roomInMemoRepo.create(room5);
+        InMemoryRepository<Trainer> trainerInMemoRepo = new InMemoryRepository<>();
+        trainerInMemoRepo.create(trainer1);
+        trainerInMemoRepo.create(trainer2);
+        trainerInMemoRepo.create(trainer3);
+        trainerInMemoRepo.create(trainer4);
+        trainerInMemoRepo.create(trainer5);
 
-        FitnessService service = new FitnessService(equipmentRepo, feedbackRepo, fitnessClassRepo, locationRepo, memberRepo, membershipRepo, reservationRepo, roomRepo, trainerRepo);
-        FitnessController controller = new FitnessController(service);
+        FitnessService inMemoryService = new FitnessService(equipmentInMemoRepo, feedbackInMemoRepo, fitnessClassInMemoRepo, locationInMemoRepo, memberInMemoRepo, membershipInMemoRepo, reservationInMemoRepo, roomInMemoRepo, trainerInMemoRepo);
+        FitnessController controller = new FitnessController(inMemoryService);
 
         UI ui = new UI(controller, membersList, trainersList);
         ui.login();
