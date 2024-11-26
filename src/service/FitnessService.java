@@ -22,7 +22,6 @@ public class FitnessService {
     private final IRepository<Location> locationRepository;
     private final IRepository<Member> memberRepository;
     private final IRepository<Membership> membershipRepository;
-    private final IRepository<Reservation> reservationRepository;
     private final IRepository<Room> roomRepository;
     private final IRepository<Trainer> trainerRepository;
 
@@ -34,18 +33,16 @@ public class FitnessService {
      * @param locationRepository      The repository managing Location entities.
      * @param memberRepository        The repository managing Member entities.
      * @param membershipRepository    The repository managing Membership entities.
-     * @param reservationRepository   The repository managing Reservation entities.
      * @param roomRepository          The repository managing Room entities.
      * @param trainerRepository       The repository managing Trainer entities.
      */
-    public FitnessService(IRepository<Equipment> equipmentRepository, IRepository<Feedback> feedbackRepository, IRepository<FitnessClass> fitnessClassRepository, IRepository<Location> locationRepository, IRepository<Member> memberRepository, IRepository<Membership> membershipRepository, IRepository<Reservation> reservationRepository, IRepository<Room> roomRepository, IRepository<Trainer> trainerRepository) {
+    public FitnessService(IRepository<Equipment> equipmentRepository, IRepository<Feedback> feedbackRepository, IRepository<FitnessClass> fitnessClassRepository, IRepository<Location> locationRepository, IRepository<Member> memberRepository, IRepository<Membership> membershipRepository, IRepository<Room> roomRepository, IRepository<Trainer> trainerRepository) {
         this.equipmentRepository = equipmentRepository;
         this.feedbackRepository = feedbackRepository;
         this.fitnessClassRepository = fitnessClassRepository;
         this.locationRepository = locationRepository;
         this.memberRepository = memberRepository;
         this.membershipRepository = membershipRepository;
-        this.reservationRepository = reservationRepository;
         this.roomRepository = roomRepository;
         this.trainerRepository = trainerRepository;
     }
@@ -661,100 +658,6 @@ public class FitnessService {
     }
 
     /**
-     * Retrieves a reservation by its unique ID.
-     * @param id The unique identifier of the reservation.
-     * @return The Reservation object with the given ID.
-     * @throws IllegalArgumentException if no reservation with the given ID exists.
-     */
-    public Reservation getReservation(int id) {
-        Reservation reservation = reservationRepository.read(id);
-        if (reservation == null) {
-            throw new IllegalArgumentException("Reservation with ID " + id + " does not exist.");
-        }
-        return reservation;
-    }
-
-    /**
-     * Adds a new reservation to the repository.
-     * @param member          The member making the reservation. Must not be null.
-     * @param fitnessClass    The fitness class being reserved. Must not be null.
-     * @param reservationDate The date and time of the reservation. Must be a future date and cannot be null.
-     * @throws IllegalArgumentException if any of the parameters are invalid, such as null values or a reservation date in the past.
-     */
-    public void addReservation(Member member, FitnessClass fitnessClass, LocalDateTime reservationDate) {
-        if (member == null) {
-            throw new IllegalArgumentException("Member cannot be null.");
-        }
-        if (fitnessClass == null) {
-            throw new IllegalArgumentException("Fitness class cannot be null.");
-        }
-        if (reservationDate == null || reservationDate.isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Reservation date must be a future date and cannot be null.");
-        }
-        int newID = 1;
-        List<Reservation> allReservations = reservationRepository.getAll();
-        for (Reservation reservation : allReservations) {
-            if (reservation.getId() >= newID) {
-                newID = reservation.getId() + 1;
-            }
-        }
-        Reservation newReservation = new Reservation(member, fitnessClass, reservationDate);
-        newReservation.setId(newID);
-        reservationRepository.create(newReservation);
-    }
-
-    /**
-     * Updates an existing reservation's details in the repository.
-     * @param id              The unique ID of the reservation to update.
-     * @param member          The updated member making the reservation. Must not be null.
-     * @param fitnessClass    The updated fitness class being reserved. Must not be null.
-     * @param reservationDate The updated reservation date and time. Must be a future date and cannot be null.
-     * @throws IllegalArgumentException if any of the parameters are invalid, or if the reservation with the given ID does not exist.
-     */
-    public void updateReservation(int id, Member member, FitnessClass fitnessClass, LocalDateTime reservationDate) {
-        if (member == null) {
-            throw new IllegalArgumentException("Member cannot be null.");
-        }
-        if (fitnessClass == null) {
-            throw new IllegalArgumentException("Fitness class cannot be null.");
-        }
-        if (reservationDate == null || reservationDate.isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Reservation date must be a future date and cannot be null.");
-        }
-        Reservation existingReservation = getReservation(id);
-        existingReservation.setMember(member);
-        existingReservation.setFitnessClass(fitnessClass);
-        existingReservation.setReservationDate(reservationDate);
-        reservationRepository.update(existingReservation);
-    }
-
-    /**
-     * Deletes a reservation from the repository by its unique ID.
-     * @param id The unique identifier of the reservation to delete.
-     * @throws IllegalArgumentException if no reservation with the given ID exists.
-     */
-    public void deleteReservation(int id) {
-        Reservation existingReservation = getReservation(id);
-        if (existingReservation == null) {
-            throw new IllegalArgumentException("Reservation with ID " + id + " does not exist.");
-        }
-        reservationRepository.delete(id);
-    }
-
-    /**
-     * Retrieves all reservations from the repository.
-     * @return A list of all Reservation objects in the repository.
-     * @throws IllegalStateException if no reservations are available in the repository.
-     */
-    public List<Reservation> getAllReservations() {
-        List<Reservation> reservations = reservationRepository.getAll();
-        if (reservations.isEmpty()) {
-            throw new IllegalStateException("No reservations available.");
-        }
-        return reservations;
-    }
-
-    /**
      * Retrieves a room by its unique ID.
      * @param id The unique identifier of the room.
      * @return The Room object with the given ID.
@@ -974,7 +877,30 @@ public class FitnessService {
     }
 
     /**
-     * Retrieves all upcoming fitness classes.
+     * Retrieves all upcoming fitness classes that a member is not registered in
+     * Only classes that have not yet started are included in the result.
+     * @return A list of upcoming FitnessClass objects.
+     * @throws IllegalArgumentException if no upcoming classes are available.
+     */
+    public List<FitnessClass> getAllUpcomingClassesForMemberUse(int memberId) {
+        List<FitnessClass> upcomingClasses = new ArrayList<>();
+        List<FitnessClass> allClasses = fitnessClassRepository.getAll();
+        Member member = getMember(memberId);
+        for (FitnessClass fitnessClass : allClasses) {
+                if (fitnessClass.getStartTime().isAfter(LocalDateTime.now())) {
+                    for (Member memb : fitnessClass.getMembers()) {
+                        if (!memb.equals(member)){
+                            upcomingClasses.add(fitnessClass);
+                        }
+                    }
+                }
+        }
+        if (upcomingClasses != null) {return upcomingClasses;}
+        else throw new IllegalArgumentException("No existing upcoming classes at the moment.");
+    }
+
+    /**
+     * Retrieves all upcoming fitness classes
      * Only classes that have not yet started are included in the result.
      * @return A list of upcoming FitnessClass objects.
      * @throws IllegalArgumentException if no upcoming classes are available.
@@ -983,9 +909,9 @@ public class FitnessService {
         List<FitnessClass> upcomingClasses = new ArrayList<>();
         List<FitnessClass> allClasses = fitnessClassRepository.getAll();
         for (FitnessClass fitnessClass : allClasses) {
-                if (fitnessClass.getStartTime().isAfter(LocalDateTime.now())) {
-                    upcomingClasses.add(fitnessClass);
-                }
+            if (fitnessClass.getStartTime().isAfter(LocalDateTime.now())) {
+                upcomingClasses.add(fitnessClass);
+            }
         }
         if (upcomingClasses != null) {return upcomingClasses;}
         else throw new IllegalArgumentException("No existing upcoming classes at the moment.");
@@ -1070,8 +996,8 @@ public class FitnessService {
      * excluding more detailed information (using toStringLessInfo()).
      * Note: This method is for viewing the schedule in a simple format.
      */
-    public void viewSchedule() {
-        List<FitnessClass> upcomingClasses = getAllUpcomingClasses();
+    public void viewSchedule(int memberId) {
+        List<FitnessClass> upcomingClasses = getAllUpcomingClassesForMemberUse(memberId);
         for(FitnessClass fitnessClass : upcomingClasses) {
             System.out.println(fitnessClass.toStringLessInfo());
         }
@@ -1113,7 +1039,7 @@ public class FitnessService {
             if (fitnessClass.getId() == targetClass.getId()) {
                 continue;
             }
-            if (findSimilarClasses(fitnessClass, targetClass)) {
+            if (findSimilarClasses(fitnessClass, targetClass) && fitnessClass.getStartTime().isAfter(LocalDateTime.now())) {
                 similarClasses.add(fitnessClass);
             }
         }

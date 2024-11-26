@@ -2,6 +2,7 @@ package app;
 
 import model.*;
 import controller.*;
+import repository.FileRepository;
 import repository.InMemoryRepository;
 import service.FitnessService;
 
@@ -126,12 +127,12 @@ public class UI {
             switch (choice){
                 case 1 -> {
                     System.out.println("------------------------------------------ ");
-                    fitnessController.viewSchedule();
+                    fitnessController.viewSchedule(id);
                     System.out.println("------------------------------------------ ");
                 }
                 case 2 -> {
                     System.out.println("------------------------------------------ ");
-                    fitnessController.viewSchedule();
+                    fitnessController.viewSchedule(id);
                     System.out.println("Which class would you like to book? (enter class ID): ");
                     int classId = Integer.parseInt(scanner.nextLine());
                     fitnessController.registerToClass(id, classId);
@@ -139,7 +140,7 @@ public class UI {
                 }
                 case 3 -> {
                     System.out.println("------------------------------------------ ");
-                    fitnessController.viewSchedule();
+                    fitnessController.viewSchedule(id);
                     System.out.println("Which class would you like to drop? (enter class ID): ");
                     int classId = Integer.parseInt(scanner.nextLine());
                     fitnessController.dropClass(id, classId);
@@ -446,6 +447,10 @@ public class UI {
         membersForClass1.add(member3);
         membersForClass1.add(member5);
         FitnessClass class1 = new FitnessClass("yoga", LocalDateTime.of(2024, 4, 3, 10, 30), LocalDateTime.of(2024, 4, 3, 12, 30), trainer4, room1, 20, room1.getLocation(), feedbackListForClass1, membersForClass1, yogaEquipment);
+        class1.setId(1);
+        member2Classes.add(class1);
+        member3Classes.add(class1);
+        member5Classes.add(class1);
 
         ArrayList<Feedback> feedbackListForClass2 = new ArrayList<>();
         ArrayList<Member> membersForClass2 = new ArrayList<>();
@@ -453,6 +458,10 @@ public class UI {
         membersForClass2.add(member3);
         membersForClass2.add(member1);
         FitnessClass class2 = new FitnessClass("yoga", LocalDateTime.of(2024, 7, 3, 13, 0), LocalDateTime.of(2024, 7, 3, 15, 0), trainer5, room2, 20, room2.getLocation(), feedbackListForClass2, membersForClass2, yogaEquipment);
+        class2.setId(2);
+        member1Classes.add(class2);
+        member2Classes.add(class2);
+        member3Classes.add(class2);
 
         ArrayList<Feedback> feedbackListForClass3 = new ArrayList<>();
         ArrayList<Member> membersForClass3 = new ArrayList<>();
@@ -460,6 +469,10 @@ public class UI {
         membersForClass3.add(member3);
         membersForClass3.add(member4);
         FitnessClass class3 = new FitnessClass("yoga", LocalDateTime.of(2024, 12, 5, 10, 0), LocalDateTime.of(2024, 12, 5, 12, 0), trainer5, room1, 20, room1.getLocation(), feedbackListForClass3, membersForClass3, yogaEquipment);
+        class3.setId(3);
+        member1Classes.add(class3);
+        member3Classes.add(class3);
+        member4Classes.add(class3);
 
         ArrayList<Feedback> feedbackListForClass4 = new ArrayList<>();
         ArrayList<Member> membersForClass4 = new ArrayList<>();
@@ -467,6 +480,10 @@ public class UI {
         membersForClass4.add(member5);
         membersForClass4.add(member2);
         FitnessClass class4 = new FitnessClass("pilates", LocalDateTime.of(2024, 7, 5, 11, 30), LocalDateTime.of(2024, 7, 5, 13, 0), trainer4, room3, 20, room3.getLocation(), feedbackListForClass4, membersForClass4, pilatesEquipment);
+        class4.setId(4);
+        member1Classes.add(class4);
+        member2Classes.add(class4);
+        member5Classes.add(class4);
 
         ArrayList<Feedback> feedbackListForClass5 = new ArrayList<>();
         ArrayList<Member> membersForClass5 = new ArrayList<>();
@@ -475,6 +492,11 @@ public class UI {
         membersForClass5.add(member2);
         membersForClass5.add(member4);
         FitnessClass class5 = new FitnessClass("pilates", LocalDateTime.of(2024, 10, 10, 10, 30), LocalDateTime.of(2024, 10, 10, 12, 30), trainer4, room3, 20, room3.getLocation(), feedbackListForClass5, membersForClass5, pilatesEquipment);
+        class5.setId(5);
+        member1Classes.add(class5);
+        member2Classes.add(class5);
+        member4Classes.add(class5);
+        member5Classes.add(class5);
 
         ArrayList<Feedback> feedbackListForClass6 = new ArrayList<>();
         ArrayList<Member> membersForClass6 = new ArrayList<>();
@@ -483,6 +505,11 @@ public class UI {
         membersForClass6.add(member3);
         membersForClass6.add(member4);
         FitnessClass class6 = new FitnessClass("pilates", LocalDateTime.of(2024, 12, 11, 10, 30), LocalDateTime.of(2024, 12, 11, 12, 30), trainer5, room4, 20, room4.getLocation(), feedbackListForClass6, membersForClass6, pilatesEquipment);
+        class6.setId(6);
+        member1Classes.add(class6);
+        member2Classes.add(class6);
+        member3Classes.add(class6);
+        member4Classes.add(class6);
 
         ArrayList<Feedback> feedbackListForClass7 = new ArrayList<>();
         ArrayList<Member> membersForClass7 = new ArrayList<>();
@@ -490,6 +517,10 @@ public class UI {
         membersForClass7.add(member5);
         membersForClass7.add(member4);
         FitnessClass class7 = new FitnessClass("kickboxing", LocalDateTime.of(2024, 4, 20, 17, 30), LocalDateTime.of(2024, 4, 20, 19, 30), trainer2, room5, 20, room5.getLocation(), feedbackListForClass7, membersForClass7, boxEquipment);
+        class7.setId(7);
+        member1Classes.add(class7);
+        member4Classes.add(class7);
+        member5Classes.add(class7);
 
         ArrayList<Feedback> feedbackListForClass8 = new ArrayList<>();
         ArrayList<Member> membersForClass8 = new ArrayList<>();
@@ -497,6 +528,10 @@ public class UI {
         membersForClass8.add(member5);
         membersForClass8.add(member2);
         FitnessClass class8 = new FitnessClass("kickboxing", LocalDateTime.of(2024, 8, 20, 17, 30), LocalDateTime.of(2024, 8, 20, 19, 30), trainer3, room2, 20, room2.getLocation(), feedbackListForClass8, membersForClass8, boxEquipment);
+        class8.setId(8);
+        member1Classes.add(class8);
+        member2Classes.add(class8);
+        member5Classes.add(class8);
 
         ArrayList<Feedback> feedbackListForClass9 = new ArrayList<>();
         ArrayList<Member> membersForClass9 = new ArrayList<>();
@@ -504,6 +539,10 @@ public class UI {
         membersForClass9.add(member4);
         membersForClass9.add(member2);
         FitnessClass class9 = new FitnessClass("kickboxing", LocalDateTime.of(2024, 12, 22, 15, 30), LocalDateTime.of(2024, 12, 22, 17, 30), trainer2, room4, 20, room4.getLocation(), feedbackListForClass9, membersForClass9, boxEquipment);
+        class9.setId(9);
+        member2Classes.add(class9);
+        member3Classes.add(class9);
+        member4Classes.add(class9);
 
         ArrayList<Feedback> feedbackListForClass10 = new ArrayList<>();
         ArrayList<Member> membersForClass10 = new ArrayList<>();
@@ -512,6 +551,11 @@ public class UI {
         membersForClass10.add(member2);
         membersForClass10.add(member1);
         FitnessClass class10 = new FitnessClass("cardio", LocalDateTime.of(2024, 9, 21, 13, 30), LocalDateTime.of(2024, 9, 21, 15, 30), trainer1, room4, 20, room4.getLocation(), feedbackListForClass10, membersForClass10, cardioEquipment);
+        class10.setId(10);
+        member1Classes.add(class10);
+        member2Classes.add(class10);
+        member3Classes.add(class10);
+        member4Classes.add(class10);
 
         ArrayList<Feedback> feedbackListForClass11 = new ArrayList<>();
         ArrayList<Member> membersForClass11 = new ArrayList<>();
@@ -519,6 +563,10 @@ public class UI {
         membersForClass11.add(member5);
         membersForClass11.add(member1);
         FitnessClass class11 = new FitnessClass("cardio", LocalDateTime.of(2024, 1, 1, 12, 30), LocalDateTime.of(2024, 11, 1, 14, 30), trainer2, room3, 20, room3.getLocation(), feedbackListForClass11, membersForClass11, cardioEquipment);
+        class11.setId(11);
+        member1Classes.add(class11);
+        member4Classes.add(class11);
+        member5Classes.add(class11);
 
         ArrayList<Feedback> feedbackListForClass12 = new ArrayList<>();
         ArrayList<Member> membersForClass12 = new ArrayList<>();
@@ -526,6 +574,10 @@ public class UI {
         membersForClass12.add(member3);
         membersForClass12.add(member1);
         FitnessClass class12 = new FitnessClass("cardio", LocalDateTime.of(2024, 12, 12, 12, 30), LocalDateTime.of(2024, 12, 12, 14, 30), trainer1, room5, 20, room5.getLocation(), feedbackListForClass12, membersForClass12, cardioEquipment);
+        class12.setId(12);
+        member1Classes.add(class12);
+        member2Classes.add(class12);
+        member3Classes.add(class12);
 
         ArrayList<Feedback> feedbackListForClass13 = new ArrayList<>();
         ArrayList<Member> membersForClass13 = new ArrayList<>();
@@ -533,6 +585,10 @@ public class UI {
         membersForClass13.add(member5);
         membersForClass13.add(member1);
         FitnessClass class13 = new FitnessClass("weight lifting", LocalDateTime.of(2024, 10, 12, 10, 30), LocalDateTime.of(2024, 10, 12, 12, 30), trainer1, room1, 20, room1.getLocation(), feedbackListForClass13, membersForClass13, weightLiftingEquipment);
+        class13.setId(13);
+        member1Classes.add(class13);
+        member4Classes.add(class13);
+        member5Classes.add(class13);
 
         ArrayList<Feedback> feedbackListForClass14 = new ArrayList<>();
         ArrayList<Member> membersForClass14 = new ArrayList<>();
@@ -540,6 +596,10 @@ public class UI {
         membersForClass14.add(member3);
         membersForClass14.add(member2);
         FitnessClass class14 = new FitnessClass("weight lifting", LocalDateTime.of(2024, 11, 2, 10, 30), LocalDateTime.of(2024, 11, 2, 12, 30), trainer2, room4, 20, room4.getLocation(), feedbackListForClass14, membersForClass14, weightLiftingEquipment);
+        class14.setId(14);
+        member2Classes.add(class14);
+        member3Classes.add(class14);
+        member4Classes.add(class14);
 
         ArrayList<Feedback> feedbackListForClass15 = new ArrayList<>();
         ArrayList<Member> membersForClass15 = new ArrayList<>();
@@ -548,97 +608,212 @@ public class UI {
         membersForClass15.add(member2);
         membersForClass15.add(member5);
         FitnessClass class15 = new FitnessClass("weight lifting", LocalDateTime.of(2024, 12, 20, 10, 30), LocalDateTime.of(2024, 12, 20, 12, 30), trainer3, room3, 20, room3.getLocation(), feedbackListForClass15, membersForClass15, weightLiftingEquipment);
-
+        class15.setId(15);
+        member1Classes.add(class15);
+        member2Classes.add(class15);
+        member4Classes.add(class15);
+        member5Classes.add(class15);
 
         // feedbacks
         Feedback feedback1 = new Feedback(member2, class1, 5, "Nice energy, I really enjoyed this class!");
+        feedback1.setId(1);
         feedbackListForClass1.add(feedback1);
         Feedback feedback2 = new Feedback(member3, class2, 4, "Great class!");
+        feedback2.setId(2);
         feedbackListForClass2.add(feedback2);
         Feedback feedback3 = new Feedback(member4, class3, 4, "I'll definitely come again!");
+        feedback3.setId(3);
         feedbackListForClass3.add(feedback3);
         Feedback feedback4 = new Feedback(member1, class4, 3, "Niceeee!!");
+        feedback4.setId(4);
         feedbackListForClass4.add(feedback4);
         Feedback feedback5 = new Feedback(member4, class5, 5, "10/10");
+        feedback5.setId(5);
         feedbackListForClass5.add(feedback5);
         Feedback feedback6 = new Feedback(member1, class6, 5, "10/10");
+        feedback6.setId(6);
         feedbackListForClass6.add(feedback6);
         Feedback feedback7 = new Feedback(member5, class7, 3, "It was fine..");
+        feedback7.setId(7);
         feedbackListForClass7.add(feedback7);
         Feedback feedback8 = new Feedback(member1, class8, 5, "Had a great time, I'll definitely come again!");
+        feedback8.setId(8);
         feedbackListForClass8.add(feedback8);
         Feedback feedback9 = new Feedback(member2, class9, 4, "Great class!");
+        feedback9.setId(9);
         feedbackListForClass9.add(feedback9);
         Feedback feedback10 = new Feedback(member3, class10, 5, "Amasingggg!!");
+        feedback10.setId(10);
         feedbackListForClass10.add(feedback10);
         Feedback feedback11 = new Feedback(member4, class11, 3, "It was exhausting..");
+        feedback11.setId(11);
         feedbackListForClass11.add(feedback11);
         Feedback feedback12 = new Feedback(member1, class12, 5, "10/10");
+        feedback12.setId(12);
         feedbackListForClass12.add(feedback12);
         Feedback feedback13 = new Feedback(member5, class13, 2, "Boring..");
+        feedback13.setId(13);
         feedbackListForClass13.add(feedback13);
         Feedback feedback14 = new Feedback(member3, class14, 1, "Eww.");
+        feedback14.setId(14);
         feedbackListForClass14.add(feedback14);
         Feedback feedback15 = new Feedback(member1, class15, 4, "Had a great time!");
+        feedback15.setId(15);
         feedbackListForClass15.add(feedback15);
 
         // repos, services, controller and ui
         InMemoryRepository<Equipment> equipmentInMemoRepo = new InMemoryRepository<>();
+        FileRepository<Equipment> equipmentFileRepo = new FileRepository<>("Equipment.csv",Equipment.class);
+        equipmentFileRepo.create(weights);
         equipmentInMemoRepo.create(weights);
         equipmentInMemoRepo.create(mattresses);
+        equipmentFileRepo.create(mattresses);
         equipmentInMemoRepo.create(treadmill);
+        equipmentFileRepo.create(treadmill);
         equipmentInMemoRepo.create(legPress);
+        equipmentFileRepo.create(legPress);
         equipmentInMemoRepo.create(foamRoller);
+        equipmentFileRepo.create(foamRoller);
         equipmentInMemoRepo.create(resistanceBands);
+        equipmentFileRepo.create(resistanceBands);
         equipmentInMemoRepo.create(pilatesRing);
+        equipmentFileRepo.create(pilatesRing);
         equipmentInMemoRepo.create(yogaBlocks);
+        equipmentFileRepo.create(yogaBlocks);
         equipmentInMemoRepo.create(jumpRope);
+        equipmentFileRepo.create(jumpRope);
         equipmentInMemoRepo.create(airBike);
+        equipmentFileRepo.create(airBike);
         equipmentInMemoRepo.create(boxingGloves);
+        equipmentFileRepo.create(boxingGloves);
         equipmentInMemoRepo.create(headgear);
+        equipmentFileRepo.create(headgear);
         equipmentInMemoRepo.create(punchingBags);
-        InMemoryRepository<Feedback> feedbackInMemoRepo = new InMemoryRepository<>();
-        feedbackInMemoRepo.create(feedback1);
-        feedbackInMemoRepo.create(feedback2);
-        feedbackInMemoRepo.create(feedback3);
-        feedbackInMemoRepo.create(feedback4);
-        feedbackInMemoRepo.create(feedback5);
-        feedbackInMemoRepo.create(feedback6);
-        InMemoryRepository<FitnessClass> fitnessClassInMemoRepo = new InMemoryRepository<>();
-        fitnessClassInMemoRepo.create(class1);
-        fitnessClassInMemoRepo.create(class2);
-        fitnessClassInMemoRepo.create(class3);
-        fitnessClassInMemoRepo.create(class4);
-        InMemoryRepository<Location> locationInMemoRepo = new InMemoryRepository<>();
-        locationInMemoRepo.create(location1);
-        locationInMemoRepo.create(location2);
-        InMemoryRepository<Member> memberInMemoRepo = new InMemoryRepository<>();
-        memberInMemoRepo.create(member1);
-        memberInMemoRepo.create(member2);
-        memberInMemoRepo.create(member3);
-        memberInMemoRepo.create(member4);
-        memberInMemoRepo.create(member5);
-        InMemoryRepository<Membership> membershipInMemoRepo = new InMemoryRepository<>();
-        membershipInMemoRepo.create(basicMembership);
-        membershipInMemoRepo.create(studentMembership);
-        membershipInMemoRepo.create(premiumMembership);
-        InMemoryRepository<Reservation> reservationInMemoRepo = new InMemoryRepository<>();
-//        reservationInMemoRepo.create(res1);
-//        reservationInMemoRepo.create(res2);
-        InMemoryRepository<Room> roomInMemoRepo = new InMemoryRepository<>();
-        roomInMemoRepo.create(room1);
-        roomInMemoRepo.create(room2);
-        roomInMemoRepo.create(room3);
-        roomInMemoRepo.create(room4);
-        roomInMemoRepo.create(room5);
-        InMemoryRepository<Trainer> trainerInMemoRepo = new InMemoryRepository<>();
-        trainerInMemoRepo.create(trainer1);
-        trainerInMemoRepo.create(trainer2);
-        trainerInMemoRepo.create(trainer3);
-        trainerInMemoRepo.create(trainer4);
-        trainerInMemoRepo.create(trainer5);
+        equipmentFileRepo.create(punchingBags);
 
-        FitnessService inMemoryService = new FitnessService(equipmentInMemoRepo, feedbackInMemoRepo, fitnessClassInMemoRepo, locationInMemoRepo, memberInMemoRepo, membershipInMemoRepo, reservationInMemoRepo, roomInMemoRepo, trainerInMemoRepo);
+        InMemoryRepository<Feedback> feedbackInMemoRepo = new InMemoryRepository<>();
+        FileRepository<Feedback> feedbackFileRepo = new FileRepository<>("Feedback.csv",Feedback.class);
+        feedbackInMemoRepo.create(feedback1);
+        feedbackFileRepo.create(feedback1);
+        feedbackInMemoRepo.create(feedback2);
+        feedbackFileRepo.create(feedback2);
+        feedbackInMemoRepo.create(feedback3);
+        feedbackFileRepo.create(feedback3);
+        feedbackInMemoRepo.create(feedback4);
+        feedbackFileRepo.create(feedback4);
+        feedbackInMemoRepo.create(feedback5);
+        feedbackFileRepo.create(feedback5);
+        feedbackInMemoRepo.create(feedback6);
+        feedbackFileRepo.create(feedback6);
+        feedbackInMemoRepo.create(feedback7);
+        feedbackFileRepo.create(feedback7);
+        feedbackInMemoRepo.create(feedback8);
+        feedbackFileRepo.create(feedback8);
+        feedbackInMemoRepo.create(feedback9);
+        feedbackFileRepo.create(feedback9);
+        feedbackInMemoRepo.create(feedback10);
+        feedbackFileRepo.create(feedback10);
+        feedbackInMemoRepo.create(feedback11);
+        feedbackFileRepo.create(feedback11);
+        feedbackInMemoRepo.create(feedback12);
+        feedbackFileRepo.create(feedback12);
+        feedbackInMemoRepo.create(feedback13);
+        feedbackFileRepo.create(feedback13);
+        feedbackInMemoRepo.create(feedback14);
+        feedbackFileRepo.create(feedback14);
+        feedbackInMemoRepo.create(feedback15);
+        feedbackFileRepo.create(feedback15);
+
+        InMemoryRepository<FitnessClass> fitnessClassInMemoRepo = new InMemoryRepository<>();
+        FileRepository<FitnessClass> fitnessClassFileRepo = new FileRepository<>("FitnessClass.csv", FitnessClass.class);
+        fitnessClassInMemoRepo.create(class1);
+        fitnessClassFileRepo.create(class1);
+        fitnessClassInMemoRepo.create(class2);
+        fitnessClassFileRepo.create(class2);
+        fitnessClassInMemoRepo.create(class3);
+        fitnessClassFileRepo.create(class3);
+        fitnessClassInMemoRepo.create(class4);
+        fitnessClassFileRepo.create(class4);
+        fitnessClassInMemoRepo.create(class5);
+        fitnessClassFileRepo.create(class5);
+        fitnessClassInMemoRepo.create(class6);
+        fitnessClassFileRepo.create(class6);
+        fitnessClassInMemoRepo.create(class7);
+        fitnessClassFileRepo.create(class7);
+        fitnessClassInMemoRepo.create(class8);
+        fitnessClassFileRepo.create(class8);
+        fitnessClassInMemoRepo.create(class9);
+        fitnessClassFileRepo.create(class9);
+        fitnessClassInMemoRepo.create(class10);
+        fitnessClassFileRepo.create(class10);
+        fitnessClassInMemoRepo.create(class11);
+        fitnessClassFileRepo.create(class11);
+        fitnessClassInMemoRepo.create(class12);
+        fitnessClassFileRepo.create(class12);
+        fitnessClassInMemoRepo.create(class13);
+        fitnessClassFileRepo.create(class13);
+        fitnessClassInMemoRepo.create(class14);
+        fitnessClassFileRepo.create(class14);
+        fitnessClassInMemoRepo.create(class15);
+        fitnessClassFileRepo.create(class15);
+
+        InMemoryRepository<Location> locationInMemoRepo = new InMemoryRepository<>();
+        FileRepository<Location> locationFileRepo = new FileRepository<>("Location.csv", Location.class);
+        locationInMemoRepo.create(location1);
+        locationFileRepo.create(location1);
+        locationInMemoRepo.create(location2);
+        locationFileRepo.create(location2);
+
+        InMemoryRepository<Member> memberInMemoRepo = new InMemoryRepository<>();
+        FileRepository<Member> memberFileRepo = new FileRepository<>("Member.csv",Member.class);
+        memberInMemoRepo.create(member1);
+        memberFileRepo.create(member1);
+        memberInMemoRepo.create(member2);
+        memberFileRepo.create(member2);
+        memberInMemoRepo.create(member3);
+        memberFileRepo.create(member3);
+        memberInMemoRepo.create(member4);
+        memberFileRepo.create(member4);
+        memberInMemoRepo.create(member5);
+        memberFileRepo.create(member5);
+
+        InMemoryRepository<Membership> membershipInMemoRepo = new InMemoryRepository<>();
+        FileRepository<Membership> membershipFileRepo = new FileRepository<>("Membership.csv",Membership.class);
+        membershipInMemoRepo.create(basicMembership);
+        membershipFileRepo.create(basicMembership);
+        membershipInMemoRepo.create(studentMembership);
+        membershipFileRepo.create(studentMembership);
+        membershipInMemoRepo.create(premiumMembership);
+        membershipFileRepo.create(premiumMembership);
+
+        InMemoryRepository<Room> roomInMemoRepo = new InMemoryRepository<>();
+        FileRepository<Room> roomFileRepo = new FileRepository<>("Room.csv",Room.class);
+        roomInMemoRepo.create(room1);
+        roomFileRepo.create(room1);
+        roomInMemoRepo.create(room2);
+        roomFileRepo.create(room2);
+        roomInMemoRepo.create(room3);
+        roomFileRepo.create(room3);
+        roomInMemoRepo.create(room4);
+        roomFileRepo.create(room4);
+        roomInMemoRepo.create(room5);
+        roomFileRepo.create(room5);
+
+        InMemoryRepository<Trainer> trainerInMemoRepo = new InMemoryRepository<>();
+        FileRepository<Trainer> trainerFileRepo = new FileRepository<>("Trainer.csv",Trainer.class);
+        trainerInMemoRepo.create(trainer1);
+        trainerFileRepo.create(trainer1);
+        trainerInMemoRepo.create(trainer2);
+        trainerFileRepo.create(trainer2);
+        trainerInMemoRepo.create(trainer3);
+        trainerFileRepo.create(trainer3);
+        trainerInMemoRepo.create(trainer4);
+        trainerFileRepo.create(trainer4);
+        trainerInMemoRepo.create(trainer5);
+        trainerFileRepo.create(trainer5);
+
+        FitnessService inMemoryService = new FitnessService(equipmentInMemoRepo, feedbackInMemoRepo, fitnessClassInMemoRepo, locationInMemoRepo, memberInMemoRepo, membershipInMemoRepo, roomInMemoRepo, trainerInMemoRepo);
+        FitnessService fileService = new FitnessService(equipmentFileRepo, feedbackFileRepo, fitnessClassFileRepo, locationFileRepo, memberFileRepo, membershipFileRepo, roomFileRepo, trainerFileRepo);
         FitnessController controller = new FitnessController(inMemoryService);
 
         UI ui = new UI(controller, membersList, trainersList);

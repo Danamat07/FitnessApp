@@ -462,72 +462,6 @@ public class FitnessController {
         }
     }
 
-    // ----- Reservation -----
-
-    // Display all reservations
-    public void displayAllReservations() {
-        try {
-            List<Reservation> reservationList = fitnessService.getAllReservations();
-            if (reservationList.isEmpty()) {
-                System.out.println("No reservations available.");
-            } else {
-                for (Reservation reservation : reservationList) {
-                    System.out.println("Reservation ID: " + reservation.getId());
-                    System.out.println("Member: " + reservation.getMember().getName());
-                    System.out.println("Fitness Class: " + reservation.getFitnessClass().getName());
-                    System.out.println("Reservation Date: " + reservation.getReservationDate());
-                    System.out.println("----------------------------------------");
-                }
-            }
-        } catch (IllegalStateException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
-    // Display reservation by ID
-    public void displayReservationById(int id) {
-        try {
-            Reservation reservation = fitnessService.getReservation(id);
-            System.out.println("Reservation ID: " + reservation.getId());
-            System.out.println("Member: " + reservation.getMember().getName());
-            System.out.println("Fitness Class: " + reservation.getFitnessClass().getName());
-            System.out.println("Reservation Date: " + reservation.getReservationDate());
-            System.out.println("----------------------------------------");
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
-    // Add a new reservation
-    public void addReservation(Member member, FitnessClass fitnessClass, LocalDateTime reservationDate) {
-        try {
-            fitnessService.addReservation(member, fitnessClass, reservationDate);
-            System.out.println("Reservation added successfully.");
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
-    // Update an existing reservation
-    public void updateReservation(int id, Member member, FitnessClass fitnessClass, LocalDateTime reservationDate) {
-        try {
-            fitnessService.updateReservation(id, member, fitnessClass, reservationDate);
-            System.out.println("Reservation updated successfully.");
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
-    // Delete a reservation by ID
-    public void deleteReservation(int id) {
-        try {
-            fitnessService.deleteReservation(id);
-            System.out.println("Reservation deleted successfully.");
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
     // ----- Room -----
 
     // Display all rooms
@@ -676,6 +610,18 @@ public class FitnessController {
         }
     }
 
+    // get all upcoming classes a member is not in
+    public void getAllUpcomingClassesForMemberUse(int memberId) {
+        try {
+            List<FitnessClass> upcomingClasses = fitnessService.getAllUpcomingClassesForMemberUse(memberId);
+            for (FitnessClass fitnessClass : upcomingClasses) {
+                System.out.println(fitnessClass.toStringLessInfo());
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
     // get all upcoming classes
     public void getAllUpcomingClasses() {
         try {
@@ -700,8 +646,8 @@ public class FitnessController {
     }
 
     // View schedule
-    public void viewSchedule() {
-        fitnessService.viewSchedule();
+    public void viewSchedule(int memberId) {
+        fitnessService.viewSchedule(memberId);
     }
 
     // Recommend similar classes
