@@ -667,169 +667,169 @@ public class UI {
         feedbackListForClass15.add(feedback15);
 
         // repos, services, controller and ui
-        InMemoryRepository<Equipment> equipmentInMemoRepo = new InMemoryRepository<>();
-        equipmentInMemoRepo.create(weights);
-        equipmentInMemoRepo.create(mattresses);
-        equipmentInMemoRepo.create(treadmill);
-        equipmentInMemoRepo.create(legPress);
-        equipmentInMemoRepo.create(foamRoller);
-        equipmentInMemoRepo.create(resistanceBands);
-        equipmentInMemoRepo.create(pilatesRing);
-        equipmentInMemoRepo.create(yogaBlocks);
-        equipmentInMemoRepo.create(jumpRope);
-        equipmentInMemoRepo.create(airBike);
-        equipmentInMemoRepo.create(boxingGloves);
-        equipmentInMemoRepo.create(headgear);
-        equipmentInMemoRepo.create(punchingBags);
-
-        InMemoryRepository<Feedback> feedbackInMemoRepo = new InMemoryRepository<>();
-        feedbackInMemoRepo.create(feedback1);
-        feedbackInMemoRepo.create(feedback2);
-        feedbackInMemoRepo.create(feedback3);
-        feedbackInMemoRepo.create(feedback4);
-        feedbackInMemoRepo.create(feedback5);
-        feedbackInMemoRepo.create(feedback6);
-        feedbackInMemoRepo.create(feedback7);
-        feedbackInMemoRepo.create(feedback8);
-        feedbackInMemoRepo.create(feedback9);
-        feedbackInMemoRepo.create(feedback10);
-        feedbackInMemoRepo.create(feedback11);
-        feedbackInMemoRepo.create(feedback12);
-        feedbackInMemoRepo.create(feedback13);
-        feedbackInMemoRepo.create(feedback14);
-        feedbackInMemoRepo.create(feedback15);
-
-        InMemoryRepository<FitnessClass> fitnessClassInMemoRepo = new InMemoryRepository<>();
-        fitnessClassInMemoRepo.create(class1);
-        fitnessClassInMemoRepo.create(class2);
-        fitnessClassInMemoRepo.create(class3);
-        fitnessClassInMemoRepo.create(class4);
-        fitnessClassInMemoRepo.create(class5);
-        fitnessClassInMemoRepo.create(class6);
-        fitnessClassInMemoRepo.create(class7);
-        fitnessClassInMemoRepo.create(class8);
-        fitnessClassInMemoRepo.create(class9);
-        fitnessClassInMemoRepo.create(class10);
-        fitnessClassInMemoRepo.create(class11);
-        fitnessClassInMemoRepo.create(class12);
-        fitnessClassInMemoRepo.create(class13);
-        fitnessClassInMemoRepo.create(class14);
-        fitnessClassInMemoRepo.create(class15);
-
-        InMemoryRepository<Location> locationInMemoRepo = new InMemoryRepository<>();
-        locationInMemoRepo.create(location1);
-        locationInMemoRepo.create(location2);
-
-        InMemoryRepository<Member> memberInMemoRepo = new InMemoryRepository<>();
-        memberInMemoRepo.create(member1);
-        memberInMemoRepo.create(member2);
-        memberInMemoRepo.create(member3);
-        memberInMemoRepo.create(member4);
-        memberInMemoRepo.create(member5);
-
-        InMemoryRepository<Membership> membershipInMemoRepo = new InMemoryRepository<>();
-        membershipInMemoRepo.create(basicMembership);
-        membershipInMemoRepo.create(studentMembership);
-        membershipInMemoRepo.create(premiumMembership);
-
-        InMemoryRepository<Room> roomInMemoRepo = new InMemoryRepository<>();
-        roomInMemoRepo.create(room1);
-        roomInMemoRepo.create(room2);
-        roomInMemoRepo.create(room3);
-        roomInMemoRepo.create(room4);
-        roomInMemoRepo.create(room5);
-
-        InMemoryRepository<Trainer> trainerInMemoRepo = new InMemoryRepository<>();
-        trainerInMemoRepo.create(trainer1);
-        trainerInMemoRepo.create(trainer2);
-        trainerInMemoRepo.create(trainer3);
-        trainerInMemoRepo.create(trainer4);
-        trainerInMemoRepo.create(trainer5);
-
-        FitnessService inMemoryService = new FitnessService(equipmentInMemoRepo, feedbackInMemoRepo, fitnessClassInMemoRepo, locationInMemoRepo, memberInMemoRepo, membershipInMemoRepo, roomInMemoRepo, trainerInMemoRepo);
-
-//        FileRepository<Equipment> equipmentFileRepo = new FileRepository<>("Equipment.csv",Equipment.class);
-//        equipmentFileRepo.create(weights);
-//        equipmentFileRepo.create(mattresses);
-//        equipmentFileRepo.create(treadmill);
-//        equipmentFileRepo.create(legPress);
-//        equipmentFileRepo.create(foamRoller);
-//        equipmentFileRepo.create(resistanceBands);
-//        equipmentFileRepo.create(pilatesRing);
-//        equipmentFileRepo.create(yogaBlocks);
-//        equipmentFileRepo.create(jumpRope);
-//        equipmentFileRepo.create(airBike);
-//        equipmentFileRepo.create(boxingGloves);
-//        equipmentFileRepo.create(headgear);
-//        equipmentFileRepo.create(punchingBags);
+//        InMemoryRepository<Equipment> equipmentInMemoRepo = new InMemoryRepository<>();
+//        equipmentInMemoRepo.create(weights);
+//        equipmentInMemoRepo.create(mattresses);
+//        equipmentInMemoRepo.create(treadmill);
+//        equipmentInMemoRepo.create(legPress);
+//        equipmentInMemoRepo.create(foamRoller);
+//        equipmentInMemoRepo.create(resistanceBands);
+//        equipmentInMemoRepo.create(pilatesRing);
+//        equipmentInMemoRepo.create(yogaBlocks);
+//        equipmentInMemoRepo.create(jumpRope);
+//        equipmentInMemoRepo.create(airBike);
+//        equipmentInMemoRepo.create(boxingGloves);
+//        equipmentInMemoRepo.create(headgear);
+//        equipmentInMemoRepo.create(punchingBags);
 //
-//        FileRepository<Feedback> feedbackFileRepo = new FileRepository<>("Feedback.csv",Feedback.class);
-//        feedbackFileRepo.create(feedback1);
-//        feedbackFileRepo.create(feedback2);
-//        feedbackFileRepo.create(feedback3);
-//        feedbackFileRepo.create(feedback4);
-//        feedbackFileRepo.create(feedback5);
-//        feedbackFileRepo.create(feedback6);
-//        feedbackFileRepo.create(feedback7);
-//        feedbackFileRepo.create(feedback8);
-//        feedbackFileRepo.create(feedback9);
-//        feedbackFileRepo.create(feedback10);
-//        feedbackFileRepo.create(feedback11);
-//        feedbackFileRepo.create(feedback12);
-//        feedbackFileRepo.create(feedback13);
-//        feedbackFileRepo.create(feedback14);
-//        feedbackFileRepo.create(feedback15);
+//        InMemoryRepository<Feedback> feedbackInMemoRepo = new InMemoryRepository<>();
+//        feedbackInMemoRepo.create(feedback1);
+//        feedbackInMemoRepo.create(feedback2);
+//        feedbackInMemoRepo.create(feedback3);
+//        feedbackInMemoRepo.create(feedback4);
+//        feedbackInMemoRepo.create(feedback5);
+//        feedbackInMemoRepo.create(feedback6);
+//        feedbackInMemoRepo.create(feedback7);
+//        feedbackInMemoRepo.create(feedback8);
+//        feedbackInMemoRepo.create(feedback9);
+//        feedbackInMemoRepo.create(feedback10);
+//        feedbackInMemoRepo.create(feedback11);
+//        feedbackInMemoRepo.create(feedback12);
+//        feedbackInMemoRepo.create(feedback13);
+//        feedbackInMemoRepo.create(feedback14);
+//        feedbackInMemoRepo.create(feedback15);
 //
-//        FileRepository<FitnessClass> fitnessClassFileRepo = new FileRepository<>("FitnessClass.csv", FitnessClass.class);
-//        fitnessClassFileRepo.create(class1);
-//        fitnessClassFileRepo.create(class2);
-//        fitnessClassFileRepo.create(class3);
-//        fitnessClassFileRepo.create(class4);
-//        fitnessClassFileRepo.create(class5);
-//        fitnessClassFileRepo.create(class6);
-//        fitnessClassFileRepo.create(class7);
-//        fitnessClassFileRepo.create(class8);
-//        fitnessClassFileRepo.create(class9);
-//        fitnessClassFileRepo.create(class10);
-//        fitnessClassFileRepo.create(class11);
-//        fitnessClassFileRepo.create(class12);
-//        fitnessClassFileRepo.create(class13);
-//        fitnessClassFileRepo.create(class14);
-//        fitnessClassFileRepo.create(class15);
+//        InMemoryRepository<FitnessClass> fitnessClassInMemoRepo = new InMemoryRepository<>();
+//        fitnessClassInMemoRepo.create(class1);
+//        fitnessClassInMemoRepo.create(class2);
+//        fitnessClassInMemoRepo.create(class3);
+//        fitnessClassInMemoRepo.create(class4);
+//        fitnessClassInMemoRepo.create(class5);
+//        fitnessClassInMemoRepo.create(class6);
+//        fitnessClassInMemoRepo.create(class7);
+//        fitnessClassInMemoRepo.create(class8);
+//        fitnessClassInMemoRepo.create(class9);
+//        fitnessClassInMemoRepo.create(class10);
+//        fitnessClassInMemoRepo.create(class11);
+//        fitnessClassInMemoRepo.create(class12);
+//        fitnessClassInMemoRepo.create(class13);
+//        fitnessClassInMemoRepo.create(class14);
+//        fitnessClassInMemoRepo.create(class15);
 //
-//        FileRepository<Location> locationFileRepo = new FileRepository<>("Location.csv", Location.class);
-//        locationFileRepo.create(location1);
-//        locationFileRepo.create(location2);
+//        InMemoryRepository<Location> locationInMemoRepo = new InMemoryRepository<>();
+//        locationInMemoRepo.create(location1);
+//        locationInMemoRepo.create(location2);
 //
-//        FileRepository<Member> memberFileRepo = new FileRepository<>("Member.csv",Member.class);
-//        memberFileRepo.create(member1);
-//        memberFileRepo.create(member2);
-//        memberFileRepo.create(member3);
-//        memberFileRepo.create(member4);
-//        memberFileRepo.create(member5);
+//        InMemoryRepository<Member> memberInMemoRepo = new InMemoryRepository<>();
+//        memberInMemoRepo.create(member1);
+//        memberInMemoRepo.create(member2);
+//        memberInMemoRepo.create(member3);
+//        memberInMemoRepo.create(member4);
+//        memberInMemoRepo.create(member5);
 //
-//        FileRepository<Membership> membershipFileRepo = new FileRepository<>("Membership.csv", Membership.class);
-//        membershipFileRepo.create(basicMembership);
-//        membershipFileRepo.create(studentMembership);
-//        membershipFileRepo.create(premiumMembership);
+//        InMemoryRepository<Membership> membershipInMemoRepo = new InMemoryRepository<>();
+//        membershipInMemoRepo.create(basicMembership);
+//        membershipInMemoRepo.create(studentMembership);
+//        membershipInMemoRepo.create(premiumMembership);
 //
-//        FileRepository<Room> roomFileRepo = new FileRepository<>("Room.csv",Room.class);
-//        roomFileRepo.create(room1);
-//        roomFileRepo.create(room2);
-//        roomFileRepo.create(room3);
-//        roomFileRepo.create(room4);
-//        roomFileRepo.create(room5);
+//        InMemoryRepository<Room> roomInMemoRepo = new InMemoryRepository<>();
+//        roomInMemoRepo.create(room1);
+//        roomInMemoRepo.create(room2);
+//        roomInMemoRepo.create(room3);
+//        roomInMemoRepo.create(room4);
+//        roomInMemoRepo.create(room5);
 //
-//        FileRepository<Trainer> trainerFileRepo = new FileRepository<>("Trainer.csv",Trainer.class);
-//        trainerFileRepo.create(trainer1);
-//        trainerFileRepo.create(trainer2);
-//        trainerFileRepo.create(trainer3);
-//        trainerFileRepo.create(trainer4);
-//        trainerFileRepo.create(trainer5);
+//        InMemoryRepository<Trainer> trainerInMemoRepo = new InMemoryRepository<>();
+//        trainerInMemoRepo.create(trainer1);
+//        trainerInMemoRepo.create(trainer2);
+//        trainerInMemoRepo.create(trainer3);
+//        trainerInMemoRepo.create(trainer4);
+//        trainerInMemoRepo.create(trainer5);
 //
-//        FitnessService fileService = new FitnessService(equipmentFileRepo, feedbackFileRepo, fitnessClassFileRepo, locationFileRepo, memberFileRepo, membershipFileRepo, roomFileRepo, trainerFileRepo);
-//
-        FitnessController controller = new FitnessController(inMemoryService);
+//        FitnessService inMemoryService = new FitnessService(equipmentInMemoRepo, feedbackInMemoRepo, fitnessClassInMemoRepo, locationInMemoRepo, memberInMemoRepo, membershipInMemoRepo, roomInMemoRepo, trainerInMemoRepo);
+
+        FileRepository<Equipment> equipmentFileRepo = new FileRepository<>("Equipment.csv",Equipment.class);
+        equipmentFileRepo.create(weights);
+        equipmentFileRepo.create(mattresses);
+        equipmentFileRepo.create(treadmill);
+        equipmentFileRepo.create(legPress);
+        equipmentFileRepo.create(foamRoller);
+        equipmentFileRepo.create(resistanceBands);
+        equipmentFileRepo.create(pilatesRing);
+        equipmentFileRepo.create(yogaBlocks);
+        equipmentFileRepo.create(jumpRope);
+        equipmentFileRepo.create(airBike);
+        equipmentFileRepo.create(boxingGloves);
+        equipmentFileRepo.create(headgear);
+        equipmentFileRepo.create(punchingBags);
+
+        FileRepository<Feedback> feedbackFileRepo = new FileRepository<>("Feedback.csv",Feedback.class);
+        feedbackFileRepo.create(feedback1);
+        feedbackFileRepo.create(feedback2);
+        feedbackFileRepo.create(feedback3);
+        feedbackFileRepo.create(feedback4);
+        feedbackFileRepo.create(feedback5);
+        feedbackFileRepo.create(feedback6);
+        feedbackFileRepo.create(feedback7);
+        feedbackFileRepo.create(feedback8);
+        feedbackFileRepo.create(feedback9);
+        feedbackFileRepo.create(feedback10);
+        feedbackFileRepo.create(feedback11);
+        feedbackFileRepo.create(feedback12);
+        feedbackFileRepo.create(feedback13);
+        feedbackFileRepo.create(feedback14);
+        feedbackFileRepo.create(feedback15);
+
+        FileRepository<FitnessClass> fitnessClassFileRepo = new FileRepository<>("FitnessClass.csv", FitnessClass.class);
+        fitnessClassFileRepo.create(class1);
+        fitnessClassFileRepo.create(class2);
+        fitnessClassFileRepo.create(class3);
+        fitnessClassFileRepo.create(class4);
+        fitnessClassFileRepo.create(class5);
+        fitnessClassFileRepo.create(class6);
+        fitnessClassFileRepo.create(class7);
+        fitnessClassFileRepo.create(class8);
+        fitnessClassFileRepo.create(class9);
+        fitnessClassFileRepo.create(class10);
+        fitnessClassFileRepo.create(class11);
+        fitnessClassFileRepo.create(class12);
+        fitnessClassFileRepo.create(class13);
+        fitnessClassFileRepo.create(class14);
+        fitnessClassFileRepo.create(class15);
+
+        FileRepository<Location> locationFileRepo = new FileRepository<>("Location.csv", Location.class);
+        locationFileRepo.create(location1);
+        locationFileRepo.create(location2);
+
+        FileRepository<Member> memberFileRepo = new FileRepository<>("Member.csv",Member.class);
+        memberFileRepo.create(member1);
+        memberFileRepo.create(member2);
+        memberFileRepo.create(member3);
+        memberFileRepo.create(member4);
+        memberFileRepo.create(member5);
+
+        FileRepository<Membership> membershipFileRepo = new FileRepository<>("Membership.csv", Membership.class);
+        membershipFileRepo.create(basicMembership);
+        membershipFileRepo.create(studentMembership);
+        membershipFileRepo.create(premiumMembership);
+
+        FileRepository<Room> roomFileRepo = new FileRepository<>("Room.csv",Room.class);
+        roomFileRepo.create(room1);
+        roomFileRepo.create(room2);
+        roomFileRepo.create(room3);
+        roomFileRepo.create(room4);
+        roomFileRepo.create(room5);
+
+        FileRepository<Trainer> trainerFileRepo = new FileRepository<>("Trainer.csv",Trainer.class);
+        trainerFileRepo.create(trainer1);
+        trainerFileRepo.create(trainer2);
+        trainerFileRepo.create(trainer3);
+        trainerFileRepo.create(trainer4);
+        trainerFileRepo.create(trainer5);
+
+        FitnessService fileService = new FitnessService(equipmentFileRepo, feedbackFileRepo, fitnessClassFileRepo, locationFileRepo, memberFileRepo, membershipFileRepo, roomFileRepo, trainerFileRepo);
+
+        FitnessController controller = new FitnessController(fileService);
 
         UI ui = new UI(controller, membersList, trainersList);
         ui.login();
