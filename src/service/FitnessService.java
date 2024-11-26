@@ -4,10 +4,7 @@ import repository.IRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * The FitnessService class provides business logic and services for managing fitness-related operations.
@@ -877,29 +874,6 @@ public class FitnessService {
     }
 
     /**
-     * Retrieves all upcoming fitness classes that a member is not registered in
-     * Only classes that have not yet started are included in the result.
-     * @return A list of upcoming FitnessClass objects.
-     * @throws IllegalArgumentException if no upcoming classes are available.
-     */
-    public List<FitnessClass> getAllUpcomingClassesForMemberUse(int memberId) {
-        List<FitnessClass> upcomingClasses = new ArrayList<>();
-        List<FitnessClass> allClasses = fitnessClassRepository.getAll();
-        Member member = getMember(memberId);
-        for (FitnessClass fitnessClass : allClasses) {
-                if (fitnessClass.getStartTime().isAfter(LocalDateTime.now())) {
-                    for (Member memb : fitnessClass.getMembers()) {
-                        if (!memb.equals(member)){
-                            upcomingClasses.add(fitnessClass);
-                        }
-                    }
-                }
-        }
-        if (upcomingClasses != null) {return upcomingClasses;}
-        else throw new IllegalArgumentException("No existing upcoming classes at the moment.");
-    }
-
-    /**
      * Retrieves all upcoming fitness classes
      * Only classes that have not yet started are included in the result.
      * @return A list of upcoming FitnessClass objects.
@@ -996,8 +970,8 @@ public class FitnessService {
      * excluding more detailed information (using toStringLessInfo()).
      * Note: This method is for viewing the schedule in a simple format.
      */
-    public void viewSchedule(int memberId) {
-        List<FitnessClass> upcomingClasses = getAllUpcomingClassesForMemberUse(memberId);
+    public void viewSchedule() {
+        List<FitnessClass> upcomingClasses = getAllUpcomingClasses();
         for(FitnessClass fitnessClass : upcomingClasses) {
             System.out.println(fitnessClass.toStringLessInfo());
         }
@@ -1183,6 +1157,20 @@ public class FitnessService {
             }
         }
         throw new IllegalArgumentException("No classes found with ID " + classId + ".");
+    }
+
+    // new sorting method -> sort upcoming classes (ascendant)
+    public List<FitnessClass> sortUpcomingClassesASC() {
+        List<FitnessClass> fitnessClasses = getAllUpcomingClasses();
+        fitnessClasses.sort(Comparator.comparing(FitnessClass::getStartTime));
+        return fitnessClasses;
+    }
+
+    // new sorting method -> sort upcoming trainer classes (ascendant)
+    public List<FitnessClass> sortUpcomingTrainerClassesASC(int trainerId) {
+        List<FitnessClass> fitnessClasses = getTrainerUpcomingClasses(trainerId);
+        fitnessClasses.sort(Comparator.comparing(FitnessClass::getStartTime));
+        return fitnessClasses;
     }
 
 }

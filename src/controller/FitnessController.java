@@ -610,18 +610,6 @@ public class FitnessController {
         }
     }
 
-    // get all upcoming classes a member is not in
-    public void getAllUpcomingClassesForMemberUse(int memberId) {
-        try {
-            List<FitnessClass> upcomingClasses = fitnessService.getAllUpcomingClassesForMemberUse(memberId);
-            for (FitnessClass fitnessClass : upcomingClasses) {
-                System.out.println(fitnessClass.toStringLessInfo());
-            }
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
     // get all upcoming classes
     public void getAllUpcomingClasses() {
         try {
@@ -646,8 +634,8 @@ public class FitnessController {
     }
 
     // View schedule
-    public void viewSchedule(int memberId) {
-        fitnessService.viewSchedule(memberId);
+    public void viewSchedule() {
+        fitnessService.viewSchedule();
     }
 
     // Recommend similar classes
@@ -730,5 +718,30 @@ public class FitnessController {
         }
         return null;
     }
+
+    public void displaySortedUpcomingClasses() {
+        List<FitnessClass> sortedClasses = fitnessService.sortUpcomingClassesASC();
+        if (sortedClasses.isEmpty()) {
+            System.out.println("No upcoming classes.");
+        } else {
+            System.out.println("Upcoming Classes (sorted by start time):");
+            for (FitnessClass fitnessClass : sortedClasses) {
+                System.out.println(fitnessClass.toStringLessInfo());
+            }
+        }
+    }
+
+    public void displaySortedTrainerUpcomingClasses(int trainerId) {
+        List<FitnessClass> sortedClasses = fitnessService.sortUpcomingTrainerClassesASC(trainerId);
+        if (sortedClasses.isEmpty()) {
+            System.out.println("No upcoming classes.");
+        } else {
+            System.out.println("Upcoming Classes (sorted by start time):");
+            for (FitnessClass fitnessClass : sortedClasses) {
+                System.out.println(fitnessClass.toStringLessInfo());
+            }
+        }
+    }
+
 
 }
