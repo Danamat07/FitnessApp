@@ -743,5 +743,27 @@ public class FitnessController {
         }
     }
 
+    public List<FitnessClass> getPastClassesAttendedByMember(int memberId) {
+        try {
+            return fitnessService.getPastClassesAttendedByMember(memberId);
+        } catch (IllegalArgumentException e){
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public void displayPastClassesAttendedByMember(int memberId) {
+        for (FitnessClass fitnessClass : getPastClassesAttendedByMember(memberId)) {
+            System.out.println(fitnessClass.toStringLessInfo());
+        }
+    }
+
+    public void addFeedbackForClass(int memberId, int classId, String feedbackContent, int rating) {
+        try {
+            fitnessService.addFeedbackForClass(memberId, classId, feedbackContent, rating);
+        } catch (IllegalArgumentException e){
+            System.err.println(e.getMessage());
+        }
+    }
 
 }

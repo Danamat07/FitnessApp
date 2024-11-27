@@ -163,6 +163,14 @@ public class UI {
                 }
                 case 6 -> {
                     System.out.println("------------------------------------------ ");
+                    fitnessController.displayPastClassesAttendedByMember(id);
+                    System.out.println("Choose a class to leave a feedback to (by ID): ");
+                    int classId = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Leave a rating (out of 5): ");
+                    int rating = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Leave a comment: ");
+                    String comment = scanner.nextLine();
+                    fitnessController.addFeedbackForClass(id, classId, comment, rating);
                     System.out.println("------------------------------------------ ");
                 }
                 case 7 -> {
@@ -620,7 +628,7 @@ public class UI {
         member5Classes.add(class15);
 
         // feedbacks
-        Feedback feedback1 = new Feedback(member2, class1, 5, "Nice energy, I really enjoyed this class!");
+        Feedback feedback1 = new Feedback(member2, class1, 5, "Nice energy. I really enjoyed this class!");
         feedback1.setId(1);
         feedbackListForClass1.add(feedback1);
         Feedback feedback2 = new Feedback(member3, class2, 4, "Great class!");
@@ -641,7 +649,7 @@ public class UI {
         Feedback feedback7 = new Feedback(member5, class7, 3, "It was fine..");
         feedback7.setId(7);
         feedbackListForClass7.add(feedback7);
-        Feedback feedback8 = new Feedback(member1, class8, 5, "Had a great time, I'll definitely come again!");
+        Feedback feedback8 = new Feedback(member1, class8, 5, "Had a great time. I'll definitely come again!");
         feedback8.setId(8);
         feedbackListForClass8.add(feedback8);
         Feedback feedback9 = new Feedback(member2, class9, 4, "Great class!");

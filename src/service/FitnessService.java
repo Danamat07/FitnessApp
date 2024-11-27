@@ -1159,18 +1159,54 @@ public class FitnessService {
         throw new IllegalArgumentException("No classes found with ID " + classId + ".");
     }
 
-    // new sorting method -> sort upcoming classes (ascendant)
+    //sorting method -> sort upcoming classes (ascendant)
     public List<FitnessClass> sortUpcomingClassesASC() {
         List<FitnessClass> fitnessClasses = getAllUpcomingClasses();
         fitnessClasses.sort(Comparator.comparing(FitnessClass::getStartTime));
         return fitnessClasses;
     }
 
-    // new sorting method -> sort upcoming trainer classes (ascendant)
+    //sorting method -> sort upcoming trainer classes (ascendant)
     public List<FitnessClass> sortUpcomingTrainerClassesASC(int trainerId) {
         List<FitnessClass> fitnessClasses = getTrainerUpcomingClasses(trainerId);
         fitnessClasses.sort(Comparator.comparing(FitnessClass::getStartTime));
         return fitnessClasses;
     }
+
+    // returns the classes that a member has been to in the past
+    public List<FitnessClass> getPastClassesAttendedByMember(int memberId) {
+        Member member = memberRepository.read(memberId);
+        List<FitnessClass> pastClasses = new ArrayList<>();
+        for (FitnessClass fitnessClass : member.getFitnessClasses()) {
+            if (fitnessClass.getEndTime().isBefore(LocalDateTime.now())) {
+                pastClasses.add(fitnessClass);
+            }
+        }
+        if (pastClasses.isEmpty()) {
+            throw new IllegalStateException("Member with ID " + memberId + " has not attended any past fitness classes.");
+        }
+        return pastClasses;
+    }
+
+    public int getFeedbackNextId() {
+        List<Feedback> feedbacks = feedbackRepository.getAll();
+        return feedbacks.size() + 1;
+    }
+
+    // add feedback to a class
+    public void addFeedbackForClass(int memberId, int classId, String feedbackContent, int rating) {
+        Member member = memberRepository.read(memberId);
+        FitnessClass fitnessClass = getFitnessClass(classId);
+        if (fitnessClass == null) {
+            throw new IllegalArgumentException("Fitness class with ID " + classId + " does not exist.");
+        }
+        Feedback feedback = new Feedback(member, fitnessClass, rating, feedbackContent);
+        feedback.setId(getFeedbackNextId());
+        feedbackRepository.create(feedback);
+        fitnessClass.getFeedback().add(feedback);
+        fitnessClassRepository.update(fitnessClass);
+        System.out.println("Feedback added successfully");
+    }
+
 
 }

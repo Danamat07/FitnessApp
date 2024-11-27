@@ -4,6 +4,7 @@ import model.Identifiable;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -35,6 +36,9 @@ public class FileRepository<T extends Identifiable> implements IRepository<T> {
      */
     @Override
     public void create(T obj) {
+        if (storage.containsKey(obj.getId())) {
+            throw new IllegalArgumentException("Entity with ID " + obj.getId() + " already exists.");
+        }
         storage.put(obj.getId(), obj);
         saveToFile();
     }
@@ -55,12 +59,11 @@ public class FileRepository<T extends Identifiable> implements IRepository<T> {
      */
     @Override
     public void update(T obj) {
-        if (storage.containsKey(obj.getId())) {
-            storage.put(obj.getId(), obj);
-            saveToFile();
-        } else {
-            System.err.println("Entity with ID " + obj.getId() + " not found.");
+        if (!storage.containsKey(obj.getId())) {
+            throw new IllegalArgumentException("Entity with ID " + obj.getId() + " does not exist.");
         }
+        storage.put(obj.getId(), obj);
+        saveToFile();
     }
 
     /**
@@ -69,11 +72,10 @@ public class FileRepository<T extends Identifiable> implements IRepository<T> {
      */
     @Override
     public void delete(int id) {
-        if (storage.remove(id) != null) {
-            saveToFile();
-        } else {
-            System.err.println("Entity with ID " + id + " not found.");
+        if (storage.remove(id) == null) {
+            throw new IllegalArgumentException("Entity with ID " + id + " does not exist.");
         }
+        saveToFile();
     }
 
     /**
@@ -112,8 +114,10 @@ public class FileRepository<T extends Identifiable> implements IRepository<T> {
                     storage.put(obj.getId(), obj);
                 }
             }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + fileName + ". Starting with an empty repository.");
         } catch (IOException e) {
-            System.err.println("Error loading from file: " + e.getMessage());
+            System.err.println("Error reading from file: " + e.getMessage());
         }
     }
 
@@ -128,13 +132,21 @@ public class FileRepository<T extends Identifiable> implements IRepository<T> {
         for (Field field : fields) {
             field.setAccessible(true);
             try {
-                csv.append(field.get(obj)).append(",");
+                Object value = field.get(obj);
+                if (value instanceof LocalDateTime) {
+                    csv.append(((LocalDateTime) value).toString()).append(",");
+                } else if (value instanceof Identifiable) {
+                    csv.append(((Identifiable) value).getId()).append(","); // Save only the ID
+                } else {
+                    csv.append(value).append(",");
+                }
             } catch (IllegalAccessException e) {
                 System.err.println("Error accessing field: " + e.getMessage());
             }
         }
         return csv.substring(0, csv.length() - 1);
     }
+
 
     /**
      * Converts a CSV string into an object of type T.
@@ -152,10 +164,12 @@ public class FileRepository<T extends Identifiable> implements IRepository<T> {
             }
             return obj;
         } catch (Exception e) {
-            System.err.println("Error converting from CSV: " + e.getMessage());
+            //System.err.println("Error converting from CSV: " + type.getSimpleName() + " -> " + e.getMessage());
+            return null; // Skip problematic line
         }
-        return null;
     }
+
+
 
     /**
      * Converts a string value to the appropriate type based on the field type.
@@ -164,15 +178,22 @@ public class FileRepository<T extends Identifiable> implements IRepository<T> {
      * @return The converted value as an Object, or the original string if no conversion is applicable.
      */
     private Object convertValue(Class<?> fieldType, String value) {
-        if (fieldType == int.class) {
+        if (fieldType == int.class || fieldType == Integer.class) {
             return Integer.parseInt(value);
-        } else if (fieldType == double.class) {
+        } else if (fieldType == double.class || fieldType == Double.class) {
             return Double.parseDouble(value);
+        } else if (fieldType == boolean.class || fieldType == Boolean.class) {
+            return Boolean.parseBoolean(value);
         } else if (fieldType == String.class) {
             return value;
-        } else if (fieldType == boolean.class) {
-            return Boolean.parseBoolean(value);
+        } else if (fieldType == LocalDateTime.class) {
+            return LocalDateTime.parse(value); // Ensure the CSV uses ISO-8601 format
+        } else if (Identifiable.class.isAssignableFrom(fieldType)) {
+            // Handle associations with other entities (e.g., Trainer, Member, etc.)
+            int id = Integer.parseInt(value); // Assume the value is an ID
+            return new FileRepository<>(fieldType.getSimpleName() + ".csv", (Class<Identifiable>) fieldType).read(id);
         }
-        return value;
+        throw new IllegalArgumentException("Unsupported field type: " + fieldType.getName());
     }
+
 }
