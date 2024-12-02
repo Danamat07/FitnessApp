@@ -1,9 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class FitnessClass implements Identifiable {
+public class FitnessClass implements HasId {
     private int id;
     private String name;
     private LocalDateTime startTime;
@@ -78,6 +79,45 @@ public class FitnessClass implements Identifiable {
 
     public List<Member> getMembers() {
         return members;
+    }
+
+    public String getIDsOfFeedbacks() {
+        StringBuilder str = new StringBuilder();
+        for (Feedback feedback1 : getFeedback()) {
+            if (feedback1 != null) {
+                str.append(feedback1.getId()).append("-");
+            }
+        }
+        if (str.length() > 0) {
+            str.deleteCharAt(str.length() - 1);
+        }
+        return str.toString();
+    }
+
+    public String getIDsOfEquipments() {
+        StringBuilder str = new StringBuilder();
+        for (Equipment equipment1 : getEquipment()) {
+            if (equipment1 != null) {
+                str.append(equipment1.getId()).append("-");
+            }
+        }
+        if (str.length() > 0) {
+            str.deleteCharAt(str.length() - 1);
+        }
+        return str.toString();
+    }
+
+    public String getIDsOfMembers() {
+        StringBuilder str = new StringBuilder();
+        for (Member member1 : getMembers()) {
+            if (member1 != null) {
+                str.append(member1.getId()).append("-");
+            }
+        }
+        if (str.length() > 0) {
+            str.deleteCharAt(str.length() - 1);
+        }
+        return str.toString();
     }
 
     //Setters

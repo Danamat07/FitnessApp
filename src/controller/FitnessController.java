@@ -2,7 +2,6 @@ package controller;
 import model.*;
 import service.FitnessService;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
@@ -367,17 +366,16 @@ public class FitnessController {
     }
 
     // Add a new member
-    public void addMember(String name, String mail, String phone, LocalDate registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
+    public void addMember(String name, String mail, String phone, LocalDateTime registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
         try {
             fitnessService.addMember(name, mail, phone, registrationDate, membershipType, fitnessClasses);
-            System.out.println("Member added successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
     }
 
     // Update an existing member
-    public void updateMember(int id, String name, String mail, String phone, LocalDate registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
+    public void updateMember(int id, String name, String mail, String phone, LocalDateTime registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
         try {
             fitnessService.updateMember(id, name, mail, phone, registrationDate, membershipType, fitnessClasses);
             System.out.println("Member updated successfully.");
@@ -406,10 +404,8 @@ public class FitnessController {
                 System.out.println("No memberships available.");
             } else {
                 for (Membership membership : membershipList) {
-                    System.out.println("Membership ID: " + membership.getId());
                     System.out.println("Type: " + membership.getType());
                     System.out.println("Price: " + membership.getPrice());
-                    System.out.println("Members: " + (membership.getMembers().isEmpty() ? "None" : membership.getMembers()));
                     System.out.println("----------------------------------------");
                 }
             }

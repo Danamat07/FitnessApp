@@ -1,17 +1,17 @@
 package model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
-public class Member extends User implements Identifiable {
+public class Member extends User implements HasId {
 
     private int id;
-    private LocalDate registrationDate;
+    private LocalDateTime registrationDate;
     private String membershipType;
     private List<FitnessClass> fitnessClasses;
 
     // Constructor
-    public Member(String name, String mail, String phone, LocalDate registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
+    public Member(String name, String mail, String phone, LocalDateTime registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
         super(name, mail, phone);
         this.registrationDate = registrationDate;
         this.membershipType = membershipType;
@@ -30,7 +30,7 @@ public class Member extends User implements Identifiable {
 
     // Getters
 
-    public LocalDate getRegistrationDate() {
+    public LocalDateTime getRegistrationDate() {
         return registrationDate;
     }
 
@@ -56,9 +56,23 @@ public class Member extends User implements Identifiable {
     public String getPhone() {
         return super.getPhone();
     }
+
+    public String getIDsOfClasses() {
+        StringBuilder str = new StringBuilder();
+        for (FitnessClass fitnessClass1 : getFitnessClasses()) {
+            if (fitnessClass1 != null) {
+                str.append(fitnessClass1.getId()).append("-");
+            }
+        }
+        if (str.length() > 0) {
+            str.deleteCharAt(str.length() - 1);
+        }
+        return str.toString();
+    }
+
     // Setters
 
-    public void setRegistrationDate(LocalDate registrationDate) {
+    public void setRegistrationDate(LocalDateTime registrationDate) {
         this.registrationDate = registrationDate;
     }
 

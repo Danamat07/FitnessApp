@@ -1,6 +1,6 @@
 package model;
 
-public class Room implements Identifiable {
+public class Room implements HasId {
     private int id;
     private String name;
     private int maxCapacity;

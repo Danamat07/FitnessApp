@@ -1,6 +1,6 @@
 package model;
 
-public class Feedback implements Identifiable {
+public class Feedback implements HasId {
     private int id;
     private Member member;
     private FitnessClass fitnessClass;

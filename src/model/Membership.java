@@ -2,7 +2,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Membership implements Identifiable {
+public class Membership implements HasId {
 
     private int id;
     private String type;
@@ -38,6 +38,19 @@ public class Membership implements Identifiable {
 
     public float getPrice() {
         return price;
+    }
+
+    public String getIDsOfMembers() {
+        StringBuilder str = new StringBuilder();
+        for (Member member1 : getMembers()) {
+            if (member1 != null) {
+                str.append(member1.getId()).append("-");
+            }
+        }
+        if (str.length() > 0) {
+            str.deleteCharAt(str.length() - 1);
+        }
+        return str.toString();
     }
 
     // Setters

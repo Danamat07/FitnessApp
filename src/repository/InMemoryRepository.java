@@ -1,5 +1,5 @@
 package repository;
-import model.Identifiable;
+import model.HasId;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * and efficient way to perform CRUD operations using an in-memory data structure.
  * @param <T> The type of objects managed by this repository. T must extend Identifiable.
  */
-public class InMemoryRepository<T extends Identifiable> implements IRepository<T> {
+public class InMemoryRepository<T extends HasId> implements IRepository<T> {
 
     private final Map<Integer, T> storage = new HashMap<>();
 

@@ -2,14 +2,13 @@ package app;
 
 import model.*;
 import controller.*;
-import repository.FileRepository;
-import repository.InMemoryRepository;
+import repository.*;
 import service.FitnessService;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -182,12 +181,113 @@ public class UI {
         }
     }
 
+    public void menu() {
+        Scanner scanner = new Scanner(System.in);
+        boolean isRunning = true;
+        while (isRunning) {
+            System.out.println("Welcome to the Fitness center!");
+            System.out.println("1. Create new account");
+            System.out.println("2. Login");
+            System.out.println("3. Delete account");
+            System.out.println("4. Update account");
+            System.out.println("5. Exit");
+            System.out.println("Enter your option here (1, 2, 3, 4 or 5): ");
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch (choice) {
+                case 1 -> {
+                    createNewAccount();
+                    isRunning = false;
+                }
+                case 2 -> {
+                    login();
+                    isRunning = false;
+                }
+                case 3 -> {
+                    deleteAccount();
+                    isRunning = false;
+                }
+                case 4 -> {
+                    updateAccount();
+                    isRunning = false;
+                }
+                case 5 -> {
+                    System.out.println("Exiting...");
+                    isRunning = false;
+                }
+            }
+        }
+        scanner.close();
+    }
+
+    public void deleteAccount() {
+        Scanner scanner = new Scanner(System.in);
+        boolean isRunning = true;
+        while (isRunning) {
+            System.out.println("\n------------------------------------------ ");
+            System.out.println("Full name: ");
+            String name = scanner.nextLine();
+            System.out.println("Mail: ");
+            String mail = scanner.nextLine();
+            System.out.println("Phone number: ");
+            String phoneNumber = scanner.nextLine();
+            Member member = findMemberByCredentials(fitnessmembers, name, mail, phoneNumber);
+            Trainer trainer = findTrainerByCredentials(fitnesstraines, name, mail, phoneNumber);
+            if (member != null) {
+                int memberID = member.getId();
+                fitnessController.deleteMember(memberID);
+                System.out.println("User deleted successfully.");
+                isRunning = false;
+            }
+        }
+    }
+
+    public void updateAccount() {}
+
+    public void createNewAccount() {
+        Scanner scanner = new Scanner(System.in);
+        boolean isRunning = true;
+        while (isRunning) {
+            System.out.println("\n------------------------------------------ ");
+            System.out.println("Which account type would you like to create? (member or trainer): ");
+            String userInput = scanner.nextLine();
+            if (Objects.equals(userInput, "member")) {
+                System.out.println("\n------------------------------------------ ");
+                System.out.println("Full name: ");
+                String name = scanner.nextLine();
+                System.out.println("Mail: ");
+                String mail = scanner.nextLine();
+                System.out.println("Phone number: ");
+                String phoneNumber = scanner.nextLine();
+                LocalDateTime registrationDate = LocalDateTime.now();
+                String startMembership = "Basic";
+                List<FitnessClass> classes = new ArrayList<>();
+                fitnessController.addMember(name, mail, phoneNumber, registrationDate, startMembership, classes);
+                System.out.println("Account created successfully!");
+                isRunning = false;
+            } else if (Objects.equals(userInput, "trainer")) {
+                System.out.println("\n------------------------------------------ ");
+                System.out.println("Full name: ");
+                String name = scanner.nextLine();
+                System.out.println("Mail: ");
+                String mail = scanner.nextLine();
+                System.out.println("Phone number: ");
+                String phoneNumber = scanner.nextLine();
+                System.out.println("Your specialisation: ");
+                String specialisation = scanner.nextLine();
+                fitnessController.addTrainer(name, mail, phoneNumber, specialisation);
+                System.out.println("Account created successfully!");
+                isRunning = false;
+            }
+        }
+        scanner.close();
+    }
+
     public void login() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Welcome to the Fitness center!");
         boolean isRunning = true;
         while (isRunning) {
+            System.out.println("\n------------------------------------------ ");
             System.out.println("Please enter your login info:");
             System.out.println("Full name: ");
             String userName = scanner.nextLine();
@@ -221,8 +321,6 @@ public class UI {
                 }
             }
         }
-
-        // Close the scanner resource when done
         scanner.close();
     }
 
@@ -305,23 +403,23 @@ public class UI {
 
         // members
         ArrayList<FitnessClass> member1Classes = new ArrayList<>();
-        Member member1 = new Member("Hrihor Mihaela", "mihaelahrihor@gmail.com", "0758909520", LocalDate.ofYearDay(2024, 12), "Premium", member1Classes);
+        Member member1 = new Member("Hrihor Mihaela", "mihaelahrihor@gmail.com", "0758909520", LocalDateTime.of(2024, 1, 12, 12, 30), "Premium", member1Classes);
         member1.setId(1);
 
         ArrayList<FitnessClass> member2Classes = new ArrayList<>();
-        Member member2 = new Member("Matei Dana", "mateidana@gmail.com", "0771367002", LocalDate.ofYearDay(2024, 67), "Student", member2Classes);
+        Member member2 = new Member("Matei Dana", "mateidana@gmail.com", "0771367002", LocalDateTime.of(2024, 1, 19, 11, 10), "Student", member2Classes);
         member2.setId(2);
 
         ArrayList<FitnessClass> member3Classes = new ArrayList<>();
-        Member member3 = new Member("Mitri Miruna", "mitrimiruna@gmail.com", "0758867145", LocalDate.ofYearDay(2023, 47), "Basic", member3Classes);
+        Member member3 = new Member("Mitri Miruna", "mitrimiruna@gmail.com", "0758867145", LocalDateTime.of(2024, 1, 22, 16, 20), "Basic", member3Classes);
         member3.setId(3);
 
         ArrayList<FitnessClass> member4Classes = new ArrayList<>();
-        Member member4 = new Member("Berceaengels Kathrin", "kathrinberceaengels@gmail.com", "0745602416", LocalDate.ofYearDay(2020, 101), "Premium", member4Classes);
+        Member member4 = new Member("Berceaengels Kathrin", "kathrinberceaengels@gmail.com", "0745602416", LocalDateTime.of(2024, 1, 2, 13, 30), "Premium", member4Classes);
         member4.setId(4);
 
         ArrayList<FitnessClass> member5Classes = new ArrayList<>();
-        Member member5 = new Member("Bleoca Cristiana", "cristianableoca@gmail.com", "0790143267", LocalDate.ofYearDay(2023, 258), "Student", member5Classes);
+        Member member5 = new Member("Bleoca Cristiana", "cristianableoca@gmail.com", "0790143267", LocalDateTime.of(2024, 1, 12, 12, 30), "Student", member5Classes);
         member5.setId(5);
 
         ArrayList<Member> membersList = new ArrayList<>();
@@ -464,6 +562,10 @@ public class UI {
         member2Classes.add(class1);
         member3Classes.add(class1);
         member5Classes.add(class1);
+        classesWithMattresses.add(class1);
+        classesWithFoamRollers.add(class1);
+        classesWithResistenceBands.add(class1);
+        classesWithYogaBlocks.add(class1);
 
         ArrayList<Feedback> feedbackListForClass2 = new ArrayList<>();
         ArrayList<Member> membersForClass2 = new ArrayList<>();
@@ -475,6 +577,10 @@ public class UI {
         member1Classes.add(class2);
         member2Classes.add(class2);
         member3Classes.add(class2);
+        classesWithMattresses.add(class2);
+        classesWithFoamRollers.add(class2);
+        classesWithResistenceBands.add(class2);
+        classesWithYogaBlocks.add(class2);
 
         ArrayList<Feedback> feedbackListForClass3 = new ArrayList<>();
         ArrayList<Member> membersForClass3 = new ArrayList<>();
@@ -486,6 +592,10 @@ public class UI {
         member1Classes.add(class3);
         member3Classes.add(class3);
         member4Classes.add(class3);
+        classesWithMattresses.add(class3);
+        classesWithFoamRollers.add(class3);
+        classesWithResistenceBands.add(class3);
+        classesWithYogaBlocks.add(class3);
 
         ArrayList<Feedback> feedbackListForClass4 = new ArrayList<>();
         ArrayList<Member> membersForClass4 = new ArrayList<>();
@@ -497,6 +607,10 @@ public class UI {
         member1Classes.add(class4);
         member2Classes.add(class4);
         member5Classes.add(class4);
+        classesWithMattresses.add(class4);
+        classesWithFoamRollers.add(class4);
+        classesWithResistenceBands.add(class4);
+        classesWithPilatesRings.add(class4);
 
         ArrayList<Feedback> feedbackListForClass5 = new ArrayList<>();
         ArrayList<Member> membersForClass5 = new ArrayList<>();
@@ -510,6 +624,10 @@ public class UI {
         member2Classes.add(class5);
         member4Classes.add(class5);
         member5Classes.add(class5);
+        classesWithMattresses.add(class5);
+        classesWithFoamRollers.add(class5);
+        classesWithResistenceBands.add(class5);
+        classesWithPilatesRings.add(class5);
 
         ArrayList<Feedback> feedbackListForClass6 = new ArrayList<>();
         ArrayList<Member> membersForClass6 = new ArrayList<>();
@@ -523,6 +641,10 @@ public class UI {
         member2Classes.add(class6);
         member3Classes.add(class6);
         member4Classes.add(class6);
+        classesWithMattresses.add(class6);
+        classesWithFoamRollers.add(class6);
+        classesWithResistenceBands.add(class6);
+        classesWithPilatesRings.add(class6);
 
         ArrayList<Feedback> feedbackListForClass7 = new ArrayList<>();
         ArrayList<Member> membersForClass7 = new ArrayList<>();
@@ -534,6 +656,10 @@ public class UI {
         member1Classes.add(class7);
         member4Classes.add(class7);
         member5Classes.add(class7);
+        classesWithWeights.add(class7);
+        classesWithBoxingGloves.add(class7);
+        classesWithHeadgears.add(class7);
+        classesWithPunchingBags.add(class7);
 
         ArrayList<Feedback> feedbackListForClass8 = new ArrayList<>();
         ArrayList<Member> membersForClass8 = new ArrayList<>();
@@ -545,6 +671,10 @@ public class UI {
         member1Classes.add(class8);
         member2Classes.add(class8);
         member5Classes.add(class8);
+        classesWithWeights.add(class8);
+        classesWithBoxingGloves.add(class8);
+        classesWithHeadgears.add(class8);
+        classesWithPunchingBags.add(class8);
 
         ArrayList<Feedback> feedbackListForClass9 = new ArrayList<>();
         ArrayList<Member> membersForClass9 = new ArrayList<>();
@@ -556,6 +686,10 @@ public class UI {
         member2Classes.add(class9);
         member3Classes.add(class9);
         member4Classes.add(class9);
+        classesWithWeights.add(class9);
+        classesWithBoxingGloves.add(class9);
+        classesWithHeadgears.add(class9);
+        classesWithPunchingBags.add(class9);
 
         ArrayList<Feedback> feedbackListForClass10 = new ArrayList<>();
         ArrayList<Member> membersForClass10 = new ArrayList<>();
@@ -569,6 +703,9 @@ public class UI {
         member2Classes.add(class10);
         member3Classes.add(class10);
         member4Classes.add(class10);
+        classesWithTreadmills.add(class10);
+        classesWithJumpRopes.add(class10);
+        classesWithAirBikes.add(class10);
 
         ArrayList<Feedback> feedbackListForClass11 = new ArrayList<>();
         ArrayList<Member> membersForClass11 = new ArrayList<>();
@@ -580,6 +717,9 @@ public class UI {
         member1Classes.add(class11);
         member4Classes.add(class11);
         member5Classes.add(class11);
+        classesWithTreadmills.add(class11);
+        classesWithJumpRopes.add(class11);
+        classesWithAirBikes.add(class11);
 
         ArrayList<Feedback> feedbackListForClass12 = new ArrayList<>();
         ArrayList<Member> membersForClass12 = new ArrayList<>();
@@ -591,6 +731,9 @@ public class UI {
         member1Classes.add(class12);
         member2Classes.add(class12);
         member3Classes.add(class12);
+        classesWithTreadmills.add(class12);
+        classesWithJumpRopes.add(class12);
+        classesWithAirBikes.add(class12);
 
         ArrayList<Feedback> feedbackListForClass13 = new ArrayList<>();
         ArrayList<Member> membersForClass13 = new ArrayList<>();
@@ -602,6 +745,9 @@ public class UI {
         member1Classes.add(class13);
         member4Classes.add(class13);
         member5Classes.add(class13);
+        classesWithWeights.add(class13);
+        classesWithLegPresses.add(class13);
+        classesWithAirBikes.add(class13);
 
         ArrayList<Feedback> feedbackListForClass14 = new ArrayList<>();
         ArrayList<Member> membersForClass14 = new ArrayList<>();
@@ -613,6 +759,9 @@ public class UI {
         member2Classes.add(class14);
         member3Classes.add(class14);
         member4Classes.add(class14);
+        classesWithWeights.add(class14);
+        classesWithLegPresses.add(class14);
+        classesWithAirBikes.add(class14);
 
         ArrayList<Feedback> feedbackListForClass15 = new ArrayList<>();
         ArrayList<Member> membersForClass15 = new ArrayList<>();
@@ -626,6 +775,9 @@ public class UI {
         member2Classes.add(class15);
         member4Classes.add(class15);
         member5Classes.add(class15);
+        classesWithWeights.add(class15);
+        classesWithLegPresses.add(class15);
+        classesWithAirBikes.add(class15);
 
         // feedbacks
         Feedback feedback1 = new Feedback(member2, class1, 5, "Nice energy. I really enjoyed this class!");
@@ -756,7 +908,25 @@ public class UI {
 //
 //        FitnessService inMemoryService = new FitnessService(equipmentInMemoRepo, feedbackInMemoRepo, fitnessClassInMemoRepo, locationInMemoRepo, memberInMemoRepo, membershipInMemoRepo, roomInMemoRepo, trainerInMemoRepo);
 
-        FileRepository<Equipment> equipmentFileRepo = new FileRepository<>("Equipment.csv",Equipment.class);
+        FileRepository<Location> locationFileRepo = new FileRepository<>("Location.txt");
+        locationFileRepo.create(location1);
+        locationFileRepo.create(location2);
+
+        FileRepository<Room> roomFileRepo = new FileRepository<>("Room.txt");
+        roomFileRepo.create(room1);
+        roomFileRepo.create(room2);
+        roomFileRepo.create(room3);
+        roomFileRepo.create(room4);
+        roomFileRepo.create(room5);
+
+        FileRepository<Trainer> trainerFileRepo = new FileRepository<>("Trainer.txt");
+        trainerFileRepo.create(trainer1);
+        trainerFileRepo.create(trainer2);
+        trainerFileRepo.create(trainer3);
+        trainerFileRepo.create(trainer4);
+        trainerFileRepo.create(trainer5);
+
+        FileRepository<Equipment> equipmentFileRepo = new FileRepository<>("Equipment.txt");
         equipmentFileRepo.create(weights);
         equipmentFileRepo.create(mattresses);
         equipmentFileRepo.create(treadmill);
@@ -771,24 +941,19 @@ public class UI {
         equipmentFileRepo.create(headgear);
         equipmentFileRepo.create(punchingBags);
 
-        FileRepository<Feedback> feedbackFileRepo = new FileRepository<>("Feedback.csv",Feedback.class);
-        feedbackFileRepo.create(feedback1);
-        feedbackFileRepo.create(feedback2);
-        feedbackFileRepo.create(feedback3);
-        feedbackFileRepo.create(feedback4);
-        feedbackFileRepo.create(feedback5);
-        feedbackFileRepo.create(feedback6);
-        feedbackFileRepo.create(feedback7);
-        feedbackFileRepo.create(feedback8);
-        feedbackFileRepo.create(feedback9);
-        feedbackFileRepo.create(feedback10);
-        feedbackFileRepo.create(feedback11);
-        feedbackFileRepo.create(feedback12);
-        feedbackFileRepo.create(feedback13);
-        feedbackFileRepo.create(feedback14);
-        feedbackFileRepo.create(feedback15);
+        FileRepository<Member> memberFileRepo = new FileRepository<>("Member.txt");
+        memberFileRepo.create(member1);
+        memberFileRepo.create(member2);
+        memberFileRepo.create(member3);
+        memberFileRepo.create(member4);
+        memberFileRepo.create(member5);
 
-        FileRepository<FitnessClass> fitnessClassFileRepo = new FileRepository<>("FitnessClass.csv", FitnessClass.class);
+        FileRepository<Membership> membershipFileRepo = new FileRepository<>("Membership.txt");
+        membershipFileRepo.create(basicMembership);
+        membershipFileRepo.create(studentMembership);
+        membershipFileRepo.create(premiumMembership);
+
+        FileRepository<FitnessClass> fitnessClassFileRepo = new FileRepository<>("FitnessClass.txt");
         fitnessClassFileRepo.create(class1);
         fitnessClassFileRepo.create(class2);
         fitnessClassFileRepo.create(class3);
@@ -805,42 +970,28 @@ public class UI {
         fitnessClassFileRepo.create(class14);
         fitnessClassFileRepo.create(class15);
 
-        FileRepository<Location> locationFileRepo = new FileRepository<>("Location.csv", Location.class);
-        locationFileRepo.create(location1);
-        locationFileRepo.create(location2);
-
-        FileRepository<Member> memberFileRepo = new FileRepository<>("Member.csv",Member.class);
-        memberFileRepo.create(member1);
-        memberFileRepo.create(member2);
-        memberFileRepo.create(member3);
-        memberFileRepo.create(member4);
-        memberFileRepo.create(member5);
-
-        FileRepository<Membership> membershipFileRepo = new FileRepository<>("Membership.csv", Membership.class);
-        membershipFileRepo.create(basicMembership);
-        membershipFileRepo.create(studentMembership);
-        membershipFileRepo.create(premiumMembership);
-
-        FileRepository<Room> roomFileRepo = new FileRepository<>("Room.csv",Room.class);
-        roomFileRepo.create(room1);
-        roomFileRepo.create(room2);
-        roomFileRepo.create(room3);
-        roomFileRepo.create(room4);
-        roomFileRepo.create(room5);
-
-        FileRepository<Trainer> trainerFileRepo = new FileRepository<>("Trainer.csv",Trainer.class);
-        trainerFileRepo.create(trainer1);
-        trainerFileRepo.create(trainer2);
-        trainerFileRepo.create(trainer3);
-        trainerFileRepo.create(trainer4);
-        trainerFileRepo.create(trainer5);
+        FileRepository<Feedback> feedbackFileRepo = new FileRepository<>("Feedback.txt");
+        feedbackFileRepo.create(feedback1);
+        feedbackFileRepo.create(feedback2);
+        feedbackFileRepo.create(feedback3);
+        feedbackFileRepo.create(feedback4);
+        feedbackFileRepo.create(feedback5);
+        feedbackFileRepo.create(feedback6);
+        feedbackFileRepo.create(feedback7);
+        feedbackFileRepo.create(feedback8);
+        feedbackFileRepo.create(feedback9);
+        feedbackFileRepo.create(feedback10);
+        feedbackFileRepo.create(feedback11);
+        feedbackFileRepo.create(feedback12);
+        feedbackFileRepo.create(feedback13);
+        feedbackFileRepo.create(feedback14);
+        feedbackFileRepo.create(feedback15);
 
         FitnessService fileService = new FitnessService(equipmentFileRepo, feedbackFileRepo, fitnessClassFileRepo, locationFileRepo, memberFileRepo, membershipFileRepo, roomFileRepo, trainerFileRepo);
 
         FitnessController controller = new FitnessController(fileService);
-
         UI ui = new UI(controller, membersList, trainersList);
-        ui.login();
+        ui.menu();
 
     }
 

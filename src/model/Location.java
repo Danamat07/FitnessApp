@@ -1,6 +1,6 @@
 package model;
 
-public class Location implements Identifiable {
+public class Location implements HasId {
     private int id;
     private String name;
     private String address;

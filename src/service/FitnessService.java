@@ -2,7 +2,6 @@ package service;
 import model.*;
 import repository.IRepository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -72,15 +71,8 @@ public class FitnessService {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity must be greater than zero.");
         }
-        int newID = 1;
-        List<Equipment> allEquipment = equipmentRepository.getAll();
-        for (Equipment equipment : allEquipment) {
-            if (equipment.getId() >= newID) {
-                newID = equipment.getId() + 1;
-            }
-        }
         Equipment newEquipment = new Equipment(name, quantity, fitnessClasses);
-        newEquipment.setId(newID);
+        newEquipment.setId(getEquipmentNextId());
         equipmentRepository.create(newEquipment);
     }
 
@@ -168,15 +160,8 @@ public class FitnessService {
         if (comment == null || comment.trim().isEmpty()) {
             throw new IllegalArgumentException("Comment cannot be null or empty.");
         }
-        int newID = 1;
-        List<Feedback> allFeedbacks = feedbackRepository.getAll();
-        for (Feedback feedback : allFeedbacks) {
-            if (feedback.getId() >= newID) {
-                newID = feedback.getId() + 1;
-            }
-        }
         Feedback newFeedback = new Feedback(member, fitnessClass, rating, comment);
-        newFeedback.setId(newID);
+        newFeedback.setId(getFeedbackNextId());
         feedbackRepository.create(newFeedback);
     }
 
@@ -282,15 +267,8 @@ public class FitnessService {
         if (participantsCount < 0) {
             throw new IllegalArgumentException("Participants count cannot be negative.");
         }
-        int newID = 1;
-        List<FitnessClass> allClasses = fitnessClassRepository.getAll();
-        for (FitnessClass fitnessClass : allClasses) {
-            if (fitnessClass.getId() >= newID) {
-                newID = fitnessClass.getId() + 1;
-            }
-        }
         FitnessClass newFitnessClass = new FitnessClass(name, startTime, endTime, trainer, room, participantsCount, location, feedback, members, equipment);
-        newFitnessClass.setId(newID);
+        newFitnessClass.setId(getClassNextId());
         fitnessClassRepository.create(newFitnessClass);
     }
 
@@ -394,15 +372,8 @@ public class FitnessService {
         if (address == null || address.trim().isEmpty()) {
             throw new IllegalArgumentException("Location address cannot be null or empty.");
         }
-        int newID = 1;
-        List<Location> allLocations = locationRepository.getAll();
-        for (Location location : allLocations) {
-            if (location.getId() >= newID) {
-                newID = location.getId() + 1;
-            }
-        }
         Location newLocation = new Location(name, address);
-        newLocation.setId(newID);
+        newLocation.setId(getLocationNextId());
         locationRepository.create(newLocation);
     }
 
@@ -476,7 +447,7 @@ public class FitnessService {
      * @param fitnessClasses  A list of fitness classes the member is enrolled in. Can be empty.
      * @throws IllegalArgumentException if any of the parameters are invalid.
      */
-    public void addMember(String name, String mail, String phone, LocalDate registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
+    public void addMember(String name, String mail, String phone, LocalDateTime registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Name cannot be null or empty.");
         }
@@ -492,15 +463,8 @@ public class FitnessService {
         if (membershipType == null || membershipType.trim().isEmpty()) {
             throw new IllegalArgumentException("Membership type cannot be null or empty.");
         }
-        int newID = 1;
-        List<Member> allMembers = memberRepository.getAll();
-        for (Member member : allMembers) {
-            if (member.getId() >= newID) {
-                newID = member.getId() + 1;
-            }
-        }
         Member newMember = new Member(name, mail, phone, registrationDate, membershipType, fitnessClasses);
-        newMember.setId(newID);
+        newMember.setId(getMemberNextId());
         memberRepository.create(newMember);
     }
 
@@ -515,7 +479,7 @@ public class FitnessService {
      * @param fitnessClasses   The updated list of fitness classes the member is enrolled in. Can be empty.
      * @throws IllegalArgumentException if any of the parameters are invalid or if the member with the given ID does not exist.
      */
-    public void updateMember(int id, String name, String mail, String phone, LocalDate registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
+    public void updateMember(int id, String name, String mail, String phone, LocalDateTime registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Name cannot be null or empty.");
         }
@@ -595,15 +559,8 @@ public class FitnessService {
         if (price <= 0) {
             throw new IllegalArgumentException("Price must be greater than zero.");
         }
-        int newID = 1;
-        List<Membership> allMemberships = membershipRepository.getAll();
-        for (Membership membership : allMemberships) {
-            if (membership.getId() >= newID) {
-                newID = membership.getId() + 1;
-            }
-        }
         Membership newMembership = new Membership(type, members, price);
-        newMembership.setId(newID);
+        newMembership.setId(getMembershipNextId());
         membershipRepository.create(newMembership);
     }
 
@@ -686,15 +643,8 @@ public class FitnessService {
         if (location == null) {
             throw new IllegalArgumentException("Location cannot be null.");
         }
-        int newID = 1;
-        List<Room> allRooms = roomRepository.getAll();
-        for (Room room : allRooms) {
-            if (room.getId() >= newID) {
-                newID = room.getId() + 1;
-            }
-        }
         Room newRoom = new Room(name, maxCapacity, location);
-        newRoom.setId(newID);
+        newRoom.setId(getRoomNextId());
         roomRepository.create(newRoom);
     }
 
@@ -784,15 +734,8 @@ public class FitnessService {
         if (specialisation == null || specialisation.trim().isEmpty()) {
             throw new IllegalArgumentException("Trainer specialisation cannot be null or empty.");
         }
-        int newID = 1;
-        List<Trainer> allTrainers = trainerRepository.getAll();
-        for (Trainer trainer : allTrainers) {
-            if (trainer.getId() >= newID) {
-                newID = trainer.getId() + 1;
-            }
-        }
         Trainer newTrainer = new Trainer(name, mail, phone, specialisation);
-        newTrainer.setId(newID);
+        newTrainer.setId(getTrainerNextId());
         trainerRepository.create(newTrainer);
     }
 
@@ -950,17 +893,6 @@ public class FitnessService {
         newFitnessClass.setId(getClassNextId());
         checkForScheduleCollision(newFitnessClass);
         fitnessClassRepository.create(newFitnessClass);
-    }
-
-    /**
-     * Helper method to find the next available ID for a new fitness class.
-     * The next ID is determined by finding the current size of the fitness class repository
-     * and adding 1 to it. This ensures that each new fitness class gets a unique ID.
-     * @return The next available fitness class ID.
-     */
-    public int getClassNextId() {
-        List<FitnessClass> fitnessClasses = fitnessClassRepository.getAll();
-        return fitnessClasses.size() + 1;
     }
 
     /**
@@ -1188,11 +1120,6 @@ public class FitnessService {
         return pastClasses;
     }
 
-    public int getFeedbackNextId() {
-        List<Feedback> feedbacks = feedbackRepository.getAll();
-        return feedbacks.size() + 1;
-    }
-
     // add feedback to a class
     public void addFeedbackForClass(int memberId, int classId, String feedbackContent, int rating) {
         Member member = memberRepository.read(memberId);
@@ -1208,5 +1135,57 @@ public class FitnessService {
         System.out.println("Feedback added successfully");
     }
 
+    public int getClassNextId() {
+        List<FitnessClass> fitnessClasses = fitnessClassRepository.getAll();
+        return fitnessClasses.size() + 1;
+    }
+
+    public int getFeedbackNextId() {
+        List<Feedback> feedbacks = feedbackRepository.getAll();
+        return feedbacks.size() + 1;
+    }
+
+    public int getTrainerNextId() {
+        List<Trainer> trainers = trainerRepository.getAll();
+        return trainers.size() + 1;
+    }
+
+    public int getMemberNextId() {
+        List<Member> members = memberRepository.getAll();
+        return members.size() + 1;
+    }
+
+    public int getRoomNextId() {
+        List<Room> rooms = roomRepository.getAll();
+        return rooms.size() + 1;
+    }
+
+    public int getMembershipNextId() {
+        List<Membership> memberships = membershipRepository.getAll();
+        return memberships.size() + 1;
+    }
+
+    public int getLocationNextId() {
+        List<Location> locations = locationRepository.getAll();
+        return locations.size() + 1;
+    }
+
+    public int getEquipmentNextId() {
+        List<Equipment> equipment = equipmentRepository.getAll();
+        return equipment.size() + 1;
+    }
+
+    public boolean checkIfMembershipExistsByType(String type) {
+        List<Membership> memberships = membershipRepository.getAll();
+        if (memberships == null) {
+            throw new IllegalArgumentException("No memberships available.");
+        }
+        for (Membership membership : memberships) {
+            if (Objects.equals(membership.getType(), type)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

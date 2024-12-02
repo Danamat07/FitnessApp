@@ -2,7 +2,7 @@ package model;
 
 import java.util.List;
 
-public class Equipment implements Identifiable {
+public class Equipment implements HasId {
     private int id;
     private String name;
     private int quantity;
@@ -38,6 +38,20 @@ public class Equipment implements Identifiable {
     public List<FitnessClass> getFitnessClasses() {
         return fitnessClasses;
     }
+
+    public String getIDsOfClasses() {
+        StringBuilder str = new StringBuilder();
+        for (FitnessClass fitnessClass1 : getFitnessClasses()) {
+            if (fitnessClass1 != null) {
+                str.append(fitnessClass1.getId()).append("-");
+            }
+        }
+        if (str.length() > 0) {
+            str.deleteCharAt(str.length() - 1);
+        }
+        return str.toString();
+    }
+
 
     //Setters
 

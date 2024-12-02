@@ -1,6 +1,6 @@
 package model;
 
-public class Trainer extends User implements Identifiable {
+public class Trainer extends User implements HasId {
 
     private int id;
     private String specialisation;

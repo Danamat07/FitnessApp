@@ -1,6 +1,6 @@
 package model;
 
-public abstract class User implements Identifiable {
+public abstract class User implements HasId {
 
     private String name;
     private String mail;
