@@ -378,7 +378,7 @@ public class FitnessController {
     public void updateMember(int id, String name, String mail, String phone, LocalDateTime registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
         try {
             fitnessService.updateMember(id, name, mail, phone, registrationDate, membershipType, fitnessClasses);
-            System.out.println("Member updated successfully.");
+            System.out.println("Account updated successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
@@ -457,6 +457,17 @@ public class FitnessController {
             System.err.println(e.getMessage());
         }
     }
+
+    //Get all memberships
+    public List<Membership> getAllMemberships(){
+        try{
+            return fitnessService.getAllMemberships();
+        }catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
 
     // ----- Room -----
 

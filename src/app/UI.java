@@ -241,7 +241,50 @@ public class UI {
         }
     }
 
-    public void updateAccount() {}
+    public void updateAccount() {
+        Scanner scanner = new Scanner(System.in);
+        boolean isRunning = true;
+        while (isRunning) {
+            System.out.println("\n------------------------------------------ ");
+            System.out.println("Please login first.");
+            System.out.println("Full name: ");
+            String name = scanner.nextLine();
+            System.out.println("Mail: ");
+            String mail = scanner.nextLine();
+            System.out.println("Phone number: ");
+            String phoneNumber = scanner.nextLine();
+            Member member = findMemberByCredentials(fitnessmembers,name, mail, phoneNumber);
+            Trainer trainer = findTrainerByCredentials(fitnesstraines, name, mail, phoneNumber);
+            if (member != null){
+                int memberId = member.getId();
+                System.out.println("Login successfully! ");
+                System.out.println("Current membership type is: ");
+                String membershipType = member.getMembershipType();
+                System.out.println(membershipType);
+                System.out.println("Choose a new membership type: ");
+                List<Membership> membershipList = fitnessController.getAllMemberships();
+                for(Membership membership : membershipList){
+                    System.out.println(membership.getType());
+                }
+                String choice = scanner.nextLine();
+                fitnessController.updateMember(memberId,member.getName(),member.getMail(),member.getPhone(),member.getRegistrationDate(),choice,member.getFitnessClasses());
+                System.out.println("\n------------------------------------------ ");
+                System.out.println("Back to main menu. \n");
+                menu();
+            }else if(trainer != null){
+                int trainerId = trainer.getId();
+                isRunning = false;
+            }else {
+                System.out.println("No user found with the given credentials.");
+                System.out.println("Do you want to try again? (y/n): ");
+                String tryAgain = scanner.nextLine();
+                if (!tryAgain.equalsIgnoreCase("y")){
+                    isRunning = false;
+                }
+            }
+        }
+        scanner.close();
+    }
 
     public void createNewAccount() {
         Scanner scanner = new Scanner(System.in);
@@ -263,7 +306,9 @@ public class UI {
                 List<FitnessClass> classes = new ArrayList<>();
                 fitnessController.addMember(name, mail, phoneNumber, registrationDate, startMembership, classes);
                 System.out.println("Account created successfully!");
-                isRunning = false;
+                System.out.println("\n------------------------------------------ ");
+                System.out.println("Back to main menu. \n");
+                menu();
             } else if (Objects.equals(userInput, "trainer")) {
                 System.out.println("\n------------------------------------------ ");
                 System.out.println("Full name: ");
@@ -276,7 +321,9 @@ public class UI {
                 String specialisation = scanner.nextLine();
                 fitnessController.addTrainer(name, mail, phoneNumber, specialisation);
                 System.out.println("Account created successfully!");
-                isRunning = false;
+                System.out.println("\n------------------------------------------ ");
+                System.out.println("Back to main menu. \n");
+                menu();
             }
         }
         scanner.close();
