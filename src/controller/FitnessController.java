@@ -78,9 +78,9 @@ public class FitnessController {
     }
 
     // Add new equipment
-    public void addEquipment(String name, int quantity, List<FitnessClass> fitnessClasses) {
+    public void addEquipment(Equipment equipment) {
         try {
-            fitnessService.addEquipment(name, quantity, fitnessClasses);
+            fitnessService.addEquipment(equipment);
             System.out.println("Equipment added successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -146,9 +146,9 @@ public class FitnessController {
     }
 
     // Add new feedback
-    public void addFeedback(Member member, FitnessClass fitnessClass, int rating, String comment) {
+    public void addFeedback(Feedback feedback) {
         try {
-            fitnessService.addFeedback(member, fitnessClass, rating, comment);
+            fitnessService.addFeedback(feedback);
             System.out.println("Feedback added successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -156,9 +156,9 @@ public class FitnessController {
     }
 
     // Update existing feedback
-    public void updateFeedback(int id, Member member, FitnessClass fitnessClass, int rating, String comment) {
+    public void updateFeedback(int id, int rating, String comment) {
         try {
-            fitnessService.updateFeedback(id, member, fitnessClass, rating, comment);
+            fitnessService.updateFeedback(id, rating, comment);
             System.out.println("Feedback updated successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -224,12 +224,9 @@ public class FitnessController {
     }
 
     // Add new fitness class
-    public void addFitnessClass(String name, LocalDateTime startTime, LocalDateTime endTime, Trainer trainer, Room room, int participantsCount,
-                                Location location, List<Feedback> feedback,
-                                List<Member> members, List<Equipment> equipment) {
+    public void addFitnessClass(FitnessClass fitnessClass) {
         try {
-            fitnessService.addFitnessClass(name, startTime, endTime, trainer, room, participantsCount,
-                    location, feedback, members, equipment);
+            fitnessService.addFitnessClass(fitnessClass);
             System.out.println("Fitness class added successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -294,9 +291,9 @@ public class FitnessController {
     }
 
     // Add a new location
-    public void addLocation(String name, String address) {
+    public void addLocation(Location location) {
         try {
-            fitnessService.addLocation(name, address);
+            fitnessService.addLocation(location);
             System.out.println("Location added successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -366,18 +363,18 @@ public class FitnessController {
     }
 
     // Add a new member
-    public void addMember(String name, String mail, String phone, LocalDateTime registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
+    public void addMember(Member member) {
         try {
-            fitnessService.addMember(name, mail, phone, registrationDate, membershipType, fitnessClasses);
+            fitnessService.addMember(member);
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
     }
 
     // Update an existing member
-    public void updateMember(int id, String name, String mail, String phone, LocalDateTime registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
+    public void updateMember(int id, String name, String mail, String phone, String membershipType, List<FitnessClass> fitnessClasses) {
         try {
-            fitnessService.updateMember(id, name, mail, phone, registrationDate, membershipType, fitnessClasses);
+            fitnessService.updateMember(id, name, mail, phone, membershipType, fitnessClasses);
             System.out.println("Account updated successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -429,9 +426,9 @@ public class FitnessController {
     }
 
     // Add a new membership
-    public void addMembership(String type, ArrayList<Member> members, float price) {
+    public void addMembership(Membership membership) {
         try {
-            fitnessService.addMembership(type, members, price);
+            fitnessService.addMembership(membership);
             System.out.println("Membership added successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -506,9 +503,9 @@ public class FitnessController {
     }
 
     // Add a new room
-    public void addRoom(String name, int maxCapacity, Location location) {
+    public void addRoom(Room room) {
         try {
-            fitnessService.addRoom(name, maxCapacity, location);
+            fitnessService.addRoom(room);
             System.out.println("Room added successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -574,9 +571,9 @@ public class FitnessController {
     }
 
     // Add a new trainer
-    public void addTrainer(String name, String mail, String phone, String specialisation) {
+    public void addTrainer(Trainer trainer) {
         try {
-            fitnessService.addTrainer(name, mail, phone, specialisation);
+            fitnessService.addTrainer(trainer);
             System.out.println("Trainer added successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());

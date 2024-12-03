@@ -4,6 +4,7 @@ import model.*;
 import controller.*;
 import repository.*;
 import service.FitnessService;
+import Helpers.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,8 +29,8 @@ import java.util.Scanner;
 public class UI {
 
     private final FitnessController fitnessController;
-    private final ArrayList<Member> fitnessmembers;
-    private final ArrayList<Trainer> fitnesstraines;
+    public List<Member> fitnessmembers;
+    public List<Trainer> fitnesstraines;
 
     /**
      * Constructor to initialize the UI with necessary dependencies.
@@ -37,7 +38,7 @@ public class UI {
      * @param fitnessmembers The list of fitness members, representing the users interacting with the system.
      * @param fitnesstraines The list of trainers available for fitness classes.
      */
-    public UI(FitnessController fitnessController, ArrayList<Member> fitnessmembers, ArrayList<Trainer> fitnesstraines) {
+    public UI(FitnessController fitnessController, List<Member> fitnessmembers, List<Trainer> fitnesstraines) {
         this.fitnessController = fitnessController;
         this.fitnessmembers = fitnessmembers;
         this.fitnesstraines = fitnesstraines;
@@ -267,7 +268,7 @@ public class UI {
                     System.out.println(membership.getType());
                 }
                 String choice = scanner.nextLine();
-                fitnessController.updateMember(memberId,member.getName(),member.getMail(),member.getPhone(),member.getRegistrationDate(),choice,member.getFitnessClasses());
+                fitnessController.updateMember(memberId, name, mail, phoneNumber, choice, member.getFitnessClasses());
                 System.out.println("\n------------------------------------------ ");
                 System.out.println("Back to main menu. \n");
                 menu();
@@ -304,7 +305,11 @@ public class UI {
                 LocalDateTime registrationDate = LocalDateTime.now();
                 String startMembership = "Basic";
                 List<FitnessClass> classes = new ArrayList<>();
-                fitnessController.addMember(name, mail, phoneNumber, registrationDate, startMembership, classes);
+                int id = HelperFunctions.randomId();
+                Member member = new Member(name, mail, phoneNumber, registrationDate, startMembership, classes);
+                member.setId(id);
+                fitnessController.addMember(member);
+                fitnessmembers.add(member);
                 System.out.println("Account created successfully!");
                 System.out.println("\n------------------------------------------ ");
                 System.out.println("Back to main menu. \n");
@@ -319,7 +324,11 @@ public class UI {
                 String phoneNumber = scanner.nextLine();
                 System.out.println("Your specialisation: ");
                 String specialisation = scanner.nextLine();
-                fitnessController.addTrainer(name, mail, phoneNumber, specialisation);
+                int id = HelperFunctions.randomId();
+                Trainer trainer = new Trainer(name, mail, phoneNumber, specialisation);
+                trainer.setId(id);
+                fitnessController.addTrainer(trainer);
+                fitnesstraines.add(trainer);
                 System.out.println("Account created successfully!");
                 System.out.println("\n------------------------------------------ ");
                 System.out.println("Back to main menu. \n");
@@ -374,7 +383,7 @@ public class UI {
     // Filer functions -> identify user (member or trainer)
 
     // Method to find member by name, email, and phone
-    public static Member findMemberByCredentials(ArrayList<Member> members, String name, String email, String phone) {
+    public static Member findMemberByCredentials(List<Member> members, String name, String email, String phone) {
         for (Member member : members) {
             if (member.getName().equalsIgnoreCase(name) &&
                     member.getMail().equalsIgnoreCase(email) &&
@@ -386,7 +395,7 @@ public class UI {
     }
 
     // Method to find trainer by name, email, and phone
-    public static Trainer findTrainerByCredentials(ArrayList<Trainer> trainers, String name, String email, String phone) {
+    public static Trainer findTrainerByCredentials(List<Trainer> trainers, String name, String email, String phone) {
         for (Trainer trainer : trainers) {
             if (trainer.getName().equalsIgnoreCase(name) &&
                     trainer.getMail().equalsIgnoreCase(email) &&
@@ -406,13 +415,13 @@ public class UI {
         Trainer trainer3 = new Trainer("Rusai Denis", "rusaidenis@gmail.com", "0734119845", "kickboxing, weight lifting");
         Trainer trainer4 = new Trainer("Ana Popescu", "anapopescu@gmail.com", "0734829450", "yoga, pilates");
         Trainer trainer5 = new Trainer("Alina Carcea", "alinacarcea@gmail.com", "0745012367", "pilates, yoga");
-        trainer1.setId(1);
-        trainer2.setId(2);
-        trainer3.setId(3);
-        trainer4.setId(4);
-        trainer5.setId(5);
+        trainer1.setId(HelperFunctions.randomId());
+        trainer2.setId(HelperFunctions.randomId());
+        trainer3.setId(HelperFunctions.randomId());
+        trainer4.setId(HelperFunctions.randomId());
+        trainer5.setId(HelperFunctions.randomId());
 
-        ArrayList<Trainer> trainersList = new ArrayList<>();
+        List<Trainer> trainersList = new ArrayList<>();
         trainersList.add(trainer1);
         trainersList.add(trainer2);
         trainersList.add(trainer3);
@@ -422,8 +431,8 @@ public class UI {
         // locations
         Location location1 = new Location("Revo Fit", "Str. Manastur nr.24");
         Location location2 = new Location("Revo Star", "Str. Buna Ziua nr.102");
-        location1.setId(1);
-        location2.setId(2);
+        location1.setId(HelperFunctions.randomId());
+        location2.setId(HelperFunctions.randomId());
 
         ArrayList<Location> locationsList = new ArrayList<>();
         locationsList.add(location1);
@@ -435,11 +444,11 @@ public class UI {
         Room room3 = new Room("Room 3", 18, location2);
         Room room4 = new Room("Room 4", 29, location1);
         Room room5 = new Room("Room 5", 31, location1);
-        room1.setId(1);
-        room2.setId(2);
-        room3.setId(3);
-        room4.setId(4);
-        room5.setId(5);
+        room1.setId(HelperFunctions.randomId());
+        room2.setId(HelperFunctions.randomId());
+        room3.setId(HelperFunctions.randomId());
+        room4.setId(HelperFunctions.randomId());
+        room5.setId(HelperFunctions.randomId());
 
         ArrayList<Room> roomList = new ArrayList<>();
         roomList.add(room1);
@@ -451,25 +460,25 @@ public class UI {
         // members
         ArrayList<FitnessClass> member1Classes = new ArrayList<>();
         Member member1 = new Member("Hrihor Mihaela", "mihaelahrihor@gmail.com", "0758909520", LocalDateTime.of(2024, 1, 12, 12, 30), "Premium", member1Classes);
-        member1.setId(1);
+        member1.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> member2Classes = new ArrayList<>();
         Member member2 = new Member("Matei Dana", "mateidana@gmail.com", "0771367002", LocalDateTime.of(2024, 1, 19, 11, 10), "Student", member2Classes);
-        member2.setId(2);
+        member2.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> member3Classes = new ArrayList<>();
         Member member3 = new Member("Mitri Miruna", "mitrimiruna@gmail.com", "0758867145", LocalDateTime.of(2024, 1, 22, 16, 20), "Basic", member3Classes);
-        member3.setId(3);
+        member3.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> member4Classes = new ArrayList<>();
         Member member4 = new Member("Berceaengels Kathrin", "kathrinberceaengels@gmail.com", "0745602416", LocalDateTime.of(2024, 1, 2, 13, 30), "Premium", member4Classes);
-        member4.setId(4);
+        member4.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> member5Classes = new ArrayList<>();
         Member member5 = new Member("Bleoca Cristiana", "cristianableoca@gmail.com", "0790143267", LocalDateTime.of(2024, 1, 12, 12, 30), "Student", member5Classes);
-        member5.setId(5);
+        member5.setId(HelperFunctions.randomId());
 
-        ArrayList<Member> membersList = new ArrayList<>();
+        List<Member> membersList = new ArrayList<>();
         membersList.add(member1);
         membersList.add(member2);
         membersList.add(member3);
@@ -482,20 +491,20 @@ public class UI {
         studentMembershipList.add(member5);
 
         Membership studentMembership = new Membership("Student", studentMembershipList, 150);
-        studentMembership.setId(1);
+        studentMembership.setId(HelperFunctions.randomId());
 
         ArrayList<Member> premiumMembershipList = new ArrayList<>();
         premiumMembershipList.add(member1);
         premiumMembershipList.add(member4);
 
         Membership premiumMembership = new Membership("Premium", premiumMembershipList, 250);
-        premiumMembership.setId(2);
+        premiumMembership.setId(HelperFunctions.randomId());
 
         ArrayList<Member> basicMembershipList = new ArrayList<>();
         basicMembershipList.add(member3);
 
         Membership basicMembership = new Membership("Basic", basicMembershipList, 200);
-        basicMembership.setId(3);
+        basicMembership.setId(HelperFunctions.randomId());
 
         ArrayList<Membership> membershipList = new ArrayList<>();
         membershipList.add(basicMembership);
@@ -505,55 +514,55 @@ public class UI {
         // equipments
         ArrayList<FitnessClass> classesWithWeights = new ArrayList<>();
         Equipment weights = new Equipment("weights", 50, classesWithWeights);
-        weights.setId(1);
+        weights.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> classesWithMattresses = new ArrayList<>();
         Equipment mattresses = new Equipment("mattresses", 30, classesWithMattresses);
-        mattresses.setId(2);
+        mattresses.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> classesWithTreadmills = new ArrayList<>();
         Equipment treadmill = new Equipment("treadmill", 10, classesWithTreadmills);
-        treadmill.setId(3);
+        treadmill.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> classesWithLegPresses = new ArrayList<>();
         Equipment legPress = new Equipment("leg press", 5, classesWithLegPresses);
-        legPress.setId(4);
+        legPress.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> classesWithFoamRollers = new ArrayList<>();
         Equipment foamRoller = new Equipment("foam roller", 10, classesWithFoamRollers);
-        foamRoller.setId(5);
+        foamRoller.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> classesWithResistenceBands = new ArrayList<>();
         Equipment resistanceBands = new Equipment("resistance bands", 12, classesWithResistenceBands);
-        resistanceBands.setId(6);
+        resistanceBands.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> classesWithPilatesRings = new ArrayList<>();
         Equipment pilatesRing = new Equipment("pilates ring", 8, classesWithPilatesRings);
-        pilatesRing.setId(7);
+        pilatesRing.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> classesWithYogaBlocks = new ArrayList<>();
         Equipment yogaBlocks = new Equipment("yoga blocks", 40, classesWithYogaBlocks);
-        yogaBlocks.setId(8);
+        yogaBlocks.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> classesWithJumpRopes = new ArrayList<>();
         Equipment jumpRope = new Equipment("jump rope", 25, classesWithJumpRopes);
-        jumpRope.setId(9);
+        jumpRope.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> classesWithAirBikes = new ArrayList<>();
         Equipment airBike = new Equipment("air bike", 10, classesWithAirBikes);
-        airBike.setId(10);
+        airBike.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> classesWithBoxingGloves = new ArrayList<>();
         Equipment boxingGloves = new Equipment("boxing gloves", 10, classesWithBoxingGloves);
-        boxingGloves.setId(11);
+        boxingGloves.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> classesWithHeadgears = new ArrayList<>();
         Equipment headgear = new Equipment("headgear", 10, classesWithHeadgears);
-        headgear.setId(12);
+        headgear.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> classesWithPunchingBags = new ArrayList<>();
         Equipment punchingBags = new Equipment("punching bags", 10, classesWithPunchingBags);
-        punchingBags.setId(13);
+        punchingBags.setId(HelperFunctions.randomId());
 
         ArrayList<Equipment> equipmentList = new ArrayList<>();
         equipmentList.add(weights);
@@ -605,7 +614,7 @@ public class UI {
         membersForClass1.add(member3);
         membersForClass1.add(member5);
         FitnessClass class1 = new FitnessClass("yoga", LocalDateTime.of(2024, 4, 3, 10, 30), LocalDateTime.of(2024, 4, 3, 12, 30), trainer4, room1, 20, room1.getLocation(), feedbackListForClass1, membersForClass1, yogaEquipment);
-        class1.setId(1);
+        class1.setId(HelperFunctions.randomId());
         member2Classes.add(class1);
         member3Classes.add(class1);
         member5Classes.add(class1);
@@ -620,7 +629,7 @@ public class UI {
         membersForClass2.add(member3);
         membersForClass2.add(member1);
         FitnessClass class2 = new FitnessClass("yoga", LocalDateTime.of(2024, 7, 3, 13, 0), LocalDateTime.of(2024, 7, 3, 15, 0), trainer5, room2, 20, room2.getLocation(), feedbackListForClass2, membersForClass2, yogaEquipment);
-        class2.setId(2);
+        class2.setId(HelperFunctions.randomId());
         member1Classes.add(class2);
         member2Classes.add(class2);
         member3Classes.add(class2);
@@ -635,7 +644,7 @@ public class UI {
         membersForClass3.add(member3);
         membersForClass3.add(member4);
         FitnessClass class3 = new FitnessClass("yoga", LocalDateTime.of(2024, 12, 5, 10, 0), LocalDateTime.of(2024, 12, 5, 12, 0), trainer5, room1, 20, room1.getLocation(), feedbackListForClass3, membersForClass3, yogaEquipment);
-        class3.setId(3);
+        class3.setId(HelperFunctions.randomId());
         member1Classes.add(class3);
         member3Classes.add(class3);
         member4Classes.add(class3);
@@ -650,7 +659,7 @@ public class UI {
         membersForClass4.add(member5);
         membersForClass4.add(member2);
         FitnessClass class4 = new FitnessClass("pilates", LocalDateTime.of(2024, 7, 5, 11, 30), LocalDateTime.of(2024, 7, 5, 13, 0), trainer4, room3, 20, room3.getLocation(), feedbackListForClass4, membersForClass4, pilatesEquipment);
-        class4.setId(4);
+        class4.setId(HelperFunctions.randomId());
         member1Classes.add(class4);
         member2Classes.add(class4);
         member5Classes.add(class4);
@@ -666,7 +675,7 @@ public class UI {
         membersForClass5.add(member2);
         membersForClass5.add(member4);
         FitnessClass class5 = new FitnessClass("pilates", LocalDateTime.of(2024, 10, 10, 10, 30), LocalDateTime.of(2024, 10, 10, 12, 30), trainer4, room3, 20, room3.getLocation(), feedbackListForClass5, membersForClass5, pilatesEquipment);
-        class5.setId(5);
+        class5.setId(HelperFunctions.randomId());
         member1Classes.add(class5);
         member2Classes.add(class5);
         member4Classes.add(class5);
@@ -683,7 +692,7 @@ public class UI {
         membersForClass6.add(member3);
         membersForClass6.add(member4);
         FitnessClass class6 = new FitnessClass("pilates", LocalDateTime.of(2024, 12, 11, 10, 30), LocalDateTime.of(2024, 12, 11, 12, 30), trainer5, room4, 20, room4.getLocation(), feedbackListForClass6, membersForClass6, pilatesEquipment);
-        class6.setId(6);
+        class6.setId(HelperFunctions.randomId());
         member1Classes.add(class6);
         member2Classes.add(class6);
         member3Classes.add(class6);
@@ -699,7 +708,7 @@ public class UI {
         membersForClass7.add(member5);
         membersForClass7.add(member4);
         FitnessClass class7 = new FitnessClass("kickboxing", LocalDateTime.of(2024, 4, 20, 17, 30), LocalDateTime.of(2024, 4, 20, 19, 30), trainer2, room5, 20, room5.getLocation(), feedbackListForClass7, membersForClass7, boxEquipment);
-        class7.setId(7);
+        class7.setId(HelperFunctions.randomId());
         member1Classes.add(class7);
         member4Classes.add(class7);
         member5Classes.add(class7);
@@ -714,7 +723,7 @@ public class UI {
         membersForClass8.add(member5);
         membersForClass8.add(member2);
         FitnessClass class8 = new FitnessClass("kickboxing", LocalDateTime.of(2024, 8, 20, 17, 30), LocalDateTime.of(2024, 8, 20, 19, 30), trainer3, room2, 20, room2.getLocation(), feedbackListForClass8, membersForClass8, boxEquipment);
-        class8.setId(8);
+        class8.setId(HelperFunctions.randomId());
         member1Classes.add(class8);
         member2Classes.add(class8);
         member5Classes.add(class8);
@@ -729,7 +738,7 @@ public class UI {
         membersForClass9.add(member4);
         membersForClass9.add(member2);
         FitnessClass class9 = new FitnessClass("kickboxing", LocalDateTime.of(2024, 12, 22, 15, 30), LocalDateTime.of(2024, 12, 22, 17, 30), trainer2, room4, 20, room4.getLocation(), feedbackListForClass9, membersForClass9, boxEquipment);
-        class9.setId(9);
+        class9.setId(HelperFunctions.randomId());
         member2Classes.add(class9);
         member3Classes.add(class9);
         member4Classes.add(class9);
@@ -745,7 +754,7 @@ public class UI {
         membersForClass10.add(member2);
         membersForClass10.add(member1);
         FitnessClass class10 = new FitnessClass("cardio", LocalDateTime.of(2024, 9, 21, 13, 30), LocalDateTime.of(2024, 9, 21, 15, 30), trainer1, room4, 20, room4.getLocation(), feedbackListForClass10, membersForClass10, cardioEquipment);
-        class10.setId(10);
+        class10.setId(HelperFunctions.randomId());
         member1Classes.add(class10);
         member2Classes.add(class10);
         member3Classes.add(class10);
@@ -760,7 +769,7 @@ public class UI {
         membersForClass11.add(member5);
         membersForClass11.add(member1);
         FitnessClass class11 = new FitnessClass("cardio", LocalDateTime.of(2024, 1, 1, 12, 30), LocalDateTime.of(2024, 11, 1, 14, 30), trainer2, room3, 20, room3.getLocation(), feedbackListForClass11, membersForClass11, cardioEquipment);
-        class11.setId(11);
+        class11.setId(HelperFunctions.randomId());
         member1Classes.add(class11);
         member4Classes.add(class11);
         member5Classes.add(class11);
@@ -774,7 +783,7 @@ public class UI {
         membersForClass12.add(member3);
         membersForClass12.add(member1);
         FitnessClass class12 = new FitnessClass("cardio", LocalDateTime.of(2024, 12, 12, 12, 30), LocalDateTime.of(2024, 12, 12, 14, 30), trainer1, room5, 20, room5.getLocation(), feedbackListForClass12, membersForClass12, cardioEquipment);
-        class12.setId(12);
+        class12.setId(HelperFunctions.randomId());
         member1Classes.add(class12);
         member2Classes.add(class12);
         member3Classes.add(class12);
@@ -788,7 +797,7 @@ public class UI {
         membersForClass13.add(member5);
         membersForClass13.add(member1);
         FitnessClass class13 = new FitnessClass("weight lifting", LocalDateTime.of(2024, 10, 12, 10, 30), LocalDateTime.of(2024, 10, 12, 12, 30), trainer1, room1, 20, room1.getLocation(), feedbackListForClass13, membersForClass13, weightLiftingEquipment);
-        class13.setId(13);
+        class13.setId(HelperFunctions.randomId());
         member1Classes.add(class13);
         member4Classes.add(class13);
         member5Classes.add(class13);
@@ -802,7 +811,7 @@ public class UI {
         membersForClass14.add(member3);
         membersForClass14.add(member2);
         FitnessClass class14 = new FitnessClass("weight lifting", LocalDateTime.of(2024, 11, 2, 10, 30), LocalDateTime.of(2024, 11, 2, 12, 30), trainer2, room4, 20, room4.getLocation(), feedbackListForClass14, membersForClass14, weightLiftingEquipment);
-        class14.setId(14);
+        class14.setId(HelperFunctions.randomId());
         member2Classes.add(class14);
         member3Classes.add(class14);
         member4Classes.add(class14);
@@ -817,7 +826,7 @@ public class UI {
         membersForClass15.add(member2);
         membersForClass15.add(member5);
         FitnessClass class15 = new FitnessClass("weight lifting", LocalDateTime.of(2024, 12, 20, 10, 30), LocalDateTime.of(2024, 12, 20, 12, 30), trainer3, room3, 20, room3.getLocation(), feedbackListForClass15, membersForClass15, weightLiftingEquipment);
-        class15.setId(15);
+        class15.setId(HelperFunctions.randomId());
         member1Classes.add(class15);
         member2Classes.add(class15);
         member4Classes.add(class15);
@@ -828,49 +837,49 @@ public class UI {
 
         // feedbacks
         Feedback feedback1 = new Feedback(member2, class1, 5, "Nice energy. I really enjoyed this class!");
-        feedback1.setId(1);
+        feedback1.setId(HelperFunctions.randomId());
         feedbackListForClass1.add(feedback1);
         Feedback feedback2 = new Feedback(member3, class2, 4, "Great class!");
-        feedback2.setId(2);
+        feedback2.setId(HelperFunctions.randomId());
         feedbackListForClass2.add(feedback2);
         Feedback feedback3 = new Feedback(member4, class3, 4, "I'll definitely come again!");
-        feedback3.setId(3);
+        feedback3.setId(HelperFunctions.randomId());
         feedbackListForClass3.add(feedback3);
         Feedback feedback4 = new Feedback(member1, class4, 3, "Niceeee!!");
-        feedback4.setId(4);
+        feedback4.setId(HelperFunctions.randomId());
         feedbackListForClass4.add(feedback4);
         Feedback feedback5 = new Feedback(member4, class5, 5, "10/10");
-        feedback5.setId(5);
+        feedback5.setId(HelperFunctions.randomId());
         feedbackListForClass5.add(feedback5);
         Feedback feedback6 = new Feedback(member1, class6, 5, "10/10");
-        feedback6.setId(6);
+        feedback6.setId(HelperFunctions.randomId());
         feedbackListForClass6.add(feedback6);
         Feedback feedback7 = new Feedback(member5, class7, 3, "It was fine..");
-        feedback7.setId(7);
+        feedback7.setId(HelperFunctions.randomId());
         feedbackListForClass7.add(feedback7);
         Feedback feedback8 = new Feedback(member1, class8, 5, "Had a great time. I'll definitely come again!");
-        feedback8.setId(8);
+        feedback8.setId(HelperFunctions.randomId());
         feedbackListForClass8.add(feedback8);
         Feedback feedback9 = new Feedback(member2, class9, 4, "Great class!");
-        feedback9.setId(9);
+        feedback9.setId(HelperFunctions.randomId());
         feedbackListForClass9.add(feedback9);
         Feedback feedback10 = new Feedback(member3, class10, 5, "Amasingggg!!");
-        feedback10.setId(10);
+        feedback10.setId(HelperFunctions.randomId());
         feedbackListForClass10.add(feedback10);
         Feedback feedback11 = new Feedback(member4, class11, 3, "It was exhausting..");
-        feedback11.setId(11);
+        feedback11.setId(HelperFunctions.randomId());
         feedbackListForClass11.add(feedback11);
         Feedback feedback12 = new Feedback(member1, class12, 5, "10/10");
-        feedback12.setId(12);
+        feedback12.setId(HelperFunctions.randomId());
         feedbackListForClass12.add(feedback12);
         Feedback feedback13 = new Feedback(member5, class13, 2, "Boring..");
-        feedback13.setId(13);
+        feedback13.setId(HelperFunctions.randomId());
         feedbackListForClass13.add(feedback13);
         Feedback feedback14 = new Feedback(member3, class14, 1, "Eww.");
-        feedback14.setId(14);
+        feedback14.setId(HelperFunctions.randomId());
         feedbackListForClass14.add(feedback14);
         Feedback feedback15 = new Feedback(member1, class15, 4, "Had a great time!");
-        feedback15.setId(15);
+        feedback15.setId(HelperFunctions.randomId());
         feedbackListForClass15.add(feedback15);
 
         // repos, services, controller and ui
@@ -954,26 +963,30 @@ public class UI {
 //        trainerInMemoRepo.create(trainer5);
 //
 //        FitnessService inMemoryService = new FitnessService(equipmentInMemoRepo, feedbackInMemoRepo, fitnessClassInMemoRepo, locationInMemoRepo, memberInMemoRepo, membershipInMemoRepo, roomInMemoRepo, trainerInMemoRepo);
+//
+//        ArrayList<Member> membersList = (ArrayList<Member>) memberInMemoRepo.getAll();
+//        ArrayList<Trainer> trainersList = (ArrayList<Trainer>) trainerInMemoRepo.getAll();
 
-        FileRepository<Location> locationFileRepo = new FileRepository<>("Location.txt");
+        String filePath = "C:\\Users\\Dell\\IdeaProjects\\FitnessApp\\src\\files\\";
+        FileRepository<Location> locationFileRepo = new FileRepository<>(filePath + "Location.txt");
         locationFileRepo.create(location1);
         locationFileRepo.create(location2);
 
-        FileRepository<Room> roomFileRepo = new FileRepository<>("Room.txt");
+        FileRepository<Room> roomFileRepo = new FileRepository<>(filePath + "Room.txt");
         roomFileRepo.create(room1);
         roomFileRepo.create(room2);
         roomFileRepo.create(room3);
         roomFileRepo.create(room4);
         roomFileRepo.create(room5);
 
-        FileRepository<Trainer> trainerFileRepo = new FileRepository<>("Trainer.txt");
+        FileRepository<Trainer> trainerFileRepo = new FileRepository<>(filePath + "Trainer.txt");
         trainerFileRepo.create(trainer1);
         trainerFileRepo.create(trainer2);
         trainerFileRepo.create(trainer3);
         trainerFileRepo.create(trainer4);
         trainerFileRepo.create(trainer5);
 
-        FileRepository<Equipment> equipmentFileRepo = new FileRepository<>("Equipment.txt");
+        FileRepository<Equipment> equipmentFileRepo = new FileRepository<>(filePath + "Equipment.txt");
         equipmentFileRepo.create(weights);
         equipmentFileRepo.create(mattresses);
         equipmentFileRepo.create(treadmill);
@@ -988,19 +1001,19 @@ public class UI {
         equipmentFileRepo.create(headgear);
         equipmentFileRepo.create(punchingBags);
 
-        FileRepository<Member> memberFileRepo = new FileRepository<>("Member.txt");
+        FileRepository<Member> memberFileRepo = new FileRepository<>(filePath + "Member.txt");
         memberFileRepo.create(member1);
         memberFileRepo.create(member2);
         memberFileRepo.create(member3);
         memberFileRepo.create(member4);
         memberFileRepo.create(member5);
 
-        FileRepository<Membership> membershipFileRepo = new FileRepository<>("Membership.txt");
+        FileRepository<Membership> membershipFileRepo = new FileRepository<>(filePath + "Membership.txt");
         membershipFileRepo.create(basicMembership);
         membershipFileRepo.create(studentMembership);
         membershipFileRepo.create(premiumMembership);
 
-        FileRepository<FitnessClass> fitnessClassFileRepo = new FileRepository<>("FitnessClass.txt");
+        FileRepository<FitnessClass> fitnessClassFileRepo = new FileRepository<>(filePath + "FitnessClass.txt");
         fitnessClassFileRepo.create(class1);
         fitnessClassFileRepo.create(class2);
         fitnessClassFileRepo.create(class3);
@@ -1017,7 +1030,7 @@ public class UI {
         fitnessClassFileRepo.create(class14);
         fitnessClassFileRepo.create(class15);
 
-        FileRepository<Feedback> feedbackFileRepo = new FileRepository<>("Feedback.txt");
+        FileRepository<Feedback> feedbackFileRepo = new FileRepository<>(filePath + "Feedback.txt");
         feedbackFileRepo.create(feedback1);
         feedbackFileRepo.create(feedback2);
         feedbackFileRepo.create(feedback3);

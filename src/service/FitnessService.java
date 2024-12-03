@@ -1,6 +1,7 @@
 package service;
 import model.*;
 import repository.IRepository;
+import Helpers.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -59,21 +60,17 @@ public class FitnessService {
 
     /**
      * Adds a new piece of equipment to the repository.
-     * @param name          The name of the equipment. Must not be null or empty.
-     * @param quantity      The quantity of the equipment. Must be greater than zero.
-     * @param fitnessClasses A list of FitnessClass objects associated with the equipment. Can be empty or null.
+     * @param equipment the equipment object to add
      * @throws IllegalArgumentException if the name is null/empty or if the quantity is less than or equal to zero.
      */
-    public void addEquipment(String name, int quantity, List<FitnessClass> fitnessClasses) {
-        if (name == null || name.trim().isEmpty()) {
+    public void addEquipment(Equipment equipment) {
+        if (equipment.getName() == null || equipment.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Equipment name cannot be null or empty.");
         }
-        if (quantity <= 0) {
+        if (equipment.getQuantity() <= 0) {
             throw new IllegalArgumentException("Quantity must be greater than zero.");
         }
-        Equipment newEquipment = new Equipment(name, quantity, fitnessClasses);
-        newEquipment.setId(getEquipmentNextId());
-        equipmentRepository.create(newEquipment);
+        equipmentRepository.create(equipment);
     }
 
     /**
@@ -141,46 +138,33 @@ public class FitnessService {
 
     /**
      * Adds new feedback to the repository.
-     * @param member        The Member providing the feedback. Must not be null.
-     * @param fitnessClass  The FitnessClass associated with the feedback. Must not be null.
-     * @param rating        The rating given in the feedback. Must be between 1 and 5.
-     * @param comment       The textual comment in the feedback. Must not be null or empty.
+     * @param feedback the feedback object to add
      * @throws IllegalArgumentException if any parameter is invalid (e.g., null values, out-of-range rating).
      */
-    public void addFeedback(Member member, FitnessClass fitnessClass, int rating, String comment) {
-        if (member == null) {
+    public void addFeedback(Feedback feedback) {
+        if (feedback.getMember() == null) {
             throw new IllegalArgumentException("Member cannot be null.");
         }
-        if (fitnessClass == null) {
+        if (feedback.getFitnessClass() == null) {
             throw new IllegalArgumentException("Fitness class cannot be null.");
         }
-        if (rating < 1 || rating > 5) {
+        if (feedback.getRating() < 1 || feedback.getRating() > 5) {
             throw new IllegalArgumentException("Rating must be between 1 and 5.");
         }
-        if (comment == null || comment.trim().isEmpty()) {
+        if (feedback.getComment() == null || feedback.getComment().trim().isEmpty()) {
             throw new IllegalArgumentException("Comment cannot be null or empty.");
         }
-        Feedback newFeedback = new Feedback(member, fitnessClass, rating, comment);
-        newFeedback.setId(getFeedbackNextId());
-        feedbackRepository.create(newFeedback);
+        feedbackRepository.create(feedback);
     }
 
     /**
      * Updates an existing feedback in the repository.
      * @param id            The ID of the feedback to update.
-     * @param member        The updated Member providing the feedback. Must not be null.
-     * @param fitnessClass  The updated FitnessClass associated with the feedback. Must not be null.
      * @param rating        The updated rating for the feedback. Must be between 1 and 5.
      * @param comment       The updated textual comment in the feedback. Must not be null or empty.
      * @throws IllegalArgumentException if any parameter is invalid or if the feedback with the given ID does not exist.
      */
-    public void updateFeedback(int id, Member member, FitnessClass fitnessClass, int rating, String comment) {
-        if (member == null) {
-            throw new IllegalArgumentException("Member cannot be null.");
-        }
-        if (fitnessClass == null) {
-            throw new IllegalArgumentException("Fitness class cannot be null.");
-        }
+    public void updateFeedback(int id, int rating, String comment) {
         if (rating < 1 || rating > 5) {
             throw new IllegalArgumentException("Rating must be between 1 and 5.");
         }
@@ -188,8 +172,6 @@ public class FitnessService {
             throw new IllegalArgumentException("Comment cannot be null or empty.");
         }
         Feedback existingFeedback = getFeedback(id);
-        existingFeedback.setMember(member);
-        existingFeedback.setFitnessClass(fitnessClass);
         existingFeedback.setRating(rating);
         existingFeedback.setComment(comment);
         feedbackRepository.update(existingFeedback);
@@ -237,39 +219,26 @@ public class FitnessService {
 
     /**
      * Adds a new fitness class to the repository.
-     * @param name              The name of the fitness class. Must not be null or empty.
-     * @param startTime         The start time of the class. Must be before endTime.
-     * @param endTime           The end time of the class. Must be after startTime.
-     * @param trainer           The trainer leading the class. Must not be null.
-     * @param room              The room where the class will be held. Must not be null.
-     * @param participantsCount The number of participants in the class. Must be non-negative.
-     * @param location          The location of the class.
-     * @param feedback          The list of feedback associated with the class.
-     * @param members           The list of members attending the class.
-     * @param equipment         The list of equipment used in the class.
+     * @param fitnessClass the fitness class object to add
      * @throws IllegalArgumentException if any parameter is invalid.
      */
-    public void addFitnessClass(String name, LocalDateTime startTime, LocalDateTime endTime, Trainer trainer, Room room, int participantsCount,
-                                Location location, List<Feedback> feedback,
-                                List<Member> members, List<Equipment> equipment) {
-        if (name == null || name.trim().isEmpty()) {
+    public void addFitnessClass(FitnessClass fitnessClass) {
+        if (fitnessClass.getName() == null || fitnessClass.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Class name cannot be null or empty.");
         }
-        if (startTime.isAfter(endTime)) {
+        if (fitnessClass.getStartTime().isAfter(fitnessClass.getEndTime())) {
             throw new IllegalArgumentException("Start time can't be after end time.");
         }
-        if (trainer == null) {
+        if (fitnessClass.getTrainer() == null) {
             throw new IllegalArgumentException("Trainer cannot be null.");
         }
-        if (room == null) {
+        if (fitnessClass.getRoom() == null) {
             throw new IllegalArgumentException("Room cannot be null.");
         }
-        if (participantsCount < 0) {
+        if (fitnessClass.getParticipantsCount() < 0) {
             throw new IllegalArgumentException("Participants count cannot be negative.");
         }
-        FitnessClass newFitnessClass = new FitnessClass(name, startTime, endTime, trainer, room, participantsCount, location, feedback, members, equipment);
-        newFitnessClass.setId(getClassNextId());
-        fitnessClassRepository.create(newFitnessClass);
+        fitnessClassRepository.create(fitnessClass);
     }
 
     /**
@@ -361,20 +330,17 @@ public class FitnessService {
 
     /**
      * Adds a new location to the repository.
-     * @param name    The name of the location. Must not be null or empty.
-     * @param address The address of the location. Must not be null or empty.
+     * @param location the location object to add
      * @throws IllegalArgumentException if either the name or address is invalid.
      */
-    public void addLocation(String name, String address) {
-        if (name == null || name.trim().isEmpty()) {
+    public void addLocation(Location location) {
+        if (location.getName() == null || location.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Location name cannot be null or empty.");
         }
-        if (address == null || address.trim().isEmpty()) {
+        if (location.getAddress() == null || location.getAddress().trim().isEmpty()) {
             throw new IllegalArgumentException("Location address cannot be null or empty.");
         }
-        Location newLocation = new Location(name, address);
-        newLocation.setId(getLocationNextId());
-        locationRepository.create(newLocation);
+        locationRepository.create(location);
     }
 
     /**
@@ -437,35 +403,10 @@ public class FitnessService {
         return member;
     }
 
-    /**
-     * Adds a new member to the repository.
-     * @param name            The name of the member. Must not be null or empty.
-     * @param mail            The email of the member. Must not be null or empty.
-     * @param phone           The phone number of the member. Must not be null or empty.
-     * @param registrationDate The registration date of the member. Must not be null.
-     * @param membershipType  The membership type of the member. Must not be null or empty.
-     * @param fitnessClasses  A list of fitness classes the member is enrolled in. Can be empty.
-     * @throws IllegalArgumentException if any of the parameters are invalid.
-     */
-    public void addMember(String name, String mail, String phone, LocalDateTime registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty.");
+    public void addMember(Member member) {
+        if (member != null) {
+            memberRepository.create(member);
         }
-        if (mail == null || mail.trim().isEmpty()) {
-            throw new IllegalArgumentException("Email cannot be null or empty.");
-        }
-        if (phone == null || phone.trim().isEmpty()) {
-            throw new IllegalArgumentException("Phone cannot be null or empty.");
-        }
-        if (registrationDate == null) {
-            throw new IllegalArgumentException("Registration date cannot be null.");
-        }
-        if (membershipType == null || membershipType.trim().isEmpty()) {
-            throw new IllegalArgumentException("Membership type cannot be null or empty.");
-        }
-        Member newMember = new Member(name, mail, phone, registrationDate, membershipType, fitnessClasses);
-        newMember.setId(getMemberNextId());
-        memberRepository.create(newMember);
     }
 
     /**
@@ -474,12 +415,11 @@ public class FitnessService {
      * @param name             The updated name of the member. Must not be null or empty.
      * @param mail             The updated email of the member. Must not be null or empty.
      * @param phone            The updated phone number of the member. Must not be null or empty.
-     * @param registrationDate The updated registration date of the member. Must not be null.
      * @param membershipType   The updated membership type of the member. Must not be null or empty.
      * @param fitnessClasses   The updated list of fitness classes the member is enrolled in. Can be empty.
      * @throws IllegalArgumentException if any of the parameters are invalid or if the member with the given ID does not exist.
      */
-    public void updateMember(int id, String name, String mail, String phone, LocalDateTime registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
+    public void updateMember(int id, String name, String mail, String phone, String membershipType, List<FitnessClass> fitnessClasses) {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Name cannot be null or empty.");
         }
@@ -489,9 +429,6 @@ public class FitnessService {
         if (phone == null || phone.trim().isEmpty()) {
             throw new IllegalArgumentException("Phone cannot be null or empty.");
         }
-        if (registrationDate == null) {
-            throw new IllegalArgumentException("Registration date cannot be null.");
-        }
         if (membershipType == null || membershipType.trim().isEmpty()) {
             throw new IllegalArgumentException("Membership type cannot be null or empty.");
         }
@@ -499,7 +436,6 @@ public class FitnessService {
         existingMember.setName(name);
         existingMember.setMail(mail);
         existingMember.setPhone(phone);
-        existingMember.setRegistrationDate(registrationDate);
         existingMember.setMembershipType(membershipType);
         existingMember.setFitnessClasses(fitnessClasses);
         memberRepository.update(existingMember);
@@ -547,21 +483,17 @@ public class FitnessService {
 
     /**
      * Adds a new membership to the repository.
-     * @param type    The type of the membership (e.g., "Basic", "Premium"). Must not be null or empty.
-     * @param members A list of members associated with this membership. Can be empty.
-     * @param price   The price of the membership. Must be greater than zero.
+     * @param membership the membership object to add
      * @throws IllegalArgumentException if any of the parameters are invalid.
      */
-    public void addMembership(String type, ArrayList<Member> members, float price) {
-        if (type == null || type.trim().isEmpty()) {
+    public void addMembership(Membership membership) {
+        if (membership.getType() == null || membership.getType().trim().isEmpty()) {
             throw new IllegalArgumentException("Membership type cannot be null or empty.");
         }
-        if (price <= 0) {
+        if (membership.getPrice() <= 0) {
             throw new IllegalArgumentException("Price must be greater than zero.");
         }
-        Membership newMembership = new Membership(type, members, price);
-        newMembership.setId(getMembershipNextId());
-        membershipRepository.create(newMembership);
+        membershipRepository.create(membership);
     }
 
     /**
@@ -627,25 +559,21 @@ public class FitnessService {
 
     /**
      * Adds a new room to the repository.
-     * @param name        The name of the room. Must not be null or empty.
-     * @param maxCapacity The maximum capacity of the room. Must be greater than zero.
-     * @param location    The location of the room. Must not be null.
+     * @param room the room object to add
      * @throws IllegalArgumentException if any of the parameters are invalid, such as null values for name or location,
      *                                  or if the maxCapacity is less than or equal to zero.
      */
-    public void addRoom(String name, int maxCapacity, Location location) {
-        if (name == null || name.trim().isEmpty()) {
+    public void addRoom(Room room) {
+        if (room.getName() == null || room.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Room name cannot be null or empty.");
         }
-        if (maxCapacity <= 0) {
+        if (room.getMaxCapacity() <= 0) {
             throw new IllegalArgumentException("Max capacity must be greater than zero.");
         }
-        if (location == null) {
+        if (room.getLocation() == null) {
             throw new IllegalArgumentException("Location cannot be null.");
         }
-        Room newRoom = new Room(name, maxCapacity, location);
-        newRoom.setId(getRoomNextId());
-        roomRepository.create(newRoom);
+        roomRepository.create(room);
     }
 
     /**
@@ -715,28 +643,23 @@ public class FitnessService {
 
     /**
      * Adds a new trainer to the repository.
-     * @param name           The name of the trainer. Must not be null or empty.
-     * @param mail           The email of the trainer. Must not be null or empty.
-     * @param phone          The phone number of the trainer. Must not be null or empty.
-     * @param specialisation The specialisation of the trainer. Must not be null or empty.
+     * @param trainer the trainer object to add
      * @throws IllegalArgumentException if any of the parameters are invalid, such as null values for name, mail, phone, or specialisation.
      */
-    public void addTrainer(String name, String mail, String phone, String specialisation) {
-        if (name == null || name.trim().isEmpty()) {
+    public void addTrainer(Trainer trainer) {
+        if (trainer.getName() == null || trainer.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Trainer name cannot be null or empty.");
         }
-        if (mail == null || mail.trim().isEmpty()) {
+        if (trainer.getMail() == null || trainer.getMail().trim().isEmpty()) {
             throw new IllegalArgumentException("Trainer mail cannot be null or empty.");
         }
-        if (phone == null || phone.trim().isEmpty()) {
+        if (trainer.getPhone() == null || trainer.getPhone().trim().isEmpty()) {
             throw new IllegalArgumentException("Trainer phone cannot be null or empty.");
         }
-        if (specialisation == null || specialisation.trim().isEmpty()) {
+        if (trainer.getSpecialisation() == null || trainer.getSpecialisation().trim().isEmpty()) {
             throw new IllegalArgumentException("Trainer specialisation cannot be null or empty.");
         }
-        Trainer newTrainer = new Trainer(name, mail, phone, specialisation);
-        newTrainer.setId(getTrainerNextId());
-        trainerRepository.create(newTrainer);
+        trainerRepository.create(trainer);
     }
 
     /**
@@ -890,7 +813,7 @@ public class FitnessService {
         List<Member> members = new ArrayList<>();
         FitnessClass newFitnessClass = new FitnessClass(className, startTime, endTime, trainer, room, participantsCount,
                 location, feedback, members, equipment);
-        newFitnessClass.setId(getClassNextId());
+        newFitnessClass.setId(HelperFunctions.randomId());
         checkForScheduleCollision(newFitnessClass);
         fitnessClassRepository.create(newFitnessClass);
     }
@@ -1091,21 +1014,39 @@ public class FitnessService {
         throw new IllegalArgumentException("No classes found with ID " + classId + ".");
     }
 
-    //sorting method -> sort upcoming classes (ascendant)
+    /**
+     * Sorts all upcoming fitness classes in ascending order by their start time.
+     * This method retrieves a list of all upcoming fitness classes and sorts them so that the earliest-starting class
+     * appears first. Useful for displaying the next available classes to users.
+     * @return A list of FitnessClass objects, sorted by their start time in ascending order.
+     */
     public List<FitnessClass> sortUpcomingClassesASC() {
         List<FitnessClass> fitnessClasses = getAllUpcomingClasses();
         fitnessClasses.sort(Comparator.comparing(FitnessClass::getStartTime));
         return fitnessClasses;
     }
 
-    //sorting method -> sort upcoming trainer classes (ascendant)
+    /**
+     * Sorts all upcoming fitness classes for a specific trainer in ascending order by their start time.
+     * This method filters the list of all fitness classes to include only those assigned to the specified trainer, then sorts
+     * them so that the earliest-starting class appears first.
+     * @param trainerId The ID of the trainer whose classes are to be sorted.
+     * @return A list of FitnessClass objects for the specified trainer, sorted by their start time in ascending order.
+     */
     public List<FitnessClass> sortUpcomingTrainerClassesASC(int trainerId) {
         List<FitnessClass> fitnessClasses = getTrainerUpcomingClasses(trainerId);
         fitnessClasses.sort(Comparator.comparing(FitnessClass::getStartTime));
         return fitnessClasses;
     }
 
-    // returns the classes that a member has been to in the past
+    /**
+     * Retrieves a list of fitness classes that a member has attended in the past.
+     * This method checks the fitness classes registered to the specified member and returns those that have already ended.
+     * If the member hasn't attended any past classes, an exception is thrown.
+     * @param memberId The ID of the member whose past fitness classes are to be retrieved.
+     * @return A list of FitnessClass objects representing the past classes attended by the member.
+     * @throws IllegalStateException If the member has not attended any past fitness classes.
+     */
     public List<FitnessClass> getPastClassesAttendedByMember(int memberId) {
         Member member = memberRepository.read(memberId);
         List<FitnessClass> pastClasses = new ArrayList<>();
@@ -1120,7 +1061,16 @@ public class FitnessService {
         return pastClasses;
     }
 
-    // add feedback to a class
+    /**
+     * Adds feedback for a specific fitness class.
+     * This method allows a member to leave feedback on a fitness class they attended, including a text review and a rating.
+     * The feedback is saved in the repository and associated with both the member and the class.
+     * @param memberId The ID of the member providing the feedback.
+     * @param classId The ID of the fitness class for which the feedback is being left.
+     * @param feedbackContent The text content of the feedback.
+     * @param rating The rating provided by the member (e.g., on a scale of 1 to 5).
+     * @throws IllegalArgumentException If the fitness class with the specified ID does not exist.
+     */
     public void addFeedbackForClass(int memberId, int classId, String feedbackContent, int rating) {
         Member member = memberRepository.read(memberId);
         FitnessClass fitnessClass = getFitnessClass(classId);
@@ -1128,64 +1078,11 @@ public class FitnessService {
             throw new IllegalArgumentException("Fitness class with ID " + classId + " does not exist.");
         }
         Feedback feedback = new Feedback(member, fitnessClass, rating, feedbackContent);
-        feedback.setId(getFeedbackNextId());
+        feedback.setId(HelperFunctions.randomId());
         feedbackRepository.create(feedback);
         fitnessClass.getFeedback().add(feedback);
         fitnessClassRepository.update(fitnessClass);
         System.out.println("Feedback added successfully");
-    }
-
-    public int getClassNextId() {
-        List<FitnessClass> fitnessClasses = fitnessClassRepository.getAll();
-        return fitnessClasses.size() + 1;
-    }
-
-    public int getFeedbackNextId() {
-        List<Feedback> feedbacks = feedbackRepository.getAll();
-        return feedbacks.size() + 1;
-    }
-
-    public int getTrainerNextId() {
-        List<Trainer> trainers = trainerRepository.getAll();
-        return trainers.size() + 1;
-    }
-
-    public int getMemberNextId() {
-        List<Member> members = memberRepository.getAll();
-        return members.size() + 1;
-    }
-
-    public int getRoomNextId() {
-        List<Room> rooms = roomRepository.getAll();
-        return rooms.size() + 1;
-    }
-
-    public int getMembershipNextId() {
-        List<Membership> memberships = membershipRepository.getAll();
-        return memberships.size() + 1;
-    }
-
-    public int getLocationNextId() {
-        List<Location> locations = locationRepository.getAll();
-        return locations.size() + 1;
-    }
-
-    public int getEquipmentNextId() {
-        List<Equipment> equipment = equipmentRepository.getAll();
-        return equipment.size() + 1;
-    }
-
-    public boolean checkIfMembershipExistsByType(String type) {
-        List<Membership> memberships = membershipRepository.getAll();
-        if (memberships == null) {
-            throw new IllegalArgumentException("No memberships available.");
-        }
-        for (Membership membership : memberships) {
-            if (Objects.equals(membership.getType(), type)) {
-                return true;
-            }
-        }
-        return false;
     }
 
 }
