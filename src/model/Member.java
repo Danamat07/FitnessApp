@@ -57,19 +57,6 @@ public class Member extends User implements HasId {
         return super.getPhone();
     }
 
-    public String getIDsOfClasses() {
-        StringBuilder str = new StringBuilder();
-        for (FitnessClass fitnessClass1 : getFitnessClasses()) {
-            if (fitnessClass1 != null) {
-                str.append(fitnessClass1.getId()).append("-");
-            }
-        }
-        if (str.length() > 0) {
-            str.deleteCharAt(str.length() - 1);
-        }
-        return str.toString();
-    }
-
     // Setters
 
     public void setRegistrationDate(LocalDateTime registrationDate) {
