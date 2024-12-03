@@ -362,6 +362,15 @@ public class FitnessController {
         }
     }
 
+    public Member getMember(int id) {
+        try {
+            fitnessService.getMember(id);
+        }catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
     // Add a new member
     public void addMember(Member member) {
         try {
@@ -570,6 +579,15 @@ public class FitnessController {
         }
     }
 
+    public Trainer getTrainer(int id) {
+        try {
+            fitnessService.getTrainer(id);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
     // Add a new trainer
     public void addTrainer(Trainer trainer) {
         try {
@@ -584,7 +602,7 @@ public class FitnessController {
     public void updateTrainer(int id, String name, String mail, String phone, String specialisation) {
         try {
             fitnessService.updateTrainer(id, name, mail, phone, specialisation);
-            System.out.println("Trainer updated successfully.");
+            System.out.println("Trainer specialisation updated successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }

@@ -52,7 +52,8 @@ public class UI {
             System.out.println("1. View my classes");
             System.out.println("2. Schedule a new class");
             System.out.println("3. View feedback");
-            System.out.println("4. Logout");
+            System.out.println("4. Update account");
+            System.out.println("5. Logout");
             System.out.println("Enter your choice (1/2/3 or 4): ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -102,9 +103,14 @@ public class UI {
                     System.out.println("------------------------------------------ ");
                 }
                 case 4 -> {
+                    Trainer trainer = fitnessController.getTrainer(id);
+                    updateAccount(trainer.getName(), trainer.getMail(), trainer.getPhone());
+                }
+                case 5 -> {
                     System.out.println("------------------------------------------ ");
                     System.out.println("Logging out...");
-                    isRunning = false;
+                    System.out.println("Back to main menu. \n");
+                    menu();
                 }
             }
         }
@@ -121,7 +127,8 @@ public class UI {
             System.out.println("4. View classes you participated in");
             System.out.println("5. Get similar classes");
             System.out.println("6. Leave feedback");
-            System.out.println("7. Logout");
+            System.out.println("7. Update account");
+            System.out.println("8. Logout");
             System.out.println("Enter your choice (1/2/3 or 4): ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -174,9 +181,14 @@ public class UI {
                     System.out.println("------------------------------------------ ");
                 }
                 case 7 -> {
+                    Member member = fitnessController.getMember(id);
+                    updateAccount(member.getName(), member.getMail(), member.getPhone());
+                }
+                case 8 -> {
                     System.out.println("------------------------------------------ ");
                     System.out.println("Logging out...");
-                    isRunning = false;
+                    System.out.println("Back to main menu. \n");
+                    menu();
                 }
             }
         }
@@ -190,28 +202,20 @@ public class UI {
             System.out.println("1. Create new account");
             System.out.println("2. Login");
             System.out.println("3. Delete account");
-            System.out.println("4. Update account");
-            System.out.println("5. Exit");
-            System.out.println("Enter your option here (1, 2, 3, 4 or 5): ");
+            System.out.println("4. Exit");
+            System.out.println("Enter your option here (1, 2, 3 or 4): ");
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
                 case 1 -> {
                     createNewAccount();
-                    isRunning = false;
                 }
                 case 2 -> {
                     login();
-                    isRunning = false;
                 }
                 case 3 -> {
                     deleteAccount();
-                    isRunning = false;
                 }
                 case 4 -> {
-                    updateAccount();
-                    isRunning = false;
-                }
-                case 5 -> {
                     System.out.println("Exiting...");
                     isRunning = false;
                 }
@@ -237,28 +241,28 @@ public class UI {
                 int memberID = member.getId();
                 fitnessController.deleteMember(memberID);
                 System.out.println("User deleted successfully.");
-                isRunning = false;
+                System.out.println("\n------------------------------------------ ");
+                System.out.println("Back to main menu. \n");
+                menu();
+            } else if (trainer != null) {
+                int trainerID = trainer.getId();
+                fitnessController.deleteTrainer(trainerID);
+                System.out.println("User deleted successfully.");
+                System.out.println("\n------------------------------------------ ");
+                System.out.println("Back to main menu. \n");
+                menu();
             }
         }
     }
 
-    public void updateAccount() {
+    public void updateAccount(String name, String mail, String phoneNumber) {
         Scanner scanner = new Scanner(System.in);
         boolean isRunning = true;
         while (isRunning) {
-            System.out.println("\n------------------------------------------ ");
-            System.out.println("Please login first.");
-            System.out.println("Full name: ");
-            String name = scanner.nextLine();
-            System.out.println("Mail: ");
-            String mail = scanner.nextLine();
-            System.out.println("Phone number: ");
-            String phoneNumber = scanner.nextLine();
             Member member = findMemberByCredentials(fitnessmembers,name, mail, phoneNumber);
             Trainer trainer = findTrainerByCredentials(fitnesstraines, name, mail, phoneNumber);
             if (member != null){
                 int memberId = member.getId();
-                System.out.println("Login successfully! ");
                 System.out.println("Current membership type is: ");
                 String membershipType = member.getMembershipType();
                 System.out.println(membershipType);
@@ -274,7 +278,15 @@ public class UI {
                 menu();
             }else if(trainer != null){
                 int trainerId = trainer.getId();
-                isRunning = false;
+                System.out.println("Current specialisation is: ");
+                String specialisation = trainer.getSpecialisation();
+                System.out.println(specialisation);
+                System.out.println("Update specialisation: ");
+                String newSpecialisation = scanner.nextLine();
+                fitnessController.updateTrainer(trainerId, name, mail, phoneNumber, newSpecialisation);
+                System.out.println("\n------------------------------------------ ");
+                System.out.println("Back to main menu. \n");
+                menu();
             }else {
                 System.out.println("No user found with the given credentials.");
                 System.out.println("Do you want to try again? (y/n): ");
@@ -358,15 +370,13 @@ public class UI {
 
             // Check login results and redirect to appropriate UI
             if (member != null) {
-                System.out.println("Welcome, " + member.getName() + "!");
+                System.out.println("\nWelcome, " + member.getName() + "!");
                 int memberID = member.getId();
                 memberUI(memberID);
-                isRunning = false; // Exit after successful login
             } else if (trainer != null) {
-                System.out.println("Welcome, " + trainer.getName() + "!");
+                System.out.println("\nWelcome, " + trainer.getName() + "!");
                 int trainerID = trainer.getId();
                 trainerUI(trainerID);
-                isRunning = false; // Exit after successful login
             } else {
                 // If no matching member or trainer is found
                 System.out.println("No user found with the given credentials.");
