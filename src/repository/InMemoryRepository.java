@@ -67,7 +67,6 @@ public class InMemoryRepository<T extends HasId> implements IRepository<T> {
 
     /**
      * Retrieves all entities currently stored in the repository.
-     *
      * @return A list of all entities managed by the repository. If no entities exist, returns an empty list.
      */
     @Override
