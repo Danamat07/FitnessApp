@@ -12,7 +12,7 @@ public class Feedback implements HasId {
         this.member = member;
         this.fitnessClass = fitnessClass;
         this.rating = rating;
-        this. comment = comment;
+        this.comment = comment;
     }
 
     @Override
