@@ -19,6 +19,7 @@ public class TrainerDBRepository extends DBRepository<Trainer> {
      * @param dbUrl      The database URL.
      * @param dbUser     The username for the database connection.
      * @param dbPassword The password for the database connection.
+     * @throws RuntimeException If the connection cannot be established due to an SQLException.
      */
     public TrainerDBRepository(String dbUrl, String dbUser, String dbPassword) {
         super(dbUrl, dbUser, dbPassword);

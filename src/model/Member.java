@@ -7,14 +7,14 @@ public class Member extends User implements HasId {
 
     private int id;
     private LocalDateTime registrationDate;
-    private String membershipType;
+    private Membership membership;
     private List<FitnessClass> fitnessClasses;
 
     // Constructor
-    public Member(String name, String mail, String phone, LocalDateTime registrationDate, String membershipType, List<FitnessClass> fitnessClasses) {
+    public Member(String name, String mail, String phone, LocalDateTime registrationDate, Membership membership, List<FitnessClass> fitnessClasses) {
         super(name, mail, phone);
         this.registrationDate = registrationDate;
-        this.membershipType = membershipType;
+        this.membership = membership;
         this.fitnessClasses = fitnessClasses;
     }
 
@@ -34,8 +34,8 @@ public class Member extends User implements HasId {
         return registrationDate;
     }
 
-    public String getMembershipType() {
-        return membershipType;
+    public Membership getMembership() {
+        return membership;
     }
 
     public List<FitnessClass> getFitnessClasses() {
@@ -63,8 +63,8 @@ public class Member extends User implements HasId {
         this.registrationDate = registrationDate;
     }
 
-    public void setMembershipType(String membershipType) {
-        this.membershipType = membershipType;
+    public void setMembership(Membership membership) {
+        this.membership = membership;
     }
 
     public void setFitnessClasses(List<FitnessClass> fitnessClasses) {
@@ -91,7 +91,7 @@ public class Member extends User implements HasId {
     public String toString() {
         return "Member{" +
                 "registrationDate=" + registrationDate +
-                ", membershipType='" + membershipType + '\'' +
+                ", membership='" + membership + '\'' +
                 ", fitnessClasses=" + fitnessClasses +
                 '}';
     }

@@ -415,11 +415,10 @@ public class FitnessService {
      * @param name             The updated name of the member. Must not be null or empty.
      * @param mail             The updated email of the member. Must not be null or empty.
      * @param phone            The updated phone number of the member. Must not be null or empty.
-     * @param membershipType   The updated membership type of the member. Must not be null or empty.
      * @param fitnessClasses   The updated list of fitness classes the member is enrolled in. Can be empty.
      * @throws IllegalArgumentException if any of the parameters are invalid or if the member with the given ID does not exist.
      */
-    public void updateMember(int id, String name, String mail, String phone, String membershipType, List<FitnessClass> fitnessClasses) {
+    public void updateMember(int id, String name, String mail, String phone, Membership membership, List<FitnessClass> fitnessClasses) {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Name cannot be null or empty.");
         }
@@ -429,14 +428,11 @@ public class FitnessService {
         if (phone == null || phone.trim().isEmpty()) {
             throw new IllegalArgumentException("Phone cannot be null or empty.");
         }
-        if (membershipType == null || membershipType.trim().isEmpty()) {
-            throw new IllegalArgumentException("Membership type cannot be null or empty.");
-        }
         Member existingMember = getMember(id);
         existingMember.setName(name);
         existingMember.setMail(mail);
         existingMember.setPhone(phone);
-        existingMember.setMembershipType(membershipType);
+        existingMember.setMembership(membership);
         existingMember.setFitnessClasses(fitnessClasses);
         memberRepository.update(existingMember);
     }
@@ -500,11 +496,10 @@ public class FitnessService {
      * Updates an existing membership's details in the repository.
      * @param id      The unique ID of the membership to update.
      * @param type    The updated type of the membership. Must not be null or empty.
-     * @param members The updated list of members associated with this membership. Can be empty.
      * @param price   The updated price of the membership. Must be greater than zero.
      * @throws IllegalArgumentException if any of the parameters are invalid or if the membership with the given ID does not exist.
      */
-    public void updateMembership(int id, String type, ArrayList<Member> members, float price) {
+    public void updateMembership(int id, String type, float price) {
         if (type == null || type.trim().isEmpty()) {
             throw new IllegalArgumentException("Membership type cannot be null or empty.");
         }
@@ -513,7 +508,6 @@ public class FitnessService {
         }
         Membership existingMembership = getMembership(id);
         existingMembership.setType(type);
-        existingMembership.setMembers(members);
         existingMembership.setPrice(price);
         membershipRepository.update(existingMembership);
     }

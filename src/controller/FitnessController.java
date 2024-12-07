@@ -335,7 +335,7 @@ public class FitnessController {
                     System.out.println("Email: " + member.getMail());
                     System.out.println("Phone: " + member.getPhone());
                     System.out.println("Registration Date: " + member.getRegistrationDate());
-                    System.out.println("Membership Type: " + member.getMembershipType());
+                    System.out.println("Membership Type: " + member.getMembership());
                     System.out.println("Associated Fitness Classes: " + (member.getFitnessClasses().isEmpty() ? "None" : member.getFitnessClasses()));
                     System.out.println("----------------------------------------");
                 }
@@ -354,7 +354,7 @@ public class FitnessController {
             System.out.println("Email: " + member.getMail());
             System.out.println("Phone: " + member.getPhone());
             System.out.println("Registration Date: " + member.getRegistrationDate());
-            System.out.println("Membership Type: " + member.getMembershipType());
+            System.out.println("Membership Type: " + member.getMembership());
             System.out.println("Associated Fitness Classes: " + (member.getFitnessClasses().isEmpty() ? "None" : member.getFitnessClasses()));
             System.out.println("----------------------------------------");
         } catch (IllegalArgumentException e) {
@@ -381,9 +381,9 @@ public class FitnessController {
     }
 
     // Update an existing member
-    public void updateMember(int id, String name, String mail, String phone, String membershipType, List<FitnessClass> fitnessClasses) {
+    public void updateMember(int id, String name, String mail, String phone, Membership membership, List<FitnessClass> fitnessClasses) {
         try {
-            fitnessService.updateMember(id, name, mail, phone, membershipType, fitnessClasses);
+            fitnessService.updateMember(id, name, mail, phone, membership, fitnessClasses);
             System.out.println("Account updated successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -427,7 +427,6 @@ public class FitnessController {
             System.out.println("Membership ID: " + membership.getId());
             System.out.println("Type: " + membership.getType());
             System.out.println("Price: " + membership.getPrice());
-            System.out.println("Members: " + (membership.getMembers().isEmpty() ? "None" : membership.getMembers()));
             System.out.println("----------------------------------------");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -445,9 +444,9 @@ public class FitnessController {
     }
 
     // Update an existing membership
-    public void updateMembership(int id, String type, ArrayList<Member> members, float price) {
+    public void updateMembership(int id, String type, float price) {
         try {
-            fitnessService.updateMembership(id, type, members, price);
+            fitnessService.updateMembership(id, type, price);
             System.out.println("Membership updated successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -464,11 +463,21 @@ public class FitnessController {
         }
     }
 
+    //Get membership by id
+    public Membership getMembership(int id) {
+        try {
+            return fitnessService.getMembership(id);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
     //Get all memberships
     public List<Membership> getAllMemberships(){
         try{
             return fitnessService.getAllMemberships();
-        }catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
         return null;

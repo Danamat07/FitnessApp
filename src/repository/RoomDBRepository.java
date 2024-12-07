@@ -48,7 +48,7 @@ public class RoomDBRepository extends DBRepository<Room> {
             statement.setInt(4,obj.getLocation().getId());
             statement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to create room", e);
         }
     }
 
@@ -67,13 +67,13 @@ public class RoomDBRepository extends DBRepository<Room> {
             statement.setInt(1,id);
             ResultSet resultSet = statement.executeQuery();
             if(resultSet.next()){
-                Location location = locationDBRepository.read(resultSet.getInt("id"));
+                Location location = locationDBRepository.read(resultSet.getInt("location"));
                 return extractFromResultSet(resultSet, location);
             } else {
                 return null;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to read room", e);
         }
     }
 
@@ -93,7 +93,7 @@ public class RoomDBRepository extends DBRepository<Room> {
             statement.setInt(4,obj.getId());
             statement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to update room", e);
         }
     }
 
@@ -110,7 +110,7 @@ public class RoomDBRepository extends DBRepository<Room> {
             statement.setInt(1,id);
             statement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to delete room", e);
         }
     }
 
@@ -128,12 +128,12 @@ public class RoomDBRepository extends DBRepository<Room> {
             ResultSet resultSet = statement.executeQuery();
             List<Room> rooms = new ArrayList<>();
             while(resultSet.next()){
-                Location location = locationDBRepository.read(resultSet.getInt("id"));
+                Location location = locationDBRepository.read(resultSet.getInt("location"));
                 rooms.add(extractFromResultSet(resultSet, location));
             }
             return rooms;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to retrieve all rooms", e);
         }
     }
 

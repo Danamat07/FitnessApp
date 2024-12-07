@@ -264,15 +264,16 @@ public class UI {
             if (member != null){
                 int memberId = member.getId();
                 System.out.println("Current membership type is: ");
-                String membershipType = member.getMembershipType();
-                System.out.println(membershipType);
-                System.out.println("Choose a new membership type: ");
+                String membership = member.getMembership().toString();
+                System.out.println(membership);
+                System.out.println("Choose a new membership (by ID): ");
                 List<Membership> membershipList = fitnessController.getAllMemberships();
-                for(Membership membership : membershipList){
-                    System.out.println(membership.getType());
+                for(Membership membershipOption : membershipList){
+                    System.out.println(membershipOption.getId() + ". " + membershipOption.getType() + ": " + membershipOption.getPrice());
                 }
-                String choice = scanner.nextLine();
-                fitnessController.updateMember(memberId, name, mail, phoneNumber, choice, member.getFitnessClasses());
+                Integer choice = Integer.parseInt(scanner.nextLine());
+                Membership newMembership = fitnessController.getMembership(choice);
+                fitnessController.updateMember(memberId, name, mail, phoneNumber, newMembership, member.getFitnessClasses());
                 System.out.println("\n------------------------------------------ ");
                 System.out.println("Back to main menu. \n");
                 menu();
@@ -315,10 +316,9 @@ public class UI {
                 System.out.println("Phone number: ");
                 String phoneNumber = scanner.nextLine();
                 LocalDateTime registrationDate = LocalDateTime.now();
-                String startMembership = "Basic";
                 List<FitnessClass> classes = new ArrayList<>();
                 int id = HelperFunctions.randomId();
-                Member member = new Member(name, mail, phoneNumber, registrationDate, startMembership, classes);
+                Member member = new Member(name, mail, phoneNumber, registrationDate, null, classes);
                 member.setId(id);
                 fitnessController.addMember(member);
                 fitnessmembers.add(member);
@@ -438,6 +438,17 @@ public class UI {
         trainersList.add(trainer4);
         trainersList.add(trainer5);
 
+        // memberships
+        Membership studentMembership = new Membership("Student", 150);
+        studentMembership.setId(HelperFunctions.randomId());
+
+        Membership premiumMembership = new Membership("Premium", 250);
+        premiumMembership.setId(HelperFunctions.randomId());
+
+        Membership basicMembership = new Membership("Basic", 200);
+        basicMembership.setId(HelperFunctions.randomId());
+
+
         // locations
         Location location1 = new Location("Revo Fit", "Str. Manastur nr.24");
         Location location2 = new Location("Revo Star", "Str. Buna Ziua nr.102");
@@ -469,23 +480,23 @@ public class UI {
 
         // members
         ArrayList<FitnessClass> member1Classes = new ArrayList<>();
-        Member member1 = new Member("Hrihor Mihaela", "mihaelahrihor@gmail.com", "0758909520", LocalDateTime.of(2024, 1, 12, 12, 30), "Premium", member1Classes);
+        Member member1 = new Member("Hrihor Mihaela", "mihaelahrihor@gmail.com", "0758909520", LocalDateTime.of(2024, 1, 12, 12, 30), basicMembership, member1Classes);
         member1.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> member2Classes = new ArrayList<>();
-        Member member2 = new Member("Matei Dana", "mateidana@gmail.com", "0771367002", LocalDateTime.of(2024, 1, 19, 11, 10), "Student", member2Classes);
+        Member member2 = new Member("Matei Dana", "mateidana@gmail.com", "0771367002", LocalDateTime.of(2024, 1, 19, 11, 10), studentMembership, member2Classes);
         member2.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> member3Classes = new ArrayList<>();
-        Member member3 = new Member("Mitri Miruna", "mitrimiruna@gmail.com", "0758867145", LocalDateTime.of(2024, 1, 22, 16, 20), "Basic", member3Classes);
+        Member member3 = new Member("Mitri Miruna", "mitrimiruna@gmail.com", "0758867145", LocalDateTime.of(2024, 1, 22, 16, 20), basicMembership, member3Classes);
         member3.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> member4Classes = new ArrayList<>();
-        Member member4 = new Member("Berceaengels Kathrin", "kathrinberceaengels@gmail.com", "0745602416", LocalDateTime.of(2024, 1, 2, 13, 30), "Premium", member4Classes);
+        Member member4 = new Member("Berceaengels Kathrin", "kathrinberceaengels@gmail.com", "0745602416", LocalDateTime.of(2024, 1, 2, 13, 30), premiumMembership, member4Classes);
         member4.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> member5Classes = new ArrayList<>();
-        Member member5 = new Member("Bleoca Cristiana", "cristianableoca@gmail.com", "0790143267", LocalDateTime.of(2024, 1, 12, 12, 30), "Student", member5Classes);
+        Member member5 = new Member("Bleoca Cristiana", "cristianableoca@gmail.com", "0790143267", LocalDateTime.of(2024, 1, 12, 12, 30), studentMembership, member5Classes);
         member5.setId(HelperFunctions.randomId());
 
         List<Member> membersList = new ArrayList<>();
@@ -494,32 +505,6 @@ public class UI {
         membersList.add(member3);
         membersList.add(member4);
         membersList.add(member5);
-
-        // memberships
-        ArrayList<Member> studentMembershipList = new ArrayList<>();
-        studentMembershipList.add(member2);
-        studentMembershipList.add(member5);
-
-        Membership studentMembership = new Membership("Student", studentMembershipList, 150);
-        studentMembership.setId(HelperFunctions.randomId());
-
-        ArrayList<Member> premiumMembershipList = new ArrayList<>();
-        premiumMembershipList.add(member1);
-        premiumMembershipList.add(member4);
-
-        Membership premiumMembership = new Membership("Premium", premiumMembershipList, 250);
-        premiumMembership.setId(HelperFunctions.randomId());
-
-        ArrayList<Member> basicMembershipList = new ArrayList<>();
-        basicMembershipList.add(member3);
-
-        Membership basicMembership = new Membership("Basic", basicMembershipList, 200);
-        basicMembership.setId(HelperFunctions.randomId());
-
-        ArrayList<Membership> membershipList = new ArrayList<>();
-        membershipList.add(basicMembership);
-        membershipList.add(premiumMembership);
-        membershipList.add(studentMembership);
 
         // equipments
         ArrayList<FitnessClass> classesWithWeights = new ArrayList<>();
@@ -1011,17 +996,17 @@ public class UI {
         equipmentFileRepo.create(headgear);
         equipmentFileRepo.create(punchingBags);
 
+        FileRepository<Membership> membershipFileRepo = new FileRepository<>(filePath + "Membership.txt");
+        membershipFileRepo.create(basicMembership);
+        membershipFileRepo.create(studentMembership);
+        membershipFileRepo.create(premiumMembership);
+
         FileRepository<Member> memberFileRepo = new FileRepository<>(filePath + "Member.txt");
         memberFileRepo.create(member1);
         memberFileRepo.create(member2);
         memberFileRepo.create(member3);
         memberFileRepo.create(member4);
         memberFileRepo.create(member5);
-
-        FileRepository<Membership> membershipFileRepo = new FileRepository<>(filePath + "Membership.txt");
-        membershipFileRepo.create(basicMembership);
-        membershipFileRepo.create(studentMembership);
-        membershipFileRepo.create(premiumMembership);
 
         FileRepository<FitnessClass> fitnessClassFileRepo = new FileRepository<>(filePath + "FitnessClass.txt");
         fitnessClassFileRepo.create(class1);

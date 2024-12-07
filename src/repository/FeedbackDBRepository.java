@@ -51,7 +51,7 @@ public class FeedbackDBRepository extends DBRepository<Feedback> {
             statement.setString(5,obj.getComment());
             statement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error while inserting feedback", e);
         }
     }
 
@@ -66,18 +66,16 @@ public class FeedbackDBRepository extends DBRepository<Feedback> {
     @Override
     public Feedback read(int id) {
         String sql = "SELECT * FROM Feedback WHERE id=?";
-        try(PreparedStatement statement = connection.prepareStatement(sql)){
-            statement.setInt(1,id);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
-                Member member = memberDBRepository.read(resultSet.getInt("id"));
-                FitnessClass fitnessClass = fitnessClassDBRepository.read(resultSet.getInt("id"));
-                return extractFromResultSet(resultSet, member, fitnessClass);
+            if (resultSet.next()) {
+                return extractFromResultSet(resultSet);
             } else {
                 return null;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error while fetching feedback", e);
         }
     }
 
@@ -90,16 +88,16 @@ public class FeedbackDBRepository extends DBRepository<Feedback> {
      */
     @Override
     public void update(Feedback obj) {
-        String sql = "UPDATE Feedback SET memberID=?, fitnessClassID=?, rating=?, comment=? WHERE id=?";
-        try(PreparedStatement statement = connection.prepareStatement(sql)){
-            statement.setInt(1,obj.getMember().getId());
-            statement.setInt(2,obj.getFitnessClass().getId());
-            statement.setInt(3,obj.getRating());
-            statement.setString(4,obj.getComment());
-            statement.setInt(5,obj.getId());
+        String sql = "UPDATE Feedback SET member=?, fitnessClass=?, rating=?, comment=? WHERE id=?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, obj.getMember().getId());
+            statement.setInt(2, obj.getFitnessClass().getId());
+            statement.setInt(3, obj.getRating());
+            statement.setString(4, obj.getComment());
+            statement.setInt(5, obj.getId());
             statement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error while updating feedback", e);
         }
     }
 
@@ -112,11 +110,11 @@ public class FeedbackDBRepository extends DBRepository<Feedback> {
     @Override
     public void delete(int id) {
         String sql = "DELETE FROM Feedback WHERE id=?";
-        try(PreparedStatement statement = connection.prepareStatement(sql)){
-            statement.setInt(1,id);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
             statement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error while deleting feedback", e);
         }
     }
 
@@ -130,17 +128,15 @@ public class FeedbackDBRepository extends DBRepository<Feedback> {
     @Override
     public List<Feedback> getAll() {
         String sql = "SELECT * FROM Feedback";
-        try(PreparedStatement statement = connection.prepareStatement(sql)){
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet resultSet = statement.executeQuery();
             List<Feedback> feedbacks = new ArrayList<>();
-            while(resultSet.next()){
-                Member member = memberDBRepository.read(resultSet.getInt("id"));
-                FitnessClass fitnessClass = fitnessClassDBRepository.read(resultSet.getInt("id"));
-                feedbacks.add(extractFromResultSet(resultSet, member, fitnessClass));
+            while (resultSet.next()) {
+                feedbacks.add(extractFromResultSet(resultSet));
             }
             return feedbacks;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error while fetching all feedback", e);
         }
     }
 
@@ -149,12 +145,12 @@ public class FeedbackDBRepository extends DBRepository<Feedback> {
      * This helper method creates a Feedback object from a row in the ResultSet and populates it with the necessary details,
      * including the associated Member and FitnessClass.
      * @param resultSet The ResultSet object containing the feedback data.
-     * @param member    The Member object associated with the feedback.
-     * @param fitnessClass The FitnessClass object associated with the feedback.
      * @return A Feedback object populated with the data from the ResultSet.
      * @throws SQLException If an error occurs while reading data from the ResultSet.
      */
-    private static Feedback extractFromResultSet(ResultSet resultSet, Member member, FitnessClass fitnessClass) throws SQLException {
+    private Feedback extractFromResultSet(ResultSet resultSet) throws SQLException {
+        Member member = memberDBRepository.read(resultSet.getInt("member"));
+        FitnessClass fitnessClass = fitnessClassDBRepository.read(resultSet.getInt("fitnessClass"));
         Feedback feedback = new Feedback(
                 member,
                 fitnessClass,
@@ -163,5 +159,20 @@ public class FeedbackDBRepository extends DBRepository<Feedback> {
         );
         feedback.setId(resultSet.getInt("id"));
         return feedback;
+    }
+
+    public ArrayList<Feedback> getFeedbackByClassId(int classId) {
+        ArrayList<Feedback> feedbackList = new ArrayList<>();
+        String sql = "SELECT * FROM Feedback WHERE fitnessClass = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, classId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                feedbackList.add(extractFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to retrieve feedback for fitness class with id " + classId, e);
+        }
+        return feedbackList;
     }
 }
