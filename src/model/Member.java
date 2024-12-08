@@ -11,8 +11,8 @@ public class Member extends User implements HasId {
     private List<FitnessClass> fitnessClasses;
 
     // Constructor
-    public Member(String name, String mail, String phone, LocalDateTime registrationDate, Membership membership, List<FitnessClass> fitnessClasses) {
-        super(name, mail, phone);
+    public Member(String name, String password, LocalDateTime registrationDate, Membership membership, List<FitnessClass> fitnessClasses) {
+        super(name, password);
         this.registrationDate = registrationDate;
         this.membership = membership;
         this.fitnessClasses = fitnessClasses;
@@ -48,13 +48,8 @@ public class Member extends User implements HasId {
     }
 
     @Override
-    public String getMail() {
-        return super.getMail();
-    }
-
-    @Override
-    public String getPhone() {
-        return super.getPhone();
+    public String getPassword() {
+        return super.getPassword();
     }
 
     // Setters
@@ -78,13 +73,8 @@ public class Member extends User implements HasId {
     }
 
     @Override
-    public void setMail(String mail) {
-        super.setMail(mail);
-    }
-
-    @Override
-    public void setPhone(String phone) {
-        super.setPhone(phone);
+    public void setPassword(String password) {
+        super.setPassword(password);
     }
 
     @Override

@@ -169,7 +169,7 @@ public class FitnessClassDBRepository extends DBRepository<FitnessClass> {
     private ArrayList<Member> getFitnessClassMembers(Integer id) {
         ArrayList<Member> members = new ArrayList<>();
         String sqlMembers =
-                "SELECT m.id, m.name, m.mail, m.phone, m.registrationDate, m.membership, m.fitnessClasses" +
+                "SELECT m.id, m.name, m.password, m.registrationDate, m.membership, m.fitnessClasses" +
                         " FROM Member as m "
                         + "where id in (SELECT MemberFitnessClass.memberID FROM MemberFitnessClass WHERE classID = ?)";
         try(PreparedStatement statementMembers = connection.prepareStatement(sqlMembers)){

@@ -32,13 +32,12 @@ public class TrainerDBRepository extends DBRepository<Trainer> {
      */
     @Override
     public void create(Trainer obj) {
-        String sql = "INSERT INTO Trainer (id, name, mail, phone, specialisation) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Trainer (id, name, password, specialisation) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, obj.getId());
             statement.setString(2, obj.getName());
-            statement.setString(3, obj.getMail());
-            statement.setString(4, obj.getPhone());
-            statement.setString(5, obj.getSpecialisation());
+            statement.setString(3, obj.getPassword());
+            statement.setString(4, obj.getSpecialisation());
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException("Failed to create trainer", e);
@@ -74,13 +73,12 @@ public class TrainerDBRepository extends DBRepository<Trainer> {
      */
     @Override
     public void update(Trainer obj) {
-        String sql = "UPDATE Trainer SET name = ?, mail = ?, phone = ?, specialisation = ? WHERE id = ?";
+        String sql = "UPDATE Trainer SET name = ?, password = ?, specialisation = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, obj.getName());
-            statement.setString(2, obj.getMail());
-            statement.setString(3, obj.getPhone());
-            statement.setString(4, obj.getSpecialisation());
-            statement.setInt(5, obj.getId());
+            statement.setString(2, obj.getPassword());
+            statement.setString(3, obj.getSpecialisation());
+            statement.setInt(4, obj.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException("Failed to update trainer", e);
@@ -132,8 +130,7 @@ public class TrainerDBRepository extends DBRepository<Trainer> {
     private static Trainer extractFromResultSet(ResultSet resultSet) throws SQLException {
         Trainer trainer = new Trainer(
                 resultSet.getString("name"),
-                resultSet.getString("mail"),
-                resultSet.getString("phone"),
+                resultSet.getString("password"),
                 resultSet.getString("specialisation")
         );
         trainer.setId(resultSet.getInt("id"));

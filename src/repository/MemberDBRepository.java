@@ -39,14 +39,13 @@ public class MemberDBRepository extends DBRepository<Member>{
 
     @Override
     public void create(Member obj) {
-        String sql = "INSERT INTO Member (id, name, mail, phone, registrationDate, membership) VALUES(?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Member (id, name, password, registrationDate, membership) VALUES(?, ?, ?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1,obj.getId());
             statement.setString(2,obj.getName());
-            statement.setString(3,obj.getMail());
-            statement.setString(4,obj.getPhone());
-            statement.setTimestamp(5, Timestamp.valueOf(obj.getRegistrationDate()));
-            statement.setInt(6,obj.getMembership().getId());
+            statement.setString(3,obj.getPassword());
+            statement.setTimestamp(4, Timestamp.valueOf(obj.getRegistrationDate()));
+            statement.setInt(5,obj.getMembership().getId());
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException("Failed to create member", e);
@@ -71,14 +70,13 @@ public class MemberDBRepository extends DBRepository<Member>{
 
     @Override
     public void update(Member obj) {
-        String sql = "UPDATE Member SET name=?, mail=?, phone=?, registrationDate=?, membership=? WHERE id=?";
+        String sql = "UPDATE Member SET name=?, password=?, registrationDate=?, membership=? WHERE id=?";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1,obj.getName());
-            statement.setString(2,obj.getMail());
-            statement.setString(3,obj.getPhone());
-            statement.setTimestamp(4, Timestamp.valueOf(obj.getRegistrationDate()));
-            statement.setInt(5,obj.getMembership().getId());
-            statement.setInt(6,obj.getId());
+            statement.setString(2,obj.getPassword());
+            statement.setTimestamp(3, Timestamp.valueOf(obj.getRegistrationDate()));
+            statement.setInt(4,obj.getMembership().getId());
+            statement.setInt(5,obj.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException("Failed to update Member", e);
@@ -123,8 +121,7 @@ public class MemberDBRepository extends DBRepository<Member>{
         ArrayList<FitnessClass> fitnessClasses = getMemberFitnessClasses(resultSet.getInt("id"));
         Member member = new Member(
                 resultSet.getString("name"),
-                resultSet.getString("mail"),
-                resultSet.getString("phone"),
+                resultSet.getString("password"),
                 resultSet.getTimestamp("registrationDate").toLocalDateTime(),
                 membership,
                 new ArrayList<>()

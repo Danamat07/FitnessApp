@@ -3,14 +3,12 @@ package model;
 public abstract class User implements HasId {
 
     private String name;
-    private String mail;
-    private String phone;
+    private String password;
 
     // Constructor
-    public User(String name, String mail, String phone) {
+    public User(String name, String password) {
         this.name = name;
-        this.mail = mail;
-        this.phone = phone;
+        this.password = password;
     }
 
     // Getters
@@ -19,12 +17,8 @@ public abstract class User implements HasId {
         return name;
     }
 
-    public String getMail() {
-        return mail;
-    }
-
-    public String getPhone() {
-        return phone;
+    public String getPassword() {
+        return password;
     }
 
     // Setters
@@ -33,20 +27,15 @@ public abstract class User implements HasId {
         this.name = name;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "name='" + name + '\'' +
-                ", mail='" + mail + '\'' +
-                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }

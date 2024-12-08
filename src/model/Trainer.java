@@ -6,8 +6,8 @@ public class Trainer extends User implements HasId {
     private String specialisation;
 
     // Constructor
-    public Trainer(String name, String mail, String phone, String specialisation) {
-        super(name, mail, phone);
+    public Trainer(String name, String password, String specialisation) {
+        super(name, password);
         this.specialisation = specialisation;
     }
 
@@ -33,13 +33,8 @@ public class Trainer extends User implements HasId {
     }
 
     @Override
-    public String getMail() {
-        return super.getMail();
-    }
-
-    @Override
-    public String getPhone() {
-        return super.getPhone();
+    public String getPassword() {
+        return super.getPassword();
     }
 
     // Setters
@@ -54,13 +49,8 @@ public class Trainer extends User implements HasId {
     }
 
     @Override
-    public void setMail(String mail) {
-        super.setMail(mail);
-    }
-
-    @Override
-    public void setPhone(String phone) {
-        super.setPhone(phone);
+    public void setPassword(String password) {
+        super.setPassword(password);
     }
 
     @Override

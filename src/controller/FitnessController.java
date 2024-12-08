@@ -332,8 +332,6 @@ public class FitnessController {
                 for (Member member : memberList) {
                     System.out.println("Member ID: " + member.getId());
                     System.out.println("Name: " + member.getName());
-                    System.out.println("Email: " + member.getMail());
-                    System.out.println("Phone: " + member.getPhone());
                     System.out.println("Registration Date: " + member.getRegistrationDate());
                     System.out.println("Membership Type: " + member.getMembership());
                     System.out.println("Associated Fitness Classes: " + (member.getFitnessClasses().isEmpty() ? "None" : member.getFitnessClasses()));
@@ -351,8 +349,6 @@ public class FitnessController {
             Member member = fitnessService.getMember(id);
             System.out.println("Member ID: " + member.getId());
             System.out.println("Name: " + member.getName());
-            System.out.println("Email: " + member.getMail());
-            System.out.println("Phone: " + member.getPhone());
             System.out.println("Registration Date: " + member.getRegistrationDate());
             System.out.println("Membership Type: " + member.getMembership());
             System.out.println("Associated Fitness Classes: " + (member.getFitnessClasses().isEmpty() ? "None" : member.getFitnessClasses()));
@@ -381,9 +377,9 @@ public class FitnessController {
     }
 
     // Update an existing member
-    public void updateMember(int id, String name, String mail, String phone, Membership membership, List<FitnessClass> fitnessClasses) {
+    public void updateMember(int id, String name, String password, Membership membership, List<FitnessClass> fitnessClasses) {
         try {
-            fitnessService.updateMember(id, name, mail, phone, membership, fitnessClasses);
+            fitnessService.updateMember(id, name, password, membership, fitnessClasses);
             System.out.println("Account updated successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -562,8 +558,6 @@ public class FitnessController {
                 for (Trainer trainer : trainerList) {
                     System.out.println("Trainer ID: " + trainer.getId());
                     System.out.println("Name: " + trainer.getName());
-                    System.out.println("Email: " + trainer.getMail());
-                    System.out.println("Phone: " + trainer.getPhone());
                     System.out.println("Specialisation: " + trainer.getSpecialisation());
                     System.out.println("----------------------------------------");
                 }
@@ -579,8 +573,6 @@ public class FitnessController {
             Trainer trainer = fitnessService.getTrainer(id);
             System.out.println("Trainer ID: " + trainer.getId());
             System.out.println("Name: " + trainer.getName());
-            System.out.println("Email: " + trainer.getMail());
-            System.out.println("Phone: " + trainer.getPhone());
             System.out.println("Specialisation: " + trainer.getSpecialisation());
             System.out.println("----------------------------------------");
         } catch (IllegalArgumentException e) {
@@ -608,9 +600,9 @@ public class FitnessController {
     }
 
     // Update an existing trainer
-    public void updateTrainer(int id, String name, String mail, String phone, String specialisation) {
+    public void updateTrainer(int id, String password, String phone, String specialisation) {
         try {
-            fitnessService.updateTrainer(id, name, mail, phone, specialisation);
+            fitnessService.updateTrainer(id, password, phone, specialisation);
             System.out.println("Trainer specialisation updated successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());

@@ -413,25 +413,20 @@ public class FitnessService {
      * Updates an existing member's details in the repository.
      * @param id               The unique ID of the member to update.
      * @param name             The updated name of the member. Must not be null or empty.
-     * @param mail             The updated email of the member. Must not be null or empty.
-     * @param phone            The updated phone number of the member. Must not be null or empty.
+     * @param password         The updated password of the member. Must not be null or empty.
      * @param fitnessClasses   The updated list of fitness classes the member is enrolled in. Can be empty.
      * @throws IllegalArgumentException if any of the parameters are invalid or if the member with the given ID does not exist.
      */
-    public void updateMember(int id, String name, String mail, String phone, Membership membership, List<FitnessClass> fitnessClasses) {
+    public void updateMember(int id, String name, String password, Membership membership, List<FitnessClass> fitnessClasses) {
+        if (password == null) {
+            throw new IllegalArgumentException("Password cannot be null or empty.");
+        }
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Name cannot be null or empty.");
         }
-        if (mail == null || mail.trim().isEmpty()) {
-            throw new IllegalArgumentException("Email cannot be null or empty.");
-        }
-        if (phone == null || phone.trim().isEmpty()) {
-            throw new IllegalArgumentException("Phone cannot be null or empty.");
-        }
         Member existingMember = getMember(id);
         existingMember.setName(name);
-        existingMember.setMail(mail);
-        existingMember.setPhone(phone);
+        existingMember.setPassword(password);
         existingMember.setMembership(membership);
         existingMember.setFitnessClasses(fitnessClasses);
         memberRepository.update(existingMember);
@@ -644,11 +639,8 @@ public class FitnessService {
         if (trainer.getName() == null || trainer.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Trainer name cannot be null or empty.");
         }
-        if (trainer.getMail() == null || trainer.getMail().trim().isEmpty()) {
-            throw new IllegalArgumentException("Trainer mail cannot be null or empty.");
-        }
-        if (trainer.getPhone() == null || trainer.getPhone().trim().isEmpty()) {
-            throw new IllegalArgumentException("Trainer phone cannot be null or empty.");
+        if (trainer.getPassword() == null) {
+            throw new IllegalArgumentException("Trainer password cannot be null or empty.");
         }
         if (trainer.getSpecialisation() == null || trainer.getSpecialisation().trim().isEmpty()) {
             throw new IllegalArgumentException("Trainer specialisation cannot be null or empty.");
@@ -660,28 +652,23 @@ public class FitnessService {
      * Updates an existing trainer's details in the repository.
      * @param id             The unique ID of the trainer to update.
      * @param name           The updated name of the trainer. Must not be null or empty.
-     * @param mail           The updated email of the trainer. Must not be null or empty.
-     * @param phone          The updated phone number of the trainer. Must not be null or empty.
+     * @param password       The updated password of the trainer. Must not be null or empty.
      * @param specialisation The updated specialisation of the trainer. Must not be null or empty.
      * @throws IllegalArgumentException if any of the parameters are invalid, or if the trainer with the given ID does not exist.
      */
-    public void updateTrainer(int id, String name, String mail, String phone, String specialisation) {
+    public void updateTrainer(int id, String name, String password, String specialisation) {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Trainer name cannot be null or empty.");
         }
-        if (mail == null || mail.trim().isEmpty()) {
+        if (password == null) {
             throw new IllegalArgumentException("Trainer mail cannot be null or empty.");
-        }
-        if (phone == null || phone.trim().isEmpty()) {
-            throw new IllegalArgumentException("Trainer phone cannot be null or empty.");
         }
         if (specialisation == null || specialisation.trim().isEmpty()) {
             throw new IllegalArgumentException("Trainer specialisation cannot be null or empty.");
         }
         Trainer existingTrainer = getTrainer(id);
         existingTrainer.setName(name);
-        existingTrainer.setMail(mail);
-        existingTrainer.setPhone(phone);
+        existingTrainer.setPassword(password);
         existingTrainer.setSpecialisation(specialisation);
         trainerRepository.update(existingTrainer);
     }

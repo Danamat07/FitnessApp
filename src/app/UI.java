@@ -104,7 +104,7 @@ public class UI {
                 }
                 case 4 -> {
                     Trainer trainer = fitnessController.getTrainer(id);
-                    updateAccount(trainer.getName(), trainer.getMail(), trainer.getPhone());
+                    updateAccount(trainer.getName(), trainer.getPassword());
                 }
                 case 5 -> {
                     System.out.println("------------------------------------------ ");
@@ -182,7 +182,7 @@ public class UI {
                 }
                 case 7 -> {
                     Member member = fitnessController.getMember(id);
-                    updateAccount(member.getName(), member.getMail(), member.getPhone());
+                    updateAccount(member.getName(), member.getPassword());
                 }
                 case 8 -> {
                     System.out.println("------------------------------------------ ");
@@ -231,12 +231,10 @@ public class UI {
             System.out.println("\n------------------------------------------ ");
             System.out.println("Full name: ");
             String name = scanner.nextLine();
-            System.out.println("Mail: ");
-            String mail = scanner.nextLine();
-            System.out.println("Phone number: ");
-            String phoneNumber = scanner.nextLine();
-            Member member = findMemberByCredentials(fitnessmembers, name, mail, phoneNumber);
-            Trainer trainer = findTrainerByCredentials(fitnesstraines, name, mail, phoneNumber);
+            System.out.println("Password: ");
+            String password = scanner.nextLine();
+            Member member = findMemberByCredentials(fitnessmembers, name, password);
+            Trainer trainer = findTrainerByCredentials(fitnesstraines, name, password);
             if (member != null) {
                 int memberID = member.getId();
                 fitnessController.deleteMember(memberID);
@@ -255,12 +253,12 @@ public class UI {
         }
     }
 
-    public void updateAccount(String name, String mail, String phoneNumber) {
+    public void updateAccount(String name, String password) {
         Scanner scanner = new Scanner(System.in);
         boolean isRunning = true;
         while (isRunning) {
-            Member member = findMemberByCredentials(fitnessmembers,name, mail, phoneNumber);
-            Trainer trainer = findTrainerByCredentials(fitnesstraines, name, mail, phoneNumber);
+            Member member = findMemberByCredentials(fitnessmembers,name, password);
+            Trainer trainer = findTrainerByCredentials(fitnesstraines, name, password);
             if (member != null){
                 int memberId = member.getId();
                 System.out.println("Current membership type is: ");
@@ -273,7 +271,7 @@ public class UI {
                 }
                 Integer choice = Integer.parseInt(scanner.nextLine());
                 Membership newMembership = fitnessController.getMembership(choice);
-                fitnessController.updateMember(memberId, name, mail, phoneNumber, newMembership, member.getFitnessClasses());
+                fitnessController.updateMember(memberId, name, password, newMembership, member.getFitnessClasses());
                 System.out.println("\n------------------------------------------ ");
                 System.out.println("Back to main menu. \n");
                 menu();
@@ -284,7 +282,7 @@ public class UI {
                 System.out.println(specialisation);
                 System.out.println("Update specialisation: ");
                 String newSpecialisation = scanner.nextLine();
-                fitnessController.updateTrainer(trainerId, name, mail, phoneNumber, newSpecialisation);
+                fitnessController.updateTrainer(trainerId, name, password, newSpecialisation);
                 System.out.println("\n------------------------------------------ ");
                 System.out.println("Back to main menu. \n");
                 menu();
@@ -311,14 +309,12 @@ public class UI {
                 System.out.println("\n------------------------------------------ ");
                 System.out.println("Full name: ");
                 String name = scanner.nextLine();
-                System.out.println("Mail: ");
-                String mail = scanner.nextLine();
-                System.out.println("Phone number: ");
-                String phoneNumber = scanner.nextLine();
+                System.out.println("Password: ");
+                String password = scanner.nextLine();
                 LocalDateTime registrationDate = LocalDateTime.now();
                 List<FitnessClass> classes = new ArrayList<>();
                 int id = HelperFunctions.randomId();
-                Member member = new Member(name, mail, phoneNumber, registrationDate, null, classes);
+                Member member = new Member(name, password, registrationDate, null, classes);
                 member.setId(id);
                 fitnessController.addMember(member);
                 fitnessmembers.add(member);
@@ -330,14 +326,12 @@ public class UI {
                 System.out.println("\n------------------------------------------ ");
                 System.out.println("Full name: ");
                 String name = scanner.nextLine();
-                System.out.println("Mail: ");
-                String mail = scanner.nextLine();
-                System.out.println("Phone number: ");
-                String phoneNumber = scanner.nextLine();
+                System.out.println("Password: ");
+                String password = scanner.nextLine();
                 System.out.println("Your specialisation: ");
                 String specialisation = scanner.nextLine();
                 int id = HelperFunctions.randomId();
-                Trainer trainer = new Trainer(name, mail, phoneNumber, specialisation);
+                Trainer trainer = new Trainer(name, password, specialisation);
                 trainer.setId(id);
                 fitnessController.addTrainer(trainer);
                 fitnesstraines.add(trainer);
@@ -359,14 +353,12 @@ public class UI {
             System.out.println("Please enter your login info:");
             System.out.println("Full name: ");
             String userName = scanner.nextLine();
-            System.out.println("Mail: ");
-            String userEmail = scanner.nextLine();
-            System.out.println("Phone number: ");
-            String userPhoneNumber = scanner.nextLine();
+            System.out.println("Password: ");
+            String userPassword = scanner.nextLine();
 
             // Try to find member or trainer
-            Member member = findMemberByCredentials(fitnessmembers, userName, userEmail, userPhoneNumber);
-            Trainer trainer = findTrainerByCredentials(fitnesstraines, userName, userEmail, userPhoneNumber);
+            Member member = findMemberByCredentials(fitnessmembers, userName, userPassword);
+            Trainer trainer = findTrainerByCredentials(fitnesstraines, userName, userPassword);
 
             // Check login results and redirect to appropriate UI
             if (member != null) {
@@ -393,11 +385,10 @@ public class UI {
     // Filer functions -> identify user (member or trainer)
 
     // Method to find member by name, email, and phone
-    public static Member findMemberByCredentials(List<Member> members, String name, String email, String phone) {
+    public static Member findMemberByCredentials(List<Member> members, String name, String password) {
         for (Member member : members) {
             if (member.getName().equalsIgnoreCase(name) &&
-                    member.getMail().equalsIgnoreCase(email) &&
-                    member.getPhone().equals(phone)) {
+                    member.getPassword().equalsIgnoreCase(password)){
                 return member;
             }
         }
@@ -405,11 +396,10 @@ public class UI {
     }
 
     // Method to find trainer by name, email, and phone
-    public static Trainer findTrainerByCredentials(List<Trainer> trainers, String name, String email, String phone) {
+    public static Trainer findTrainerByCredentials(List<Trainer> trainers, String name, String password) {
         for (Trainer trainer : trainers) {
             if (trainer.getName().equalsIgnoreCase(name) &&
-                    trainer.getMail().equalsIgnoreCase(email) &&
-                    trainer.getPhone().equals(phone)) {
+                    trainer.getPassword().equalsIgnoreCase(password)) {
                 return trainer;
             }
         }
@@ -420,11 +410,11 @@ public class UI {
         // loading data
 
         // trainers
-        Trainer trainer1 = new Trainer("Sabin Matei", "sabinmatei@gmail.com", "0746912336", "weight lifting, cardio");
-        Trainer trainer2 = new Trainer("Tudor Ratiu", "tudorratiu@gmail.com", "0733912375", "cardio, weight lifting, kickboxing");
-        Trainer trainer3 = new Trainer("Rusai Denis", "rusaidenis@gmail.com", "0734119845", "kickboxing, weight lifting");
-        Trainer trainer4 = new Trainer("Ana Popescu", "anapopescu@gmail.com", "0734829450", "yoga, pilates");
-        Trainer trainer5 = new Trainer("Alina Carcea", "alinacarcea@gmail.com", "0745012367", "pilates, yoga");
+        Trainer trainer1 = new Trainer("Sabin Matei", "1234", "weight lifting, cardio");
+        Trainer trainer2 = new Trainer("Tudor Ratiu", "1234", "cardio, weight lifting, kickboxing");
+        Trainer trainer3 = new Trainer("Rusai Denis", "1234", "kickboxing, weight lifting");
+        Trainer trainer4 = new Trainer("Ana Popescu", "1234", "yoga, pilates");
+        Trainer trainer5 = new Trainer("Alina Carcea", "1234", "pilates, yoga");
         trainer1.setId(HelperFunctions.randomId());
         trainer2.setId(HelperFunctions.randomId());
         trainer3.setId(HelperFunctions.randomId());
@@ -480,23 +470,23 @@ public class UI {
 
         // members
         ArrayList<FitnessClass> member1Classes = new ArrayList<>();
-        Member member1 = new Member("Hrihor Mihaela", "mihaelahrihor@gmail.com", "0758909520", LocalDateTime.of(2024, 1, 12, 12, 30), basicMembership, member1Classes);
+        Member member1 = new Member("Hrihor Mihaela", "1234", LocalDateTime.of(2024, 1, 12, 12, 30), basicMembership, member1Classes);
         member1.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> member2Classes = new ArrayList<>();
-        Member member2 = new Member("Matei Dana", "mateidana@gmail.com", "0771367002", LocalDateTime.of(2024, 1, 19, 11, 10), studentMembership, member2Classes);
+        Member member2 = new Member("Matei Dana", "1234", LocalDateTime.of(2024, 1, 19, 11, 10), studentMembership, member2Classes);
         member2.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> member3Classes = new ArrayList<>();
-        Member member3 = new Member("Mitri Miruna", "mitrimiruna@gmail.com", "0758867145", LocalDateTime.of(2024, 1, 22, 16, 20), basicMembership, member3Classes);
+        Member member3 = new Member("Mitri Miruna", "1234", LocalDateTime.of(2024, 1, 22, 16, 20), basicMembership, member3Classes);
         member3.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> member4Classes = new ArrayList<>();
-        Member member4 = new Member("Berceaengels Kathrin", "kathrinberceaengels@gmail.com", "0745602416", LocalDateTime.of(2024, 1, 2, 13, 30), premiumMembership, member4Classes);
+        Member member4 = new Member("Berceaengels Kathrin", "1234", LocalDateTime.of(2024, 1, 2, 13, 30), premiumMembership, member4Classes);
         member4.setId(HelperFunctions.randomId());
 
         ArrayList<FitnessClass> member5Classes = new ArrayList<>();
-        Member member5 = new Member("Bleoca Cristiana", "cristianableoca@gmail.com", "0790143267", LocalDateTime.of(2024, 1, 12, 12, 30), studentMembership, member5Classes);
+        Member member5 = new Member("Bleoca Cristiana", "1234", LocalDateTime.of(2024, 1, 12, 12, 30), studentMembership, member5Classes);
         member5.setId(HelperFunctions.randomId());
 
         List<Member> membersList = new ArrayList<>();
@@ -877,177 +867,194 @@ public class UI {
         feedback15.setId(HelperFunctions.randomId());
         feedbackListForClass15.add(feedback15);
 
-        // repos, services, controller and ui
-//        InMemoryRepository<Equipment> equipmentInMemoRepo = new InMemoryRepository<>();
-//        equipmentInMemoRepo.create(weights);
-//        equipmentInMemoRepo.create(mattresses);
-//        equipmentInMemoRepo.create(treadmill);
-//        equipmentInMemoRepo.create(legPress);
-//        equipmentInMemoRepo.create(foamRoller);
-//        equipmentInMemoRepo.create(resistanceBands);
-//        equipmentInMemoRepo.create(pilatesRing);
-//        equipmentInMemoRepo.create(yogaBlocks);
-//        equipmentInMemoRepo.create(jumpRope);
-//        equipmentInMemoRepo.create(airBike);
-//        equipmentInMemoRepo.create(boxingGloves);
-//        equipmentInMemoRepo.create(headgear);
-//        equipmentInMemoRepo.create(punchingBags);
-//
-//        InMemoryRepository<Feedback> feedbackInMemoRepo = new InMemoryRepository<>();
-//        feedbackInMemoRepo.create(feedback1);
-//        feedbackInMemoRepo.create(feedback2);
-//        feedbackInMemoRepo.create(feedback3);
-//        feedbackInMemoRepo.create(feedback4);
-//        feedbackInMemoRepo.create(feedback5);
-//        feedbackInMemoRepo.create(feedback6);
-//        feedbackInMemoRepo.create(feedback7);
-//        feedbackInMemoRepo.create(feedback8);
-//        feedbackInMemoRepo.create(feedback9);
-//        feedbackInMemoRepo.create(feedback10);
-//        feedbackInMemoRepo.create(feedback11);
-//        feedbackInMemoRepo.create(feedback12);
-//        feedbackInMemoRepo.create(feedback13);
-//        feedbackInMemoRepo.create(feedback14);
-//        feedbackInMemoRepo.create(feedback15);
-//
-//        InMemoryRepository<FitnessClass> fitnessClassInMemoRepo = new InMemoryRepository<>();
-//        fitnessClassInMemoRepo.create(class1);
-//        fitnessClassInMemoRepo.create(class2);
-//        fitnessClassInMemoRepo.create(class3);
-//        fitnessClassInMemoRepo.create(class4);
-//        fitnessClassInMemoRepo.create(class5);
-//        fitnessClassInMemoRepo.create(class6);
-//        fitnessClassInMemoRepo.create(class7);
-//        fitnessClassInMemoRepo.create(class8);
-//        fitnessClassInMemoRepo.create(class9);
-//        fitnessClassInMemoRepo.create(class10);
-//        fitnessClassInMemoRepo.create(class11);
-//        fitnessClassInMemoRepo.create(class12);
-//        fitnessClassInMemoRepo.create(class13);
-//        fitnessClassInMemoRepo.create(class14);
-//        fitnessClassInMemoRepo.create(class15);
-//
-//        InMemoryRepository<Location> locationInMemoRepo = new InMemoryRepository<>();
-//        locationInMemoRepo.create(location1);
-//        locationInMemoRepo.create(location2);
-//
-//        InMemoryRepository<Member> memberInMemoRepo = new InMemoryRepository<>();
-//        memberInMemoRepo.create(member1);
-//        memberInMemoRepo.create(member2);
-//        memberInMemoRepo.create(member3);
-//        memberInMemoRepo.create(member4);
-//        memberInMemoRepo.create(member5);
-//
-//        InMemoryRepository<Membership> membershipInMemoRepo = new InMemoryRepository<>();
-//        membershipInMemoRepo.create(basicMembership);
-//        membershipInMemoRepo.create(studentMembership);
-//        membershipInMemoRepo.create(premiumMembership);
-//
-//        InMemoryRepository<Room> roomInMemoRepo = new InMemoryRepository<>();
-//        roomInMemoRepo.create(room1);
-//        roomInMemoRepo.create(room2);
-//        roomInMemoRepo.create(room3);
-//        roomInMemoRepo.create(room4);
-//        roomInMemoRepo.create(room5);
-//
-//        InMemoryRepository<Trainer> trainerInMemoRepo = new InMemoryRepository<>();
-//        trainerInMemoRepo.create(trainer1);
-//        trainerInMemoRepo.create(trainer2);
-//        trainerInMemoRepo.create(trainer3);
-//        trainerInMemoRepo.create(trainer4);
-//        trainerInMemoRepo.create(trainer5);
-//
-//        FitnessService inMemoryService = new FitnessService(equipmentInMemoRepo, feedbackInMemoRepo, fitnessClassInMemoRepo, locationInMemoRepo, memberInMemoRepo, membershipInMemoRepo, roomInMemoRepo, trainerInMemoRepo);
-//
-//        ArrayList<Member> membersList = (ArrayList<Member>) memberInMemoRepo.getAll();
-//        ArrayList<Trainer> trainersList = (ArrayList<Trainer>) trainerInMemoRepo.getAll();
+        Scanner scanner = new Scanner(System.in);
+        boolean isRunning = true;
+        while (isRunning) {
+            System.out.println("Choose a data storage method");
+            System.out.println("1. InMemory storage");
+            System.out.println("2. File storage");
+            System.out.println("3. Data Base storage");
+            System.out.println("Your option: ");
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch (choice) {
+                case 1 -> {
+                    InMemoryRepository<Equipment> equipmentInMemoRepo = new InMemoryRepository<>();
+                    equipmentInMemoRepo.create(weights);
+                    equipmentInMemoRepo.create(mattresses);
+                    equipmentInMemoRepo.create(treadmill);
+                    equipmentInMemoRepo.create(legPress);
+                    equipmentInMemoRepo.create(foamRoller);
+                    equipmentInMemoRepo.create(resistanceBands);
+                    equipmentInMemoRepo.create(pilatesRing);
+                    equipmentInMemoRepo.create(yogaBlocks);
+                    equipmentInMemoRepo.create(jumpRope);
+                    equipmentInMemoRepo.create(airBike);
+                    equipmentInMemoRepo.create(boxingGloves);
+                    equipmentInMemoRepo.create(headgear);
+                    equipmentInMemoRepo.create(punchingBags);
 
-        String filePath = "C:\\Users\\Dell\\IdeaProjects\\FitnessApp\\src\\files\\";
-        FileRepository<Location> locationFileRepo = new FileRepository<>(filePath + "Location.txt");
-        locationFileRepo.create(location1);
-        locationFileRepo.create(location2);
+                    InMemoryRepository<Feedback> feedbackInMemoRepo = new InMemoryRepository<>();
+                    feedbackInMemoRepo.create(feedback1);
+                    feedbackInMemoRepo.create(feedback2);
+                    feedbackInMemoRepo.create(feedback3);
+                    feedbackInMemoRepo.create(feedback4);
+                    feedbackInMemoRepo.create(feedback5);
+                    feedbackInMemoRepo.create(feedback6);
+                    feedbackInMemoRepo.create(feedback7);
+                    feedbackInMemoRepo.create(feedback8);
+                    feedbackInMemoRepo.create(feedback9);
+                    feedbackInMemoRepo.create(feedback10);
+                    feedbackInMemoRepo.create(feedback11);
+                    feedbackInMemoRepo.create(feedback12);
+                    feedbackInMemoRepo.create(feedback13);
+                    feedbackInMemoRepo.create(feedback14);
+                    feedbackInMemoRepo.create(feedback15);
 
-        FileRepository<Room> roomFileRepo = new FileRepository<>(filePath + "Room.txt");
-        roomFileRepo.create(room1);
-        roomFileRepo.create(room2);
-        roomFileRepo.create(room3);
-        roomFileRepo.create(room4);
-        roomFileRepo.create(room5);
+                    InMemoryRepository<FitnessClass> fitnessClassInMemoRepo = new InMemoryRepository<>();
+                    fitnessClassInMemoRepo.create(class1);
+                    fitnessClassInMemoRepo.create(class2);
+                    fitnessClassInMemoRepo.create(class3);
+                    fitnessClassInMemoRepo.create(class4);
+                    fitnessClassInMemoRepo.create(class5);
+                    fitnessClassInMemoRepo.create(class6);
+                    fitnessClassInMemoRepo.create(class7);
+                    fitnessClassInMemoRepo.create(class8);
+                    fitnessClassInMemoRepo.create(class9);
+                    fitnessClassInMemoRepo.create(class10);
+                    fitnessClassInMemoRepo.create(class11);
+                    fitnessClassInMemoRepo.create(class12);
+                    fitnessClassInMemoRepo.create(class13);
+                    fitnessClassInMemoRepo.create(class14);
+                    fitnessClassInMemoRepo.create(class15);
 
-        FileRepository<Trainer> trainerFileRepo = new FileRepository<>(filePath + "Trainer.txt");
-        trainerFileRepo.create(trainer1);
-        trainerFileRepo.create(trainer2);
-        trainerFileRepo.create(trainer3);
-        trainerFileRepo.create(trainer4);
-        trainerFileRepo.create(trainer5);
+                    InMemoryRepository<Location> locationInMemoRepo = new InMemoryRepository<>();
+                    locationInMemoRepo.create(location1);
+                    locationInMemoRepo.create(location2);
 
-        FileRepository<Equipment> equipmentFileRepo = new FileRepository<>(filePath + "Equipment.txt");
-        equipmentFileRepo.create(weights);
-        equipmentFileRepo.create(mattresses);
-        equipmentFileRepo.create(treadmill);
-        equipmentFileRepo.create(legPress);
-        equipmentFileRepo.create(foamRoller);
-        equipmentFileRepo.create(resistanceBands);
-        equipmentFileRepo.create(pilatesRing);
-        equipmentFileRepo.create(yogaBlocks);
-        equipmentFileRepo.create(jumpRope);
-        equipmentFileRepo.create(airBike);
-        equipmentFileRepo.create(boxingGloves);
-        equipmentFileRepo.create(headgear);
-        equipmentFileRepo.create(punchingBags);
+                    InMemoryRepository<Member> memberInMemoRepo = new InMemoryRepository<>();
+                    memberInMemoRepo.create(member1);
+                    memberInMemoRepo.create(member2);
+                    memberInMemoRepo.create(member3);
+                    memberInMemoRepo.create(member4);
+                    memberInMemoRepo.create(member5);
 
-        FileRepository<Membership> membershipFileRepo = new FileRepository<>(filePath + "Membership.txt");
-        membershipFileRepo.create(basicMembership);
-        membershipFileRepo.create(studentMembership);
-        membershipFileRepo.create(premiumMembership);
+                    InMemoryRepository<Membership> membershipInMemoRepo = new InMemoryRepository<>();
+                    membershipInMemoRepo.create(basicMembership);
+                    membershipInMemoRepo.create(studentMembership);
+                    membershipInMemoRepo.create(premiumMembership);
 
-        FileRepository<Member> memberFileRepo = new FileRepository<>(filePath + "Member.txt");
-        memberFileRepo.create(member1);
-        memberFileRepo.create(member2);
-        memberFileRepo.create(member3);
-        memberFileRepo.create(member4);
-        memberFileRepo.create(member5);
+                    InMemoryRepository<Room> roomInMemoRepo = new InMemoryRepository<>();
+                    roomInMemoRepo.create(room1);
+                    roomInMemoRepo.create(room2);
+                    roomInMemoRepo.create(room3);
+                    roomInMemoRepo.create(room4);
+                    roomInMemoRepo.create(room5);
 
-        FileRepository<FitnessClass> fitnessClassFileRepo = new FileRepository<>(filePath + "FitnessClass.txt");
-        fitnessClassFileRepo.create(class1);
-        fitnessClassFileRepo.create(class2);
-        fitnessClassFileRepo.create(class3);
-        fitnessClassFileRepo.create(class4);
-        fitnessClassFileRepo.create(class5);
-        fitnessClassFileRepo.create(class6);
-        fitnessClassFileRepo.create(class7);
-        fitnessClassFileRepo.create(class8);
-        fitnessClassFileRepo.create(class9);
-        fitnessClassFileRepo.create(class10);
-        fitnessClassFileRepo.create(class11);
-        fitnessClassFileRepo.create(class12);
-        fitnessClassFileRepo.create(class13);
-        fitnessClassFileRepo.create(class14);
-        fitnessClassFileRepo.create(class15);
+                    InMemoryRepository<Trainer> trainerInMemoRepo = new InMemoryRepository<>();
+                    trainerInMemoRepo.create(trainer1);
+                    trainerInMemoRepo.create(trainer2);
+                    trainerInMemoRepo.create(trainer3);
+                    trainerInMemoRepo.create(trainer4);
+                    trainerInMemoRepo.create(trainer5);
 
-        FileRepository<Feedback> feedbackFileRepo = new FileRepository<>(filePath + "Feedback.txt");
-        feedbackFileRepo.create(feedback1);
-        feedbackFileRepo.create(feedback2);
-        feedbackFileRepo.create(feedback3);
-        feedbackFileRepo.create(feedback4);
-        feedbackFileRepo.create(feedback5);
-        feedbackFileRepo.create(feedback6);
-        feedbackFileRepo.create(feedback7);
-        feedbackFileRepo.create(feedback8);
-        feedbackFileRepo.create(feedback9);
-        feedbackFileRepo.create(feedback10);
-        feedbackFileRepo.create(feedback11);
-        feedbackFileRepo.create(feedback12);
-        feedbackFileRepo.create(feedback13);
-        feedbackFileRepo.create(feedback14);
-        feedbackFileRepo.create(feedback15);
+                    FitnessService inMemoryService = new FitnessService(equipmentInMemoRepo, feedbackInMemoRepo, fitnessClassInMemoRepo, locationInMemoRepo, memberInMemoRepo, membershipInMemoRepo, roomInMemoRepo, trainerInMemoRepo);
+                    FitnessController controller = new FitnessController(inMemoryService);
+                    UI ui = new UI(controller, membersList, trainersList);
+                    ui.menu();
+                }
 
-        FitnessService fileService = new FitnessService(equipmentFileRepo, feedbackFileRepo, fitnessClassFileRepo, locationFileRepo, memberFileRepo, membershipFileRepo, roomFileRepo, trainerFileRepo);
+                case 2 -> {
+                    String filePath = "C:\\Users\\Dell\\IdeaProjects\\FitnessApp\\src\\files\\";
+                    FileRepository<Location> locationFileRepo = new FileRepository<>(filePath + "Location.txt");
+                    locationFileRepo.create(location1);
+                    locationFileRepo.create(location2);
 
-        FitnessController controller = new FitnessController(fileService);
-        UI ui = new UI(controller, membersList, trainersList);
-        ui.menu();
+                    FileRepository<Room> roomFileRepo = new FileRepository<>(filePath + "Room.txt");
+                    roomFileRepo.create(room1);
+                    roomFileRepo.create(room2);
+                    roomFileRepo.create(room3);
+                    roomFileRepo.create(room4);
+                    roomFileRepo.create(room5);
 
+                    FileRepository<Trainer> trainerFileRepo = new FileRepository<>(filePath + "Trainer.txt");
+                    trainerFileRepo.create(trainer1);
+                    trainerFileRepo.create(trainer2);
+                    trainerFileRepo.create(trainer3);
+                    trainerFileRepo.create(trainer4);
+                    trainerFileRepo.create(trainer5);
+
+                    FileRepository<Equipment> equipmentFileRepo = new FileRepository<>(filePath + "Equipment.txt");
+                    equipmentFileRepo.create(weights);
+                    equipmentFileRepo.create(mattresses);
+                    equipmentFileRepo.create(treadmill);
+                    equipmentFileRepo.create(legPress);
+                    equipmentFileRepo.create(foamRoller);
+                    equipmentFileRepo.create(resistanceBands);
+                    equipmentFileRepo.create(pilatesRing);
+                    equipmentFileRepo.create(yogaBlocks);
+                    equipmentFileRepo.create(jumpRope);
+                    equipmentFileRepo.create(airBike);
+                    equipmentFileRepo.create(boxingGloves);
+                    equipmentFileRepo.create(headgear);
+                    equipmentFileRepo.create(punchingBags);
+
+                    FileRepository<Membership> membershipFileRepo = new FileRepository<>(filePath + "Membership.txt");
+                    membershipFileRepo.create(basicMembership);
+                    membershipFileRepo.create(studentMembership);
+                    membershipFileRepo.create(premiumMembership);
+
+                    FileRepository<Member> memberFileRepo = new FileRepository<>(filePath + "Member.txt");
+                    memberFileRepo.create(member1);
+                    memberFileRepo.create(member2);
+                    memberFileRepo.create(member3);
+                    memberFileRepo.create(member4);
+                    memberFileRepo.create(member5);
+
+                    FileRepository<FitnessClass> fitnessClassFileRepo = new FileRepository<>(filePath + "FitnessClass.txt");
+                    fitnessClassFileRepo.create(class1);
+                    fitnessClassFileRepo.create(class2);
+                    fitnessClassFileRepo.create(class3);
+                    fitnessClassFileRepo.create(class4);
+                    fitnessClassFileRepo.create(class5);
+                    fitnessClassFileRepo.create(class6);
+                    fitnessClassFileRepo.create(class7);
+                    fitnessClassFileRepo.create(class8);
+                    fitnessClassFileRepo.create(class9);
+                    fitnessClassFileRepo.create(class10);
+                    fitnessClassFileRepo.create(class11);
+                    fitnessClassFileRepo.create(class12);
+                    fitnessClassFileRepo.create(class13);
+                    fitnessClassFileRepo.create(class14);
+                    fitnessClassFileRepo.create(class15);
+
+                    FileRepository<Feedback> feedbackFileRepo = new FileRepository<>(filePath + "Feedback.txt");
+                    feedbackFileRepo.create(feedback1);
+                    feedbackFileRepo.create(feedback2);
+                    feedbackFileRepo.create(feedback3);
+                    feedbackFileRepo.create(feedback4);
+                    feedbackFileRepo.create(feedback5);
+                    feedbackFileRepo.create(feedback6);
+                    feedbackFileRepo.create(feedback7);
+                    feedbackFileRepo.create(feedback8);
+                    feedbackFileRepo.create(feedback9);
+                    feedbackFileRepo.create(feedback10);
+                    feedbackFileRepo.create(feedback11);
+                    feedbackFileRepo.create(feedback12);
+                    feedbackFileRepo.create(feedback13);
+                    feedbackFileRepo.create(feedback14);
+                    feedbackFileRepo.create(feedback15);
+
+                    FitnessService fileService = new FitnessService(equipmentFileRepo, feedbackFileRepo, fitnessClassFileRepo, locationFileRepo, memberFileRepo, membershipFileRepo, roomFileRepo, trainerFileRepo);
+                    FitnessController controller = new FitnessController(fileService);
+                    UI ui = new UI(controller, membersList, trainersList);
+                    ui.menu();
+                }
+
+                case 3 -> {
+                    // ...
+                }
+            }
+        }
+        scanner.close();
     }
-
 }
