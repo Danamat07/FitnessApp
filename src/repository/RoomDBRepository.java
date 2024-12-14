@@ -40,7 +40,7 @@ public class RoomDBRepository extends DBRepository<Room> {
      */
     @Override
     public void create(Room obj) {
-        String sql = "INSERT INTO Room (id, name, maxCapacity, location) VALUES(?, ?, ?, ?)";
+        String sql = "INSERT INTO room (id, name, maxCapacity, location) VALUES(?, ?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1,obj.getId());
             statement.setString(2,obj.getName());
@@ -62,7 +62,7 @@ public class RoomDBRepository extends DBRepository<Room> {
      */
     @Override
     public Room read(int id) {
-        String sql = "SELECT * FROM Room WHERE id=?";
+        String sql = "SELECT * FROM room WHERE id=?";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1,id);
             ResultSet resultSet = statement.executeQuery();
@@ -85,7 +85,7 @@ public class RoomDBRepository extends DBRepository<Room> {
      */
     @Override
     public void update(Room obj) {
-        String sql = "UPDATE Room SET name=?, maxCapacity=?, locationID=? WHERE id=?";
+        String sql = "UPDATE room SET name=?, maxCapacity=?, locationID=? WHERE id=?";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1,obj.getName());
             statement.setInt(2,obj.getMaxCapacity());
@@ -105,7 +105,7 @@ public class RoomDBRepository extends DBRepository<Room> {
      */
     @Override
     public void delete(int id) {
-        String sql = "DELETE FROM Room WHERE id=?";
+        String sql = "DELETE FROM room WHERE id=?";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1,id);
             statement.execute();
@@ -123,7 +123,7 @@ public class RoomDBRepository extends DBRepository<Room> {
      */
     @Override
     public List<Room> getAll() {
-        String sql = "SELECT * FROM Room";
+        String sql = "SELECT * FROM room";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             ResultSet resultSet = statement.executeQuery();
             List<Room> rooms = new ArrayList<>();

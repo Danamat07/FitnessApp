@@ -965,6 +965,7 @@ public class UI {
 
                 case 2 -> {
                     String filePath = "C:\\Users\\Dell\\IdeaProjects\\FitnessApp\\src\\files\\";
+
                     FileRepository<Location> locationFileRepo = new FileRepository<>(filePath + "Location.txt");
                     locationFileRepo.create(location1);
                     locationFileRepo.create(location2);
@@ -1051,7 +1052,93 @@ public class UI {
                 }
 
                 case 3 -> {
-                    // ...
+                    String DB_URL = "jdbc:mysql://127.0.0.1:3306/fitnessapp?useSSL=false&serverTimezone=UTC";
+                    String DB_USER = "root";
+                    String DB_PASSWORD = "danamat07";
+
+                    LocationDBRepository locationDBRepo = new LocationDBRepository(DB_URL, DB_USER, DB_PASSWORD);
+                    locationDBRepo.create(location1);
+                    locationDBRepo.create(location2);
+
+                    RoomDBRepository roomDBRepo = new RoomDBRepository(DB_URL, DB_USER, DB_PASSWORD);
+                    roomDBRepo.create(room1);
+                    roomDBRepo.create(room2);
+                    roomDBRepo.create(room3);
+                    roomDBRepo.create(room4);
+                    roomDBRepo.create(room5);
+
+                    TrainerDBRepository trainerDBRepo = new TrainerDBRepository(DB_URL, DB_USER, DB_PASSWORD);
+                    trainerDBRepo.create(trainer1);
+                    trainerDBRepo.create(trainer2);
+                    trainerDBRepo.create(trainer3);
+                    trainerDBRepo.create(trainer4);
+                    trainerDBRepo.create(trainer5);
+
+                    EquipmentDBRepository equipmentDBRepo = new EquipmentDBRepository(DB_URL, DB_USER, DB_PASSWORD);
+                    equipmentDBRepo.create(weights);
+                    equipmentDBRepo.create(mattresses);
+                    equipmentDBRepo.create(treadmill);
+                    equipmentDBRepo.create(legPress);
+                    equipmentDBRepo.create(foamRoller);
+                    equipmentDBRepo.create(resistanceBands);
+                    equipmentDBRepo.create(pilatesRing);
+                    equipmentDBRepo.create(yogaBlocks);
+                    equipmentDBRepo.create(jumpRope);
+                    equipmentDBRepo.create(airBike);
+                    equipmentDBRepo.create(boxingGloves);
+                    equipmentDBRepo.create(headgear);
+                    equipmentDBRepo.create(punchingBags);
+
+                    MembershipDBRepository membershipDBRepo = new MembershipDBRepository(DB_URL, DB_USER, DB_PASSWORD);
+                    membershipDBRepo.create(basicMembership);
+                    membershipDBRepo.create(studentMembership);
+                    membershipDBRepo.create(premiumMembership);
+
+                    MemberDBRepository memberDBRepo = new MemberDBRepository(DB_URL, DB_USER, DB_PASSWORD);
+                    memberDBRepo.create(member1);
+                    memberDBRepo.create(member2);
+                    memberDBRepo.create(member3);
+                    memberDBRepo.create(member4);
+                    memberDBRepo.create(member5);
+
+                    FitnessClassDBRepository fitnessClassDBRepo = new FitnessClassDBRepository(DB_URL, DB_USER, DB_PASSWORD);
+                    fitnessClassDBRepo.create(class1);
+                    fitnessClassDBRepo.create(class2);
+                    fitnessClassDBRepo.create(class3);
+                    fitnessClassDBRepo.create(class4);
+                    fitnessClassDBRepo.create(class5);
+                    fitnessClassDBRepo.create(class6);
+                    fitnessClassDBRepo.create(class7);
+                    fitnessClassDBRepo.create(class8);
+                    fitnessClassDBRepo.create(class9);
+                    fitnessClassDBRepo.create(class10);
+                    fitnessClassDBRepo.create(class11);
+                    fitnessClassDBRepo.create(class12);
+                    fitnessClassDBRepo.create(class13);
+                    fitnessClassDBRepo.create(class14);
+                    fitnessClassDBRepo.create(class15);
+
+                    FeedbackDBRepository feedbackDBRepo = new FeedbackDBRepository(DB_URL, DB_USER, DB_PASSWORD);
+                    feedbackDBRepo.create(feedback1);
+                    feedbackDBRepo.create(feedback2);
+                    feedbackDBRepo.create(feedback3);
+                    feedbackDBRepo.create(feedback4);
+                    feedbackDBRepo.create(feedback5);
+                    feedbackDBRepo.create(feedback6);
+                    feedbackDBRepo.create(feedback7);
+                    feedbackDBRepo.create(feedback8);
+                    feedbackDBRepo.create(feedback9);
+                    feedbackDBRepo.create(feedback10);
+                    feedbackDBRepo.create(feedback11);
+                    feedbackDBRepo.create(feedback12);
+                    feedbackDBRepo.create(feedback13);
+                    feedbackDBRepo.create(feedback14);
+                    feedbackDBRepo.create(feedback15);
+
+                    FitnessService DBService = new FitnessService(equipmentDBRepo, feedbackDBRepo, fitnessClassDBRepo, locationDBRepo, memberDBRepo, membershipDBRepo, roomDBRepo, trainerDBRepo);
+                    FitnessController controller = new FitnessController(DBService);
+                    UI ui = new UI(controller, membersList, trainersList);
+                    ui.menu();
                 }
             }
         }

@@ -29,7 +29,7 @@ public class MembershipDBRepository extends DBRepository<Membership> {
      */
     @Override
     public void create(Membership obj) {
-        String sql = "INSERT INTO Membership (id, type, price) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO membership (id, type, price) VALUES (?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1,obj.getId());
             statement.setString(2,obj.getType());
@@ -48,7 +48,7 @@ public class MembershipDBRepository extends DBRepository<Membership> {
      */
     @Override
     public Membership read(int id) {
-        String sql = "SELECT * FROM Membership WHERE id = ?";
+        String sql = "SELECT * FROM membership WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -69,7 +69,7 @@ public class MembershipDBRepository extends DBRepository<Membership> {
      */
     @Override
     public void update(Membership obj) {
-        String sql = "UPDATE Membership SET type = ?, price = ? WHERE id = ?";
+        String sql = "UPDATE membership SET type = ?, price = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, obj.getType());
             statement.setFloat(2, obj.getPrice());
@@ -87,7 +87,7 @@ public class MembershipDBRepository extends DBRepository<Membership> {
      */
     @Override
     public void delete(int id) {
-        String sql = "DELETE FROM Membership WHERE id = ?";
+        String sql = "DELETE FROM membership WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             statement.execute();
@@ -103,7 +103,7 @@ public class MembershipDBRepository extends DBRepository<Membership> {
      */
     @Override
     public List<Membership> getAll() {
-        String sql = "SELECT * FROM Membership";
+        String sql = "SELECT * FROM membership";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet resultSet = statement.executeQuery();
             List<Membership> memberships = new ArrayList<>();

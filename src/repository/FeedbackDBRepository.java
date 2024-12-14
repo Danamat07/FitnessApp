@@ -42,7 +42,7 @@ public class FeedbackDBRepository extends DBRepository<Feedback> {
      */
     @Override
     public void create(Feedback obj) {
-        String sql = "INSERT INTO Feedback (id, member, fitnessClass, rating, comment) VALUES(?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO feedback (id, member, fitnessClass, rating, comment) VALUES(?, ?, ?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1,obj.getId());
             statement.setInt(2,obj.getMember().getId());
@@ -65,7 +65,7 @@ public class FeedbackDBRepository extends DBRepository<Feedback> {
      */
     @Override
     public Feedback read(int id) {
-        String sql = "SELECT * FROM Feedback WHERE id=?";
+        String sql = "SELECT * FROM feedback WHERE id=?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -88,7 +88,7 @@ public class FeedbackDBRepository extends DBRepository<Feedback> {
      */
     @Override
     public void update(Feedback obj) {
-        String sql = "UPDATE Feedback SET member=?, fitnessClass=?, rating=?, comment=? WHERE id=?";
+        String sql = "UPDATE feedback SET member=?, fitnessClass=?, rating=?, comment=? WHERE id=?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, obj.getMember().getId());
             statement.setInt(2, obj.getFitnessClass().getId());
@@ -109,7 +109,7 @@ public class FeedbackDBRepository extends DBRepository<Feedback> {
      */
     @Override
     public void delete(int id) {
-        String sql = "DELETE FROM Feedback WHERE id=?";
+        String sql = "DELETE FROM feedback WHERE id=?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             statement.execute();
@@ -127,7 +127,7 @@ public class FeedbackDBRepository extends DBRepository<Feedback> {
      */
     @Override
     public List<Feedback> getAll() {
-        String sql = "SELECT * FROM Feedback";
+        String sql = "SELECT * FROM feedback";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet resultSet = statement.executeQuery();
             List<Feedback> feedbacks = new ArrayList<>();
@@ -163,7 +163,7 @@ public class FeedbackDBRepository extends DBRepository<Feedback> {
 
     public ArrayList<Feedback> getFeedbackByClassId(int classId) {
         ArrayList<Feedback> feedbackList = new ArrayList<>();
-        String sql = "SELECT * FROM Feedback WHERE fitnessClass = ?";
+        String sql = "SELECT * FROM feedback WHERE fitnessClass = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, classId);
             ResultSet resultSet = statement.executeQuery();

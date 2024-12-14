@@ -30,7 +30,7 @@ public class FitnessClassDBRepository extends DBRepository<FitnessClass> {
 
     @Override
     public void create(FitnessClass obj) {
-        String sql = "INSERT INTO FitnessClass (id ,name, startTime, endTime, trainer, room, participantsCount, location) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO fitnessClass (id ,name, startTime, endTime, trainer, room, participantsCount, location) VALUES(?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1,obj.getId());
             statement.setString(2,obj.getName());
@@ -42,13 +42,13 @@ public class FitnessClassDBRepository extends DBRepository<FitnessClass> {
             statement.setInt(8,obj.getLocation().getId());
             statement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to create FitnessClass", e);
+            throw new RuntimeException("Failed to create fitness class", e);
         }
     }
 
     @Override
     public FitnessClass read(int id) {
-        String sql = "SELECT * FROM FitnessClass WHERE id=?";
+        String sql = "SELECT * FROM fitnessClass WHERE id=?";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1,id);
             ResultSet resultSet = statement.executeQuery();
@@ -58,13 +58,13 @@ public class FitnessClassDBRepository extends DBRepository<FitnessClass> {
                 return null;
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to read FitnessClass", e);
+            throw new RuntimeException("Failed to read fitness class", e);
         }
     }
 
     @Override
     public void update(FitnessClass obj) {
-        String sql = "UPDATE FitnessClass SET name=?, startTime=?, endTime=?, trainer=?, room=?, " +
+        String sql = "UPDATE fitnessClass SET name=?, startTime=?, endTime=?, trainer=?, room=?, " +
                 "participantsCount=?, location=? WHERE id=?";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1,obj.getName());
@@ -78,27 +78,27 @@ public class FitnessClassDBRepository extends DBRepository<FitnessClass> {
             statement.setInt(9,obj.getId());
             statement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to update room", e);
+            throw new RuntimeException("Failed to update fitness class", e);
         }
     }
 
     @Override
     public void delete(int id) {
-        String sql1 = "DELETE FROM FitnessClass WHERE id=?";
+        String sql1 = "DELETE FROM fitnessClass WHERE id=?";
         try(PreparedStatement statement = connection.prepareStatement(sql1)){
             statement.setInt(1,id);
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        String sql2 = "DELETE FROM MemberFitnessClass WHERE classID=?";
+        String sql2 = "DELETE FROM member_fitnessClass WHERE classID=?";
         try(PreparedStatement statement = connection.prepareStatement(sql2)){
             statement.setInt(1,id);
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        String sql3 = "DELETE FROM EquipmentFitnessClass WHERE classID=?";
+        String sql3 = "DELETE FROM equipment_fitnessClass WHERE classID=?";
         try(PreparedStatement statement = connection.prepareStatement(sql3)){
             statement.setInt(1,id);
             statement.execute();
@@ -109,7 +109,7 @@ public class FitnessClassDBRepository extends DBRepository<FitnessClass> {
 
     @Override
     public List<FitnessClass> getAll() {
-        String sql = "SELECT * FROM FitnessClass";
+        String sql = "SELECT * FROM fitnessClass";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             ResultSet resultSet = statement.executeQuery();
             List<FitnessClass> fitnessClasses = new ArrayList<>();
@@ -151,9 +151,9 @@ public class FitnessClassDBRepository extends DBRepository<FitnessClass> {
     private ArrayList<Equipment> getFitnessClassEquipment(Integer id) {
         ArrayList<Equipment> equipment = new ArrayList<>();
         String sqlEquipment =
-                "SELECT eq.id, eq.name, eq.quantity, eq.fitnessClasses" +
-                        " FROM Equipment as eq "
-                        + "where id in (SELECT EquipmentFitnessClass.equipmentID FROM EquipmentFitnessClass WHERE classID = ?)";
+                "SELECT eq.id, eq.name, eq.quantity" +
+                        " FROM equipment as eq "
+                        + "where id in (SELECT equipment_fitnessClass.equipmentID FROM equipment_fitnessClass WHERE classID = ?)";
         try(PreparedStatement statementEquipment = connection.prepareStatement(sqlEquipment)){
             statementEquipment.setInt(1, id);
             ResultSet resultEquipment = statementEquipment.executeQuery();
@@ -169,9 +169,9 @@ public class FitnessClassDBRepository extends DBRepository<FitnessClass> {
     private ArrayList<Member> getFitnessClassMembers(Integer id) {
         ArrayList<Member> members = new ArrayList<>();
         String sqlMembers =
-                "SELECT m.id, m.name, m.password, m.registrationDate, m.membership, m.fitnessClasses" +
-                        " FROM Member as m "
-                        + "where id in (SELECT MemberFitnessClass.memberID FROM MemberFitnessClass WHERE classID = ?)";
+                "SELECT m.id, m.name, m.password, m.registrationDate, m.membership" +
+                        " FROM member as m "
+                        + "where id in (SELECT member_fitnessClass.memberID FROM member_fitnessClass WHERE classID = ?)";
         try(PreparedStatement statementMembers = connection.prepareStatement(sqlMembers)){
             statementMembers.setInt(1, id);
             ResultSet resultMembers = statementMembers.executeQuery();

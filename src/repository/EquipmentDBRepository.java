@@ -38,14 +38,14 @@ public class EquipmentDBRepository extends DBRepository<Equipment> {
      */
     @Override
     public void create(Equipment obj) {
-        String sql = "INSERT INTO Equipment (id ,name, quantity) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO equipment (id ,name, quantity) VALUES(?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1,obj.getId());
             statement.setString(2,obj.getName());
             statement.setInt(3,obj.getQuantity());
             statement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to create Equipment", e);
+            throw new RuntimeException("Failed to create equipment", e);
         }
     }
 
@@ -57,7 +57,7 @@ public class EquipmentDBRepository extends DBRepository<Equipment> {
      */
     @Override
     public Equipment read(int id) {
-        String sql = "SELECT * FROM Equipment WHERE id=?";
+        String sql = "SELECT * FROM equipment WHERE id=?";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1,id);
             ResultSet resultSet = statement.executeQuery();
@@ -67,7 +67,7 @@ public class EquipmentDBRepository extends DBRepository<Equipment> {
                 return null;
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to read Equipment", e);
+            throw new RuntimeException("Failed to read equipment", e);
         }
     }
 
@@ -78,14 +78,14 @@ public class EquipmentDBRepository extends DBRepository<Equipment> {
      */
     @Override
     public void update(Equipment obj) {
-        String sql = "UPDATE Equipment SET name=?, quantity=? WHERE id=?";
+        String sql = "UPDATE equipment SET name=?, quantity=? WHERE id=?";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1,obj.getName());
             statement.setInt(2,obj.getQuantity());
             statement.setInt(3,obj.getId());
             statement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to update Equipment", e);
+            throw new RuntimeException("Failed to update equipment", e);
         }
     }
 
@@ -96,14 +96,14 @@ public class EquipmentDBRepository extends DBRepository<Equipment> {
      */
     @Override
     public void delete(int id) {
-        String sql = "DELETE FROM Equipment WHERE id=?";
+        String sql = "DELETE FROM equipment WHERE id=?";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1,id);
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException("Failed to delete equipment", e);
         }
-        String sql2 = "DELETE FROM EquipmentFitnessClass WHERE equipmentID=?";
+        String sql2 = "DELETE FROM equipment_fitnessClass WHERE equipmentID=?";
         try(PreparedStatement statement = connection.prepareStatement(sql2)){
             statement.setInt(1,id);
             statement.execute();
@@ -119,7 +119,7 @@ public class EquipmentDBRepository extends DBRepository<Equipment> {
      */
     @Override
     public List<Equipment> getAll() {
-        String sql = "SELECT * FROM Equipment";
+        String sql = "SELECT * FROM equipment";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet resultSet = statement.executeQuery();
             List<Equipment> equipmentList = new ArrayList<>();
@@ -129,7 +129,7 @@ public class EquipmentDBRepository extends DBRepository<Equipment> {
             }
             return equipmentList;
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to retrieve all Equipment", e);
+            throw new RuntimeException("Failed to retrieve all equipment", e);
         }
     }
 
@@ -151,7 +151,7 @@ public class EquipmentDBRepository extends DBRepository<Equipment> {
             equipment.setId(resultSet.getInt("id"));
             return equipment;
         } catch (SQLException e) {
-            throw new RuntimeException("Error extracting Equipment from ResultSet", e);
+            throw new RuntimeException("Error extracting equipment from ResultSet", e);
         }
     }
 
@@ -159,9 +159,9 @@ public class EquipmentDBRepository extends DBRepository<Equipment> {
         ArrayList<FitnessClass> fitnessClasses = new ArrayList<>();
         String sqlClasses =
                 "SELECT fc.id, fc.name, fc.startTime, fc.endTime, fc.trainer, fc.room, fc.participantsCount, " +
-                        "fc.location, fc.feedback, fc.members, fc.equipment" +
-                        " FROM FitnessClass as fc "
-                        + "where id in (SELECT EquipmentFitnessClass.classID FROM EquipmentFitnessClass WHERE equipmentID = ?)";
+                        "fc.location" +
+                        " FROM fitnessClass as fc "
+                        + "where id in (SELECT equipment_fitnessClass.classID FROM equipment_fitnessClass WHERE equipmentID = ?)";
         try(PreparedStatement statementClasses = connection.prepareStatement(sqlClasses)){
             statementClasses.setInt(1, id);
             ResultSet resultClasses = statementClasses.executeQuery();

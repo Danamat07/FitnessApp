@@ -39,7 +39,7 @@ public class MemberDBRepository extends DBRepository<Member>{
 
     @Override
     public void create(Member obj) {
-        String sql = "INSERT INTO Member (id, name, password, registrationDate, membership) VALUES(?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO member (id, name, password, registrationDate, membership) VALUES(?, ?, ?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1,obj.getId());
             statement.setString(2,obj.getName());
@@ -54,7 +54,7 @@ public class MemberDBRepository extends DBRepository<Member>{
 
     @Override
     public Member read(int id) {
-        String sql = "SELECT * FROM Member WHERE id=?";
+        String sql = "SELECT * FROM member WHERE id=?";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1,id);
             ResultSet resultSet = statement.executeQuery();
@@ -70,7 +70,7 @@ public class MemberDBRepository extends DBRepository<Member>{
 
     @Override
     public void update(Member obj) {
-        String sql = "UPDATE Member SET name=?, password=?, registrationDate=?, membership=? WHERE id=?";
+        String sql = "UPDATE member SET name=?, password=?, registrationDate=?, membership=? WHERE id=?";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1,obj.getName());
             statement.setString(2,obj.getPassword());
@@ -79,31 +79,31 @@ public class MemberDBRepository extends DBRepository<Member>{
             statement.setInt(5,obj.getId());
             statement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to update Member", e);
+            throw new RuntimeException("Failed to update member", e);
         }
     }
 
     @Override
     public void delete(int id) {
-        String sql = "DELETE FROM Member WHERE id=?";
+        String sql = "DELETE FROM member WHERE id=?";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1,id);
             statement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to delete room", e);
+            throw new RuntimeException("Failed to delete member", e);
         }
-        String sql2 = "DELETE FROM MemberFitnessClass WHERE memberID=?";
+        String sql2 = "DELETE FROM member_FitnessClass WHERE memberID=?";
         try(PreparedStatement statement = connection.prepareStatement(sql2)){
             statement.setInt(1,id);
             statement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to delete Member", e);
+            throw new RuntimeException("Failed to delete member", e);
         }
     }
 
     @Override
     public List<Member> getAll() {
-        String sql = "SELECT * FROM Member";
+        String sql = "SELECT * FROM member";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             ResultSet resultSet = statement.executeQuery();
             List<Member> members = new ArrayList<>();
@@ -135,9 +135,9 @@ public class MemberDBRepository extends DBRepository<Member>{
         ArrayList<FitnessClass> fitnessClasses = new ArrayList<>();
         String sqlMembersClasses =
                 "SELECT fc.id, fc.name, fc.startTime, fc.endTime, fc.trainer, fc.room, fc.participantsCount, " +
-                        "fc.location, fc.feedback, fc.members, fc.equipment" +
-                        " FROM FitnessClass as fc "
-                        + "where id in (SELECT MemberFitnessClass.classID FROM MemberFitnessClass WHERE memberID = ?)";
+                        "fc.location" +
+                        " FROM fitnessClass as fc "
+                        + "where id in (SELECT member_fitnessClass.classID FROM member_fitnessClass WHERE memberID = ?)";
         try(PreparedStatement statementMembersClasses = connection.prepareStatement(sqlMembersClasses)){
             statementMembersClasses.setInt(1, id);
             ResultSet resultSetMembersClasses = statementMembersClasses.executeQuery();

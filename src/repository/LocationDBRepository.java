@@ -32,7 +32,7 @@ public class LocationDBRepository extends DBRepository<Location> {
      */
     @Override
     public void create(Location obj) {
-        String sql = "INSERT INTO Location (id, name, address) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO location (id, name, address) VALUES (?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1,obj.getId());
             statement.setString(2,obj.getName());
@@ -51,7 +51,7 @@ public class LocationDBRepository extends DBRepository<Location> {
      */
     @Override
     public Location read(int id) {
-        String sql = "SELECT * FROM Location WHERE id = ?";
+        String sql = "SELECT * FROM location WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -72,7 +72,7 @@ public class LocationDBRepository extends DBRepository<Location> {
      */
     @Override
     public void update(Location obj) {
-        String sql = "UPDATE Location SET name = ?, address = ? WHERE id = ?";
+        String sql = "UPDATE location SET name = ?, address = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, obj.getName());
             statement.setString(2, obj.getAddress());
@@ -90,7 +90,7 @@ public class LocationDBRepository extends DBRepository<Location> {
      */
     @Override
     public void delete(int id) {
-        String sql = "DELETE FROM Location WHERE id = ?";
+        String sql = "DELETE FROM location WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             statement.execute();
@@ -106,7 +106,7 @@ public class LocationDBRepository extends DBRepository<Location> {
      */
     @Override
     public List<Location> getAll() {
-        String sql = "SELECT * FROM Location";
+        String sql = "SELECT * FROM location";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet resultSet = statement.executeQuery();
             List<Location> locations = new ArrayList<>();

@@ -32,7 +32,7 @@ public class TrainerDBRepository extends DBRepository<Trainer> {
      */
     @Override
     public void create(Trainer obj) {
-        String sql = "INSERT INTO Trainer (id, name, password, specialisation) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO trainer (id, name, password, specialisation) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, obj.getId());
             statement.setString(2, obj.getName());
@@ -52,7 +52,7 @@ public class TrainerDBRepository extends DBRepository<Trainer> {
      */
     @Override
     public Trainer read(int id) {
-        String sql = "SELECT * FROM Trainer WHERE id = ?";
+        String sql = "SELECT * FROM trainer WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -73,7 +73,7 @@ public class TrainerDBRepository extends DBRepository<Trainer> {
      */
     @Override
     public void update(Trainer obj) {
-        String sql = "UPDATE Trainer SET name = ?, password = ?, specialisation = ? WHERE id = ?";
+        String sql = "UPDATE trainer SET name = ?, password = ?, specialisation = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, obj.getName());
             statement.setString(2, obj.getPassword());
@@ -92,7 +92,7 @@ public class TrainerDBRepository extends DBRepository<Trainer> {
      */
     @Override
     public void delete(int id) {
-        String sql = "DELETE FROM Trainer WHERE id = ?";
+        String sql = "DELETE FROM trainer WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             statement.execute();
@@ -108,7 +108,7 @@ public class TrainerDBRepository extends DBRepository<Trainer> {
      */
     @Override
     public List<Trainer> getAll() {
-        String sql = "SELECT * FROM Trainer";
+        String sql = "SELECT * FROM trainer";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet resultSet = statement.executeQuery();
             List<Trainer> trainers = new ArrayList<>();
