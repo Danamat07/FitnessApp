@@ -44,156 +44,6 @@ public class UI {
         this.fitnesstraines = fitnesstraines;
     }
 
-    public void trainerUI(int id) {
-        Scanner scanner = new Scanner(System.in);
-        boolean isRunning = true;
-        while (isRunning){
-            System.out.println("==== Menu ====");
-            System.out.println("1. View my classes");
-            System.out.println("2. Schedule a new class");
-            System.out.println("3. View feedback");
-            System.out.println("4. Update account");
-            System.out.println("5. Logout");
-            System.out.println("Enter your choice (1/2/3 or 4): ");
-
-            int choice = Integer.parseInt(scanner.nextLine());
-            switch (choice){
-                case 1 -> {
-                    System.out.println("------------------------------------------ ");
-                    fitnessController.displaySortedTrainerUpcomingClasses(id);
-                    System.out.println("------------------------------------------ ");
-                }
-                case 2 -> {
-                    System.out.println("------------------------------------------ ");
-                    fitnessController.displaySortedTrainerUpcomingClasses(id);
-                    System.out.println("Enter class name: ");
-                    String className = scanner.nextLine();
-                    System.out.println("Enter start time (yyyy-MM-ddTHH:mm): ");
-                    LocalDateTime startTime = LocalDateTime.parse(scanner.nextLine());
-                    System.out.println("Enter end time (yyyy-MM-ddTHH:mm): ");
-                    LocalDateTime endTime = LocalDateTime.parse(scanner.nextLine());
-                    System.out.println("--->These are your rooms options: ");
-                    fitnessController.displayAllRooms();
-                    System.out.println("Enter room by id: ");
-                    int roomId = Integer.parseInt(scanner.nextLine());
-                    System.out.println("Enter max participants: ");
-                    int participantsCount = Integer.parseInt(scanner.nextLine());
-                    System.out.println("--->These are your location options: ");
-                    fitnessController.displayAllLocations();
-                    System.out.println("Enter location by id: ");
-                    int locationId = Integer.parseInt(scanner.nextLine());
-                    System.out.println("--->These are your equipment options: ");
-                    fitnessController.displayAllEquipment();
-                    System.out.println("Enter equipment by id: ");
-                    int equipmentId = Integer.parseInt(scanner.nextLine());
-                    List<Equipment> equipmentList = new ArrayList<>();
-                    equipmentList.add(fitnessController.getEquipment(equipmentId));
-                    fitnessController.scheduleNewClass(className,startTime,endTime,id,roomId,participantsCount,locationId,equipmentList);
-                    System.out.println("Fitness class scheduled successfully! ");
-                    System.out.println("------------------------------------------ ");
-
-                }
-                case 3 -> {
-                    System.out.println("------------------------------------------ ");
-                    fitnessController.displayClassesOfTrainer(id);
-                    System.out.println("\n");
-                    System.out.println("Choose a class to view feedback for (by ID): ");
-                    int classId = Integer.parseInt(scanner.nextLine());
-                    fitnessController.displayFeedback(classId);
-                    System.out.println("------------------------------------------ ");
-                }
-                case 4 -> {
-                    Trainer trainer = fitnessController.getTrainer(id);
-                    updateAccount(trainer.getName(), trainer.getPassword());
-                }
-                case 5 -> {
-                    System.out.println("------------------------------------------ ");
-                    System.out.println("Logging out...");
-                    System.out.println("Back to main menu. \n");
-                    menu();
-                }
-            }
-        }
-    }
-
-    public void memberUI(int id) {
-        Scanner scanner = new Scanner(System.in);
-        boolean isRunning = true;
-        while (isRunning){
-            System.out.println("==== Menu ====");
-            System.out.println("1. View upcoming classes");
-            System.out.println("2. Register to class");
-            System.out.println("3. Drop class");
-            System.out.println("4. View classes you participated in");
-            System.out.println("5. Get similar classes");
-            System.out.println("6. Leave feedback");
-            System.out.println("7. Update account");
-            System.out.println("8. Logout");
-            System.out.println("Enter your choice (1/2/3 or 4): ");
-
-            int choice = Integer.parseInt(scanner.nextLine());
-            switch (choice){
-                case 1 -> {
-                    System.out.println("------------------------------------------ ");
-                    fitnessController.displaySortedUpcomingClasses();
-                    System.out.println("------------------------------------------ ");
-                }
-                case 2 -> {
-                    System.out.println("------------------------------------------ ");
-                    fitnessController.displaySortedUpcomingClasses();
-                    System.out.println("Which class would you like to book? (enter class ID): ");
-                    int classId = Integer.parseInt(scanner.nextLine());
-                    fitnessController.registerToClass(id, classId);
-                    System.out.println("------------------------------------------ ");
-                }
-                case 3 -> {
-                    System.out.println("------------------------------------------ ");
-                    fitnessController.displaySortedUpcomingClasses();
-                    System.out.println("Which class would you like to drop? (enter class ID): ");
-                    int classId = Integer.parseInt(scanner.nextLine());
-                    fitnessController.dropClass(id, classId);
-                    System.out.println("------------------------------------------ ");
-                }
-                case 4 -> {
-                    System.out.println("------------------------------------------ ");
-                    fitnessController.displayClassesByMember(id);
-                    System.out.println("------------------------------------------ ");
-                }
-                case 5 -> {
-                    System.out.println("------------------------------------------ ");
-                    fitnessController.displayClassesByMember(id);
-                    System.out.println("Choose a class to get a recommendations for similar classes (enter class ID): ");
-                    int classId = Integer.parseInt(scanner.nextLine());
-                    FitnessClass targetClass = fitnessController.findClassById(classId);
-                    fitnessController.getSimilarClasses(targetClass);
-                    System.out.println("------------------------------------------ ");
-                }
-                case 6 -> {
-                    System.out.println("------------------------------------------ ");
-                    fitnessController.displayPastClassesAttendedByMember(id);
-                    System.out.println("Choose a class to leave a feedback to (by ID): ");
-                    int classId = Integer.parseInt(scanner.nextLine());
-                    System.out.println("Leave a rating (out of 5): ");
-                    int rating = Integer.parseInt(scanner.nextLine());
-                    System.out.println("Leave a comment: ");
-                    String comment = scanner.nextLine();
-                    fitnessController.addFeedbackForClass(id, classId, comment, rating);
-                    System.out.println("------------------------------------------ ");
-                }
-                case 7 -> {
-                    Member member = fitnessController.getMember(id);
-                    updateAccount(member.getName(), member.getPassword());
-                }
-                case 8 -> {
-                    System.out.println("------------------------------------------ ");
-                    System.out.println("Logging out...");
-                    System.out.println("Back to main menu. \n");
-                    menu();
-                }
-            }
-        }
-    }
-
     public void menu() {
         Scanner scanner = new Scanner(System.in);
         boolean isRunning = true;
@@ -206,15 +56,9 @@ public class UI {
             System.out.println("Enter your option here (1, 2, 3 or 4): ");
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
-                case 1 -> {
-                    createNewAccount();
-                }
-                case 2 -> {
-                    login();
-                }
-                case 3 -> {
-                    deleteAccount();
-                }
+                case 1 -> createNewAccount();
+                case 2 -> login();
+                case 3 -> deleteAccount();
                 case 4 -> {
                     System.out.println("Exiting...");
                     isRunning = false;
@@ -222,35 +66,6 @@ public class UI {
             }
         }
         scanner.close();
-    }
-
-    public void deleteAccount() {
-        Scanner scanner = new Scanner(System.in);
-        boolean isRunning = true;
-        while (isRunning) {
-            System.out.println("\n------------------------------------------ ");
-            System.out.println("Full name: ");
-            String name = scanner.nextLine();
-            System.out.println("Password: ");
-            String password = scanner.nextLine();
-            Member member = findMemberByCredentials(fitnessmembers, name, password);
-            Trainer trainer = findTrainerByCredentials(fitnesstraines, name, password);
-            if (member != null) {
-                int memberID = member.getId();
-                fitnessController.deleteMember(memberID);
-                System.out.println("User deleted successfully.");
-                System.out.println("\n------------------------------------------ ");
-                System.out.println("Back to main menu. \n");
-                menu();
-            } else if (trainer != null) {
-                int trainerID = trainer.getId();
-                fitnessController.deleteTrainer(trainerID);
-                System.out.println("User deleted successfully.");
-                System.out.println("\n------------------------------------------ ");
-                System.out.println("Back to main menu. \n");
-                menu();
-            }
-        }
     }
 
     public void updateAccount(String name, String password) {
@@ -344,6 +159,37 @@ public class UI {
         scanner.close();
     }
 
+    public void deleteAccount() {
+        Scanner scanner = new Scanner(System.in);
+        boolean isRunning = true;
+        while (isRunning) {
+            System.out.println("\n------------------------------------------ ");
+            System.out.println("Full name: ");
+            String name = scanner.nextLine();
+            System.out.println("Password: ");
+            String password = scanner.nextLine();
+            Member member = findMemberByCredentials(fitnessmembers, name, password);
+            Trainer trainer = findTrainerByCredentials(fitnesstraines, name, password);
+            if (member != null) {
+                int memberID = member.getId();
+                fitnessController.deleteMember(memberID);
+                fitnessmembers.remove(member);
+                System.out.println("User deleted successfully.");
+                System.out.println("\n------------------------------------------ ");
+                System.out.println("Back to main menu. \n");
+                menu();
+            } else if (trainer != null) {
+                int trainerID = trainer.getId();
+                fitnessController.deleteTrainer(trainerID);
+                fitnesstraines.remove(trainer);
+                System.out.println("User deleted successfully.");
+                System.out.println("\n------------------------------------------ ");
+                System.out.println("Back to main menu. \n");
+                menu();
+            }
+        }
+    }
+
     public void login() {
         Scanner scanner = new Scanner(System.in);
 
@@ -404,6 +250,178 @@ public class UI {
             }
         }
         return null;
+    }
+
+    public void trainerUI(int id) {
+        Scanner scanner = new Scanner(System.in);
+        boolean isRunning = true;
+        while (isRunning){
+            System.out.println("==== Menu ====");
+            System.out.println("1. View my classes");
+            System.out.println("2. Schedule a new class");
+            System.out.println("3. View feedback");
+            System.out.println("4. Update account");
+            System.out.println("5. Logout");
+            System.out.println("Enter your choice (1/2/3 or 4): ");
+
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch (choice){
+                case 1 -> {
+                    System.out.println("------------------------------------------ ");
+                    fitnessController.displaySortedTrainerUpcomingClasses(id);
+                    System.out.println("------------------------------------------ ");
+                }
+                case 2 -> {
+                    System.out.println("------------------------------------------ ");
+                    fitnessController.displaySortedTrainerUpcomingClasses(id);
+                    System.out.println("Enter class name: ");
+                    String className = scanner.nextLine();
+                    System.out.println("Enter start time (yyyy-MM-ddTHH:mm): ");
+                    LocalDateTime startTime = LocalDateTime.parse(scanner.nextLine());
+                    System.out.println("Enter end time (yyyy-MM-ddTHH:mm): ");
+                    LocalDateTime endTime = LocalDateTime.parse(scanner.nextLine());
+                    System.out.println("--->These are your rooms options: ");
+                    fitnessController.displayAllRooms();
+                    System.out.println("Enter room by id: ");
+                    int roomId = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Enter max participants: ");
+                    int participantsCount = Integer.parseInt(scanner.nextLine());
+                    System.out.println("--->These are your location options: ");
+                    fitnessController.displayAllLocations();
+                    System.out.println("Enter location by id: ");
+                    int locationId = Integer.parseInt(scanner.nextLine());
+                    System.out.println("--->These are your equipment options: ");
+                    fitnessController.displayAllEquipment();
+                    System.out.println("Enter equipment by id: ");
+                    int equipmentId = Integer.parseInt(scanner.nextLine());
+                    List<Equipment> equipmentList = new ArrayList<>();
+                    equipmentList.add(fitnessController.getEquipment(equipmentId));
+                    fitnessController.scheduleNewClass(className,startTime,endTime,id,roomId,participantsCount,locationId,equipmentList);
+                    System.out.println("Fitness class scheduled successfully! ");
+                    System.out.println("------------------------------------------ ");
+
+                }
+                case 3 -> {
+                    System.out.println("------------------------------------------ ");
+                    fitnessController.displayClassesOfTrainer(id);
+                    System.out.println("\n");
+                    System.out.println("Choose a class to view feedback for (by ID): ");
+                    int classId = Integer.parseInt(scanner.nextLine());
+                    fitnessController.displayFeedback(classId);
+                    System.out.println("------------------------------------------ ");
+                }
+                case 4 -> {
+                    Trainer trainer = fitnessController.getTrainer(id);
+                    String password = trainer.getPassword();
+                    String name = trainer.getName();
+                    String specialisation = trainer.getSpecialisation();
+                    System.out.println("\nCurrent user account data:");
+                    fitnessController.displayTrainerById(id);
+                    System.out.println("\nWhat do you want to update?\n1. name\n2. password\n3. specialisation");
+                    int userChoice = Integer.parseInt(scanner.nextLine());
+                    if (userChoice == 1) {
+                        System.out.println("Enter new name: ");
+                        String newName = scanner.nextLine();
+                        fitnessController.updateTrainer(id, newName, password, specialisation);
+                    } else if (userChoice == 2) {
+                        System.out.println("Enter new password: ");
+                        String newPassword = scanner.nextLine();
+                        fitnessController.updateTrainer(id, name, newPassword, specialisation);
+                    } else if (userChoice == 2) {
+                        System.out.println("Update specialisation: ");
+                        String newSpecialisation = scanner.nextLine();
+                        fitnessController.updateTrainer(id, name, password, newSpecialisation);
+                    } else {
+//                        System.out.println("\nInvalid choice\n");
+//                        trainerUI(id);
+                    }
+                }
+                case 5 -> {
+                    System.out.println("------------------------------------------ ");
+                    System.out.println("Logging out...");
+                    System.out.println("Back to main menu. \n");
+                    menu();
+                }
+            }
+        }
+    }
+
+    public void memberUI(int id) {
+        Scanner scanner = new Scanner(System.in);
+        boolean isRunning = true;
+        while (isRunning){
+            System.out.println("==== Menu ====");
+            System.out.println("1. View upcoming classes");
+            System.out.println("2. Register to class");
+            System.out.println("3. Drop class");
+            System.out.println("4. View classes you participated in");
+            System.out.println("5. Get similar classes");
+            System.out.println("6. Leave feedback");
+            System.out.println("7. Update account");
+            System.out.println("8. Logout");
+            System.out.println("Enter your choice (1/2/3 or 4): ");
+
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch (choice){
+                case 1 -> {
+                    System.out.println("------------------------------------------ ");
+                    fitnessController.displaySortedUpcomingClasses();
+                    System.out.println("------------------------------------------ ");
+                }
+                case 2 -> {
+                    System.out.println("------------------------------------------ ");
+                    fitnessController.displaySortedUpcomingClasses();
+                    System.out.println("Which class would you like to book? (enter class ID): ");
+                    int classId = Integer.parseInt(scanner.nextLine());
+                    fitnessController.registerToClass(id, classId);
+                    System.out.println("------------------------------------------ ");
+                }
+                case 3 -> {
+                    System.out.println("------------------------------------------ ");
+                    fitnessController.displaySortedUpcomingClasses();
+                    System.out.println("Which class would you like to drop? (enter class ID): ");
+                    int classId = Integer.parseInt(scanner.nextLine());
+                    fitnessController.dropClass(id, classId);
+                    System.out.println("------------------------------------------ ");
+                }
+                case 4 -> {
+                    System.out.println("------------------------------------------ ");
+                    fitnessController.displayClassesByMember(id);
+                    System.out.println("------------------------------------------ ");
+                }
+                case 5 -> {
+                    System.out.println("------------------------------------------ ");
+                    fitnessController.displayClassesByMember(id);
+                    System.out.println("Choose a class to get a recommendations for similar classes (enter class ID): ");
+                    int classId = Integer.parseInt(scanner.nextLine());
+                    FitnessClass targetClass = fitnessController.findClassById(classId);
+                    fitnessController.getSimilarClasses(targetClass);
+                    System.out.println("------------------------------------------ ");
+                }
+                case 6 -> {
+                    System.out.println("------------------------------------------ ");
+                    fitnessController.displayPastClassesAttendedByMember(id);
+                    System.out.println("Choose a class to leave a feedback to (by ID): ");
+                    int classId = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Leave a rating (out of 5): ");
+                    int rating = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Leave a comment: ");
+                    String comment = scanner.nextLine();
+                    fitnessController.addFeedbackForClass(id, classId, comment, rating);
+                    System.out.println("------------------------------------------ ");
+                }
+                case 7 -> {
+                    Member member = fitnessController.getMember(id);
+                    updateAccount(member.getName(), member.getPassword());
+                }
+                case 8 -> {
+                    System.out.println("------------------------------------------ ");
+                    System.out.println("Logging out...");
+                    System.out.println("Back to main menu. \n");
+                    menu();
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {
@@ -1052,7 +1070,7 @@ public class UI {
                 }
 
                 case 3 -> {
-                    String DB_URL = "jdbc:mysql://127.0.0.1:3306/fitnessapp?useSSL=false&serverTimezone=UTC";
+                    String DB_URL = "jdbc:mysql://127.0.0.1:3306/fitnessapp?serverTimezone=UTC";
                     String DB_USER = "root";
                     String DB_PASSWORD = "danamat07";
 

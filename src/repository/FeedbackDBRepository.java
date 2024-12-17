@@ -161,6 +161,14 @@ public class FeedbackDBRepository extends DBRepository<Feedback> {
         return feedback;
     }
 
+    /**
+     * Retrieves a list of feedback for a specific fitness class identified by its ID.
+     * The method performs a SQL query to fetch all feedback entries associated with the given fitness class ID.
+     * @param classId The ID of the fitness class for which feedback is to be retrieved.
+     * @return A list of Feedback objects associated with the given fitness class ID.
+     * @throws SQLException If there is an error executing the SQL query or processing the result set.
+     * @throws RuntimeException If any unexpected runtime exceptions occur during the method execution.
+     */
     public ArrayList<Feedback> getFeedbackByClassId(int classId) {
         ArrayList<Feedback> feedbackList = new ArrayList<>();
         String sql = "SELECT * FROM feedback WHERE fitnessClass = ?";

@@ -4,7 +4,6 @@ import service.FitnessService;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * The FitnessController class serves as the intermediary between the service layer (FitnessService) and the user interface
@@ -25,15 +24,16 @@ public class FitnessController {
 
     /**
      * Constructor for initializing the FitnessController.
-     * @param fitnessService The service layer object that contains the business logic for fitness-related operations.
      */
     public FitnessController(FitnessService fitnessService) {
         this.fitnessService = fitnessService;
     }
 
-    // ----- Equipment -----
-
-    // Display all equipment
+    /**
+     * Retrieves and displays the name and quantity of all available equipment.
+     * If no equipment is available, a message is displayed. Catches and prints any
+     * IllegalStateException that occurs during retrieval.
+     */
     public void displayAllEquipment() {
         try {
             List<Equipment> equipmentList = fitnessService.getAllEquipment();
@@ -41,10 +41,8 @@ public class FitnessController {
                 System.out.println("No equipment available.");
             } else {
                 for (Equipment equipment : equipmentList) {
-                    System.out.println("Equipment ID: " + equipment.getId());
                     System.out.println("Name: " + equipment.getName());
                     System.out.println("Quantity: " + equipment.getQuantity());
-                    System.out.println("Associated Fitness Classes: " + (equipment.getFitnessClasses().isEmpty() ? "None" : equipment.getFitnessClasses()));
                     System.out.println("----------------------------------------");
                 }
             }
@@ -53,7 +51,10 @@ public class FitnessController {
         }
     }
 
-    //Get equipment by ID
+    /**
+     * Retrieves the equipment with the specified ID.
+     * If an IllegalArgumentException is thrown during retrieval, it logs the error message and returns null.
+     */
     public Equipment getEquipment(int id){
         try{
             return fitnessService.getEquipment(id);
@@ -63,21 +64,25 @@ public class FitnessController {
         return null;
     }
 
-    // Display equipment by ID
+    /**
+     * Displays the name and quantity of the equipment with the specified ID.
+     * If an IllegalArgumentException is thrown during retrieval, it logs the error message.
+     */
     public void displayEquipmentById(int id) {
         try {
             Equipment equipment = fitnessService.getEquipment(id);
-            System.out.println("Equipment ID: " + equipment.getId());
             System.out.println("Name: " + equipment.getName());
             System.out.println("Quantity: " + equipment.getQuantity());
-            System.out.println("Associated Fitness Classes: " + (equipment.getFitnessClasses().isEmpty() ? "None" : equipment.getFitnessClasses()));
             System.out.println("----------------------------------------");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
     }
 
-    // Add new equipment
+    /**
+     * Adds the specified equipment to the system.
+     * If an IllegalArgumentException is thrown during the addition, it logs the error message.
+     */
     public void addEquipment(Equipment equipment) {
         try {
             fitnessService.addEquipment(equipment);
@@ -87,7 +92,10 @@ public class FitnessController {
         }
     }
 
-    // Update existing equipment
+    /**
+     * Updates the equipment with the specified ID, name, quantity, and associated fitness classes.
+     * If an IllegalArgumentException is thrown during the update, it logs the error message.
+     */
     public void updateEquipment(int id, String name, int quantity, List<FitnessClass> fitnessClasses) {
         try {
             fitnessService.updateEquipment(id, name, quantity, fitnessClasses);
@@ -97,7 +105,10 @@ public class FitnessController {
         }
     }
 
-    // Delete equipment by ID
+    /**
+     * Deletes the equipment with the specified ID.
+     * If an IllegalArgumentException is thrown during deletion, it logs the error message.
+     */
     public void deleteEquipment(int id) {
         try {
             fitnessService.deleteEquipment(id);
@@ -107,9 +118,11 @@ public class FitnessController {
         }
     }
 
-    // ----- Feedback -----
-
-    // Display all feedback
+    /**
+     * Retrieves and displays all feedback, including member name, fitness class name, rating, and comment.
+     * If no feedback is available, a message is displayed. If an IllegalStateException occurs during retrieval,
+     * it logs the error message.
+     */
     public void displayAllFeedback() {
         try {
             List<Feedback> feedbackList = fitnessService.getAllFeedback();
@@ -117,7 +130,6 @@ public class FitnessController {
                 System.out.println("No feedback available.");
             } else {
                 for (Feedback feedback : feedbackList) {
-                    System.out.println("Feedback ID: " + feedback.getId());
                     System.out.println("Member: " + feedback.getMember().getName());
                     System.out.println("Fitness Class: " + feedback.getFitnessClass().getName());
                     System.out.println("Rating: " + feedback.getRating());
@@ -130,11 +142,13 @@ public class FitnessController {
         }
     }
 
-    // Display feedback by ID
+    /**
+     * Retrieves and displays the feedback with the specified ID, including member name, fitness class name,
+     * rating, and comment. If an IllegalArgumentException occurs during retrieval, it logs the error message.
+     */
     public void displayFeedbackById(int id) {
         try {
             Feedback feedback = fitnessService.getFeedback(id);
-            System.out.println("Feedback ID: " + feedback.getId());
             System.out.println("Member: " + feedback.getMember().getName());
             System.out.println("Fitness Class: " + feedback.getFitnessClass().getName());
             System.out.println("Rating: " + feedback.getRating());
@@ -145,7 +159,10 @@ public class FitnessController {
         }
     }
 
-    // Add new feedback
+    /**
+     * Adds the specified feedback to the system.
+     * If an IllegalArgumentException is thrown, it logs the error message.
+     */
     public void addFeedback(Feedback feedback) {
         try {
             fitnessService.addFeedback(feedback);
@@ -155,7 +172,10 @@ public class FitnessController {
         }
     }
 
-    // Update existing feedback
+    /**
+     * Updates the feedback with the specified ID, rating, and comment.
+     * If an IllegalArgumentException is thrown, it logs the error message.
+     */
     public void updateFeedback(int id, int rating, String comment) {
         try {
             fitnessService.updateFeedback(id, rating, comment);
@@ -165,7 +185,10 @@ public class FitnessController {
         }
     }
 
-    // Delete feedback by ID
+    /**
+     * Deletes the feedback with the specified ID.
+     * If an IllegalArgumentException is thrown, it logs the error message.
+     */
     public void deleteFeedback(int id) {
         try {
             fitnessService.deleteFeedback(id);
@@ -175,9 +198,11 @@ public class FitnessController {
         }
     }
 
-    // ----- Fitness Class -----
-
-    // Display all fitness classes
+    /**
+     * Retrieves and displays all fitness classes, including their name, start time, end time, trainer, room, and location.
+     * If no fitness classes are available, a message is displayed. If an IllegalStateException occurs during retrieval,
+     * it logs the error message.
+     */
     public void displayAllFitnessClasses() {
         try {
             List<FitnessClass> fitnessClassList = fitnessService.getAllFitnessClasses();
@@ -185,16 +210,12 @@ public class FitnessController {
                 System.out.println("No fitness classes available.");
             } else {
                 for (FitnessClass fitnessClass : fitnessClassList) {
-                    System.out.println("Fitness Class ID: " + fitnessClass.getId());
                     System.out.println("Name: " + fitnessClass.getName());
                     System.out.println("Start time: " + fitnessClass.getStartTime());
                     System.out.println("End time: " + fitnessClass.getEndTime());
                     System.out.println("Trainer: " + fitnessClass.getTrainer().getName());
                     System.out.println("Room: " + fitnessClass.getRoom().getName());
-                    System.out.println("Participants Count: " + fitnessClass.getParticipantsCount());
                     System.out.println("Location: " + fitnessClass.getLocation());
-                    System.out.println("Associated Equipment: " + (fitnessClass.getEquipment().isEmpty() ? "None" : fitnessClass.getEquipment()));
-                    System.out.println("Feedback: " + (fitnessClass.getFeedback().isEmpty() ? "No feedback yet" : fitnessClass.getFeedback()));
                     System.out.println("----------------------------------------");
                 }
             }
@@ -203,27 +224,29 @@ public class FitnessController {
         }
     }
 
-    // Display fitness class by ID
+    /**
+     * Retrieves and displays the details of the fitness class with the specified ID, including its name, start time,
+     * end time, trainer, room, and location. If an IllegalArgumentException occurs during retrieval, it logs the error message.
+     */
     public void displayFitnessClassById(int id) {
         try {
             FitnessClass fitnessClass = fitnessService.getFitnessClass(id);
-            System.out.println("Fitness Class ID: " + fitnessClass.getId());
             System.out.println("Name: " + fitnessClass.getName());
             System.out.println("Start time: " + fitnessClass.getStartTime());
             System.out.println("End time: " + fitnessClass.getEndTime());
             System.out.println("Trainer: " + fitnessClass.getTrainer().getName());
             System.out.println("Room: " + fitnessClass.getRoom().getName());
-            System.out.println("Participants Count: " + fitnessClass.getParticipantsCount());
             System.out.println("Location: " + fitnessClass.getLocation());
-            System.out.println("Associated Equipment: " + (fitnessClass.getEquipment().isEmpty() ? "None" : fitnessClass.getEquipment()));
-            System.out.println("Feedback: " + (fitnessClass.getFeedback().isEmpty() ? "No feedback yet" : fitnessClass.getFeedback()));
             System.out.println("----------------------------------------");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
     }
 
-    // Add new fitness class
+    /**
+     * Adds the specified fitness class to the system.
+     * If an IllegalArgumentException is thrown, it logs the error message.
+     */
     public void addFitnessClass(FitnessClass fitnessClass) {
         try {
             fitnessService.addFitnessClass(fitnessClass);
@@ -233,7 +256,11 @@ public class FitnessController {
         }
     }
 
-    // Update existing fitness class
+    /**
+     * Updates the fitness class with the specified ID, including its details such as name, start time, end time,
+     * trainer, room, participant count, location, feedback, members, and equipment.
+     * If an IllegalArgumentException is thrown, it logs the error message.
+     */
     public void updateFitnessClass(int id, String name, LocalDateTime stratTime, LocalDateTime endTime, Trainer trainer, Room room,
                                    int participantsCount, Location location,
                                    List<Feedback> feedback, List<Member> members, List<Equipment> equipment) {
@@ -246,7 +273,10 @@ public class FitnessController {
         }
     }
 
-    // Delete fitness class by ID
+    /**
+     * Deletes the fitness class with the specified ID.
+     * If an IllegalArgumentException is thrown, it logs the error message.
+     */
     public void deleteFitnessClass(int id) {
         try {
             fitnessService.deleteFitnessClass(id);
@@ -256,9 +286,10 @@ public class FitnessController {
         }
     }
 
-    // ----- Location -----
-
-    // Display all locations
+    /**
+     * Displays all locations, including their name and address.
+     * If no locations are available, a message is displayed. Logs any IllegalStateException that occurs.
+     */
     public void displayAllLocations() {
         try {
             List<Location> locationList = fitnessService.getAllLocations();
@@ -266,7 +297,6 @@ public class FitnessController {
                 System.out.println("No locations available.");
             } else {
                 for (Location location : locationList) {
-                    System.out.println("Location ID: " + location.getId());
                     System.out.println("Name: " + location.getName());
                     System.out.println("Address: " + location.getAddress());
                     System.out.println("----------------------------------------");
@@ -277,11 +307,13 @@ public class FitnessController {
         }
     }
 
-    // Display location by ID
+    /**
+     * Displays the details of a location by its ID, including its name and address.
+     * If an IllegalArgumentException is thrown, it logs the error message.
+     */
     public void displayLocationById(int id) {
         try {
             Location location = fitnessService.getLocation(id);
-            System.out.println("Location ID: " + location.getId());
             System.out.println("Name: " + location.getName());
             System.out.println("Address: " + location.getAddress());
             System.out.println("----------------------------------------");
@@ -290,7 +322,10 @@ public class FitnessController {
         }
     }
 
-    // Add a new location
+    /**
+     * Adds a new location to the system.
+     * If an IllegalArgumentException is thrown, it logs the error message.
+     */
     public void addLocation(Location location) {
         try {
             fitnessService.addLocation(location);
@@ -300,7 +335,10 @@ public class FitnessController {
         }
     }
 
-    // Update an existing location
+    /**
+     * Updates the location with the specified ID, name, and address.
+     * If an IllegalArgumentException is thrown, it logs the error message.
+     */
     public void updateLocation(int id, String name, String address) {
         try {
             fitnessService.updateLocation(id, name, address);
@@ -310,7 +348,10 @@ public class FitnessController {
         }
     }
 
-    // Delete a location by ID
+    /**
+     * Deletes the location with the specified ID.
+     * If an IllegalArgumentException is thrown, it logs the error message.
+     */
     public void deleteLocation(int id) {
         try {
             fitnessService.deleteLocation(id);
@@ -320,9 +361,11 @@ public class FitnessController {
         }
     }
 
-    // ----- Member -----
-
-    // Display all members
+    /**
+     * Displays all members, including their name, registration date, and membership type.
+     * If no members are available, a message is displayed. If an IllegalStateException occurs during retrieval,
+     * it logs the error message.
+     */
     public void displayAllMembers() {
         try {
             List<Member> memberList = fitnessService.getAllMembers();
@@ -330,11 +373,9 @@ public class FitnessController {
                 System.out.println("No members available.");
             } else {
                 for (Member member : memberList) {
-                    System.out.println("Member ID: " + member.getId());
                     System.out.println("Name: " + member.getName());
                     System.out.println("Registration Date: " + member.getRegistrationDate());
                     System.out.println("Membership Type: " + member.getMembership());
-                    System.out.println("Associated Fitness Classes: " + (member.getFitnessClasses().isEmpty() ? "None" : member.getFitnessClasses()));
                     System.out.println("----------------------------------------");
                 }
             }
@@ -343,21 +384,26 @@ public class FitnessController {
         }
     }
 
-    // Display member by ID
+    /**
+     * Displays the details of a member by their ID, including their name, registration date, and membership type.
+     * If an IllegalArgumentException is thrown, it logs the error message.
+     */
     public void displayMemberById(int id) {
         try {
             Member member = fitnessService.getMember(id);
-            System.out.println("Member ID: " + member.getId());
             System.out.println("Name: " + member.getName());
             System.out.println("Registration Date: " + member.getRegistrationDate());
             System.out.println("Membership Type: " + member.getMembership());
-            System.out.println("Associated Fitness Classes: " + (member.getFitnessClasses().isEmpty() ? "None" : member.getFitnessClasses()));
             System.out.println("----------------------------------------");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
     }
 
+    /**
+     * Retrieves the member with the specified ID.
+     * If an IllegalArgumentException is thrown, it logs the error message and returns null.
+     */
     public Member getMember(int id) {
         try {
             fitnessService.getMember(id);
@@ -367,7 +413,10 @@ public class FitnessController {
         return null;
     }
 
-    // Add a new member
+    /**
+     * Adds a new member to the system.
+     * If an IllegalArgumentException is thrown, it logs the error message.
+     */
     public void addMember(Member member) {
         try {
             fitnessService.addMember(member);
@@ -376,29 +425,36 @@ public class FitnessController {
         }
     }
 
-    // Update an existing member
+    /**
+     * Updates a member's details.
+     * Logs any IllegalArgumentException that occurs.
+     */
     public void updateMember(int id, String name, String password, Membership membership, List<FitnessClass> fitnessClasses) {
         try {
-            fitnessService.updateMember(id, name, password, membership, fitnessClasses);
+            fitnessService.updateMember(id, name, password, membership);
             System.out.println("Account updated successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
     }
 
-    // Delete a member by ID
+    /**
+     * Deletes the member with the specified ID.
+     * Logs any IllegalArgumentException that occurs.
+     */
     public void deleteMember(int id) {
         try {
             fitnessService.deleteMember(id);
-            System.out.println("Member deleted successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
     }
 
-    // ----- Membership -----
-
-    // Display all memberships
+    /**
+     * Displays all memberships, including type and price.
+     * If no memberships are available, a message is displayed.
+     * Logs any IllegalStateException that occurs.
+     */
     public void displayAllMemberships() {
         try {
             List<Membership> membershipList = fitnessService.getAllMemberships();
@@ -416,11 +472,13 @@ public class FitnessController {
         }
     }
 
-    // Display membership by ID
+    /**
+     * Displays the details of a membership by its ID, including type and price.
+     * Logs any IllegalArgumentException that occurs.
+     */
     public void displayMembershipById(int id) {
         try {
             Membership membership = fitnessService.getMembership(id);
-            System.out.println("Membership ID: " + membership.getId());
             System.out.println("Type: " + membership.getType());
             System.out.println("Price: " + membership.getPrice());
             System.out.println("----------------------------------------");
@@ -429,7 +487,10 @@ public class FitnessController {
         }
     }
 
-    // Add a new membership
+    /**
+     * Adds a new membership to the system.
+     * Logs any IllegalArgumentException that occurs.
+     */
     public void addMembership(Membership membership) {
         try {
             fitnessService.addMembership(membership);
@@ -439,7 +500,9 @@ public class FitnessController {
         }
     }
 
-    // Update an existing membership
+    /**
+     * Updates the details of an existing membership.
+     */
     public void updateMembership(int id, String type, float price) {
         try {
             fitnessService.updateMembership(id, type, price);
@@ -449,7 +512,10 @@ public class FitnessController {
         }
     }
 
-    // Delete a membership by ID
+    /**
+     * Deletes a membership by its ID.
+     * Logs any IllegalArgumentException that occurs.
+     */
     public void deleteMembership(int id) {
         try {
             fitnessService.deleteMembership(id);
@@ -459,7 +525,10 @@ public class FitnessController {
         }
     }
 
-    //Get membership by id
+    /**
+     * Retrieves a membership by its ID.
+     * Logs any IllegalArgumentException that occurs and returns null if an exception is thrown.
+     */
     public Membership getMembership(int id) {
         try {
             return fitnessService.getMembership(id);
@@ -469,7 +538,10 @@ public class FitnessController {
         return null;
     }
 
-    //Get all memberships
+    /**
+     * Retrieves all memberships.
+     * Logs any IllegalArgumentException that occurs and returns null if an exception is thrown.
+     */
     public List<Membership> getAllMemberships(){
         try{
             return fitnessService.getAllMemberships();
@@ -479,10 +551,11 @@ public class FitnessController {
         return null;
     }
 
-
-    // ----- Room -----
-
-    // Display all rooms
+    /**
+     * Displays all rooms, including room name, max capacity, and location.
+     * If no rooms are available, a message is displayed.
+     * Logs any IllegalStateException that occurs.
+     */
     public void displayAllRooms() {
         try {
             List<Room> roomList = fitnessService.getAllRooms();
@@ -490,7 +563,6 @@ public class FitnessController {
                 System.out.println("No rooms available.");
             } else {
                 for (Room room : roomList) {
-                    System.out.println("Room ID: " + room.getId());
                     System.out.println("Room Name: " + room.getName());
                     System.out.println("Max Capacity: " + room.getMaxCapacity());
                     System.out.println("Location: " + room.getLocation().getName());
@@ -502,11 +574,13 @@ public class FitnessController {
         }
     }
 
-    // Display room by ID
+    /**
+     * Displays the details of a room by its ID, including room name, max capacity, and location.
+     * Logs any IllegalArgumentException that occurs.
+     */
     public void displayRoomById(int id) {
         try {
             Room room = fitnessService.getRoom(id);
-            System.out.println("Room ID: " + room.getId());
             System.out.println("Room Name: " + room.getName());
             System.out.println("Max Capacity: " + room.getMaxCapacity());
             System.out.println("Location: " + room.getLocation().getName());
@@ -516,7 +590,10 @@ public class FitnessController {
         }
     }
 
-    // Add a new room
+    /**
+     * Adds a new room to the system.
+     * Logs any IllegalArgumentException that occurs.
+     */
     public void addRoom(Room room) {
         try {
             fitnessService.addRoom(room);
@@ -526,7 +603,10 @@ public class FitnessController {
         }
     }
 
-    // Update an existing room
+    /**
+     * Updates the details of a room by its ID.
+     * Logs any IllegalArgumentException that occurs.
+     */
     public void updateRoom(int id, String name, int maxCapacity, Location location) {
         try {
             fitnessService.updateRoom(id, name, maxCapacity, location);
@@ -536,7 +616,10 @@ public class FitnessController {
         }
     }
 
-    // Delete a room by ID
+    /**
+     * Deletes a room by its ID.
+     * Logs any IllegalArgumentException that occurs.
+     */
     public void deleteRoom(int id) {
         try {
             fitnessService.deleteRoom(id);
@@ -546,9 +629,11 @@ public class FitnessController {
         }
     }
 
-    // ----- Trainer -----
-
-    // Display all trainers
+    /**
+     * Displays all trainers, including their name and specialization.
+     * If no trainers are available, a message is displayed.
+     * Logs any IllegalStateException that occurs.
+     */
     public void displayAllTrainers() {
         try {
             List<Trainer> trainerList = fitnessService.getAllTrainers();
@@ -556,7 +641,6 @@ public class FitnessController {
                 System.out.println("No trainers available.");
             } else {
                 for (Trainer trainer : trainerList) {
-                    System.out.println("Trainer ID: " + trainer.getId());
                     System.out.println("Name: " + trainer.getName());
                     System.out.println("Specialisation: " + trainer.getSpecialisation());
                     System.out.println("----------------------------------------");
@@ -567,11 +651,13 @@ public class FitnessController {
         }
     }
 
-    // Display trainer by ID
+    /**
+     * Displays the details of a trainer by their ID, including their name and specialization.
+     * Logs any IllegalArgumentException that occurs.
+     */
     public void displayTrainerById(int id) {
         try {
             Trainer trainer = fitnessService.getTrainer(id);
-            System.out.println("Trainer ID: " + trainer.getId());
             System.out.println("Name: " + trainer.getName());
             System.out.println("Specialisation: " + trainer.getSpecialisation());
             System.out.println("----------------------------------------");
@@ -580,6 +666,10 @@ public class FitnessController {
         }
     }
 
+    /**
+     * Retrieves a trainer by their ID.
+     * Logs any IllegalArgumentException that occurs and returns null if the trainer is not found.
+     */
     public Trainer getTrainer(int id) {
         try {
             fitnessService.getTrainer(id);
@@ -589,27 +679,35 @@ public class FitnessController {
         return null;
     }
 
-    // Add a new trainer
+    /**
+     * Adds a new trainer to the system.
+     * Logs any IllegalArgumentException that occurs.
+     */
     public void addTrainer(Trainer trainer) {
         try {
             fitnessService.addTrainer(trainer);
-            System.out.println("Trainer added successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
     }
 
-    // Update an existing trainer
-    public void updateTrainer(int id, String password, String phone, String specialisation) {
+    /**
+     * Updates the details of an existing trainer.
+     * Logs any IllegalArgumentException that occurs.
+     */
+    public void updateTrainer(int id, String name, String password, String specialisation) {
         try {
-            fitnessService.updateTrainer(id, password, phone, specialisation);
-            System.out.println("Trainer specialisation updated successfully.");
+            fitnessService.updateTrainer(id, name, password, specialisation);
+            System.out.println("Account updated successfully.");
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
     }
 
-    // Delete a trainer by ID
+    /**
+     * Deletes a trainer from the system.
+     * Logs any IllegalArgumentException that occurs.
+     */
     public void deleteTrainer(int id) {
         try {
             fitnessService.deleteTrainer(id);
@@ -619,9 +717,10 @@ public class FitnessController {
         }
     }
 
-    // --------------------------------------------------------------------------------------
-
-    // Get upcoming classes of a trainer
+    /**
+     * Retrieves and displays the upcoming fitness classes for a specific trainer.
+     * Logs any IllegalArgumentException that occurs.
+     */
     public void getTrainerUpcomingClasses(int id) {
         try {
             List<FitnessClass> upcomingClasses = fitnessService.getTrainerUpcomingClasses(id);
@@ -633,7 +732,10 @@ public class FitnessController {
         }
     }
 
-    // get all upcoming classes
+    /**
+     * Retrieves and displays all upcoming fitness classes.
+     * Logs any IllegalArgumentException that occurs.
+     */
     public void getAllUpcomingClasses() {
         try {
             List<FitnessClass> upcomingClasses = fitnessService.getAllUpcomingClasses();
@@ -645,7 +747,10 @@ public class FitnessController {
         }
     }
 
-    // Schedule a new fitness class
+    /**
+     * Schedules a new fitness class with the specified details.
+     * Logs any IllegalArgumentException that occurs.
+     */
     public void scheduleNewClass(String className, LocalDateTime startTime, LocalDateTime endTime, int trainerId,
                                  int roomId, int participantsCount, int locationId, List<Equipment> equipment) {
         try{
@@ -656,12 +761,22 @@ public class FitnessController {
         }
     }
 
-    // View schedule
+    /**
+     * Displays the schedule of all upcoming fitness classes.
+     * Logs any IllegalArgumentException that occurs while fetching the schedule.
+     */
     public void viewSchedule() {
-        fitnessService.viewSchedule();
+        try {
+            fitnessService.viewSchedule();
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
-    // Recommend similar classes
+    /**
+     * Retrieves and displays a list of fitness classes similar to the specified target class.
+     * @throws IllegalArgumentException if there is an error fetching similar classes.
+     */
     public void getSimilarClasses(FitnessClass targetClass) {
         try {
             List<FitnessClass> similarClasses = fitnessService.getSimilarClasses(targetClass);
@@ -673,7 +788,10 @@ public class FitnessController {
         }
     }
 
-    // Register a member to a class
+    /**
+     * Registers a member to a specified fitness class.
+     * @throws IllegalArgumentException if registration fails due to invalid IDs or other issues.
+     */
     public void registerToClass(int memberId, int classId) {
         try {
             fitnessService.registerToClass(memberId, classId);
@@ -683,7 +801,10 @@ public class FitnessController {
         }
     }
 
-    // Drop a member from a class
+    /**
+     * Allows a member to drop a previously registered fitness class.
+     * @throws IllegalArgumentException if the class cannot be dropped due to invalid IDs or other issues.
+     */
     public void dropClass(int memberId, int classId) {
         try {
             fitnessService.dropClass(memberId, classId);
@@ -693,7 +814,10 @@ public class FitnessController {
         }
     }
 
-    //Dispaly feedback of a class
+    /**
+     * Displays all feedback for a specific fitness class.
+     * @throws IllegalArgumentException if no feedback is found for the specified class.
+     */
     public void displayFeedback(int classID){
         try {
             List<Feedback> feedbackList = fitnessService.getClassFeedback(classID);
@@ -705,7 +829,10 @@ public class FitnessController {
         }
     }
 
-    // Display classes taught by a trainer
+    /**
+     * Displays all fitness classes taught by a specific trainer.
+     * @throws IllegalArgumentException if no classes are found for the specified trainer.
+     */
     public void displayClassesOfTrainer(int trainerId) {
         try {
             List<FitnessClass> classes = fitnessService.getAllClassesByTrainer(trainerId);
@@ -722,6 +849,10 @@ public class FitnessController {
         }
     }
 
+    /**
+     * Displays all fitness classes registered by a specific member.
+     * @throws IllegalArgumentException if no classes are found for the specified member.
+     */
     public void displayClassesByMember(int memberId) {
         try {
             List<FitnessClass> classes = fitnessService.getClassesByMember(memberId);
@@ -733,6 +864,10 @@ public class FitnessController {
         }
     }
 
+    /**
+     * Finds and returns a fitness class by its ID.
+     * @throws IllegalArgumentException if the class with the specified ID does not exist.
+     */
     public FitnessClass findClassById(int classId) {
         try {
             return fitnessService.findClassById(classId);
@@ -742,30 +877,50 @@ public class FitnessController {
         return null;
     }
 
+    /**
+     * Displays all upcoming fitness classes sorted by their start time in ascending order.
+     * If no upcoming classes are available, it prints a corresponding message.
+     * Otherwise, it prints the details of each class.
+     */
     public void displaySortedUpcomingClasses() {
-        List<FitnessClass> sortedClasses = fitnessService.sortUpcomingClassesASC();
-        if (sortedClasses.isEmpty()) {
-            System.out.println("No upcoming classes.");
-        } else {
-            System.out.println("Upcoming Classes (sorted by start time):");
-            for (FitnessClass fitnessClass : sortedClasses) {
-                System.out.println(fitnessClass.toStringLessInfo());
+        try {
+            List<FitnessClass> sortedClasses = fitnessService.sortUpcomingClassesASC();
+            if (sortedClasses.isEmpty()) {
+                System.out.println("No upcoming classes.");
+            } else {
+                System.out.println("Upcoming Classes (sorted by start time):");
+                for (FitnessClass fitnessClass : sortedClasses) {
+                    System.out.println(fitnessClass.toStringLessInfo());
+                }
             }
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
         }
     }
 
+    /**
+     * Displays the upcoming classes for a specific trainer, sorted by start time.
+     * If no classes are found, a message is displayed.
+     */
     public void displaySortedTrainerUpcomingClasses(int trainerId) {
-        List<FitnessClass> sortedClasses = fitnessService.sortUpcomingTrainerClassesASC(trainerId);
-        if (sortedClasses.isEmpty()) {
-            System.out.println("No upcoming classes.");
-        } else {
-            System.out.println("Upcoming Classes (sorted by start time):");
-            for (FitnessClass fitnessClass : sortedClasses) {
-                System.out.println(fitnessClass.toStringLessInfo());
+        try {
+            List<FitnessClass> sortedClasses = fitnessService.sortUpcomingTrainerClassesASC(trainerId);
+            if (sortedClasses.isEmpty()) {
+                System.out.println("No upcoming classes.");
+            } else {
+                System.out.println("Upcoming Classes (sorted by start time):");
+                for (FitnessClass fitnessClass : sortedClasses) {
+                    System.out.println(fitnessClass.toStringLessInfo());
+                }
             }
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
         }
     }
 
+    /**
+     * Retrieves the list of past fitness classes attended by a specific member.
+     */
     public List<FitnessClass> getPastClassesAttendedByMember(int memberId) {
         try {
             return fitnessService.getPastClassesAttendedByMember(memberId);
@@ -775,12 +930,22 @@ public class FitnessController {
         return null;
     }
 
+    /**
+     * Displays the past fitness classes attended by a specific member.
+     */
     public void displayPastClassesAttendedByMember(int memberId) {
-        for (FitnessClass fitnessClass : getPastClassesAttendedByMember(memberId)) {
-            System.out.println(fitnessClass.toStringLessInfo());
+        try {
+            for (FitnessClass fitnessClass : getPastClassesAttendedByMember(memberId)) {
+                System.out.println(fitnessClass.toStringLessInfo());
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
         }
     }
 
+    /**
+     * Adds feedback for a specific fitness class by a member.
+     */
     public void addFeedbackForClass(int memberId, int classId, String feedbackContent, int rating) {
         try {
             fitnessService.addFeedbackForClass(memberId, classId, feedbackContent, rating);

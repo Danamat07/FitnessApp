@@ -37,6 +37,13 @@ public class MemberDBRepository extends DBRepository<Member>{
         this.fitnessClassDBRepository = new FitnessClassDBRepository(dbUrl, dbUser, dbPassword);
     }
 
+    /**
+     * Creates a new member in the database.
+     * <p>This method inserts a new member's information, including their ID, name, password, registration date,
+     * and associated membership, into the `member` table.</p>
+     * @param obj The `Member` object containing the information to be added to the database.
+     * @throws RuntimeException If there is an issue executing the SQL query or processing the database.
+     */
     @Override
     public void create(Member obj) {
         String sql = "INSERT INTO member (id, name, password, registrationDate, membership) VALUES(?, ?, ?, ?, ?)";
@@ -52,6 +59,14 @@ public class MemberDBRepository extends DBRepository<Member>{
         }
     }
 
+    /**
+     * Retrieves a member from the database by their ID.
+     * <p>This method queries the `member` table for a member with the specified ID and returns the corresponding
+     * `Member` object, or `null` if no such member is found.</p>
+     * @param id The ID of the member to be retrieved from the database.
+     * @return The `Member` object with the specified ID, or `null` if no member with that ID exists.
+     * @throws RuntimeException If there is an issue executing the SQL query or processing the database.
+     */
     @Override
     public Member read(int id) {
         String sql = "SELECT * FROM member WHERE id=?";
@@ -68,6 +83,13 @@ public class MemberDBRepository extends DBRepository<Member>{
         }
     }
 
+    /**
+     * Updates an existing member's information in the database.
+     * <p>This method updates the member's details such as name, password, registration date, and membership
+     * in the `member` table using the provided `Member` object.</p>
+     * @param obj The `Member` object containing the updated information for the member.
+     * @throws RuntimeException If there is an error executing the SQL query or updating the database.
+     */
     @Override
     public void update(Member obj) {
         String sql = "UPDATE member SET name=?, password=?, registrationDate=?, membership=? WHERE id=?";
@@ -83,6 +105,13 @@ public class MemberDBRepository extends DBRepository<Member>{
         }
     }
 
+    /**
+     * Deletes a member and their associated data from the database.
+     * <p>This method deletes the member from the `member` table and also removes any associations in
+     * the `member_FitnessClass` table that link the member to fitness classes.</p>
+     * @param id The ID of the member to be deleted.
+     * @throws RuntimeException If there is an error executing the SQL queries or deleting the data.
+     */
     @Override
     public void delete(int id) {
         String sql = "DELETE FROM member WHERE id=?";
@@ -101,6 +130,13 @@ public class MemberDBRepository extends DBRepository<Member>{
         }
     }
 
+    /**
+     * Retrieves all members from the database.
+     * <p>This method queries the `member` table and returns a list of all members. Each member is
+     * constructed using the data retrieved from the database.</p>
+     * @return A list of all `Member` objects from the database.
+     * @throws RuntimeException If there is an error executing the SQL query or retrieving the data.
+     */
     @Override
     public List<Member> getAll() {
         String sql = "SELECT * FROM member";
@@ -116,6 +152,15 @@ public class MemberDBRepository extends DBRepository<Member>{
         }
     }
 
+    /**
+     * Extracts a `Member` object from the provided `ResultSet`.
+     * <p>This method reads data from a `ResultSet` and constructs a `Member` object using the values
+     * from the database. It also retrieves the related `Membership` and `FitnessClass` objects for
+     * the member.</p>
+     * @param resultSet The `ResultSet` containing the member data.
+     * @return A `Member` object populated with the data from the `ResultSet`.
+     * @throws SQLException If there is an error accessing the data in the `ResultSet`.
+     */
     public Member extractFromResultSet(ResultSet resultSet) throws SQLException {
         Membership membership = membershipDBRepository.read(resultSet.getInt("membership"));
         ArrayList<FitnessClass> fitnessClasses = getMemberFitnessClasses(resultSet.getInt("id"));
@@ -131,6 +176,14 @@ public class MemberDBRepository extends DBRepository<Member>{
         return member;
     }
 
+    /**
+     * Retrieves a list of `FitnessClass` objects that a specific member is enrolled in, based on their member ID.
+     * <p>This method queries the database for all fitness classes associated with a given member by using the
+     * member's ID. The results are returned as a list of `FitnessClass` objects.</p>
+     * @param id The ID of the member whose fitness classes are to be retrieved.
+     * @return A list of `FitnessClass` objects associated with the given member.
+     * @throws RuntimeException If there is an error accessing the database or executing the SQL query.
+     */
     private ArrayList<FitnessClass> getMemberFitnessClasses(Integer id) {
         ArrayList<FitnessClass> fitnessClasses = new ArrayList<>();
         String sqlMembersClasses =

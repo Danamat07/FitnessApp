@@ -155,6 +155,14 @@ public class EquipmentDBRepository extends DBRepository<Equipment> {
         }
     }
 
+    /**
+     * Retrieves a list of fitness classes that are associated with a specific equipment ID.
+     * The method performs a SQL query to fetch the classes that are linked to the provided equipment.
+     * @param id The ID of the equipment for which associated fitness classes are to be retrieved.
+     * @return A list of FitnessClass objects that use the given equipment.
+     * @throws SQLException If there is an error executing the SQL query or processing the result set.
+     * @throws RuntimeException If any unexpected runtime exceptions occur during the method execution.
+     */
     private ArrayList<FitnessClass> getEquipmentFitnessClasses(Integer id) {
         ArrayList<FitnessClass> fitnessClasses = new ArrayList<>();
         String sqlClasses =

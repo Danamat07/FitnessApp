@@ -414,10 +414,9 @@ public class FitnessService {
      * @param id               The unique ID of the member to update.
      * @param name             The updated name of the member. Must not be null or empty.
      * @param password         The updated password of the member. Must not be null or empty.
-     * @param fitnessClasses   The updated list of fitness classes the member is enrolled in. Can be empty.
      * @throws IllegalArgumentException if any of the parameters are invalid or if the member with the given ID does not exist.
      */
-    public void updateMember(int id, String name, String password, Membership membership, List<FitnessClass> fitnessClasses) {
+    public void updateMember(int id, String name, String password, Membership membership) {
         if (password == null) {
             throw new IllegalArgumentException("Password cannot be null or empty.");
         }
@@ -428,7 +427,6 @@ public class FitnessService {
         existingMember.setName(name);
         existingMember.setPassword(password);
         existingMember.setMembership(membership);
-        existingMember.setFitnessClasses(fitnessClasses);
         memberRepository.update(existingMember);
     }
 
@@ -663,9 +661,6 @@ public class FitnessService {
         if (password == null) {
             throw new IllegalArgumentException("Trainer mail cannot be null or empty.");
         }
-        if (specialisation == null || specialisation.trim().isEmpty()) {
-            throw new IllegalArgumentException("Trainer specialisation cannot be null or empty.");
-        }
         Trainer existingTrainer = getTrainer(id);
         existingTrainer.setName(name);
         existingTrainer.setPassword(password);
@@ -808,6 +803,9 @@ public class FitnessService {
      */
     public void viewSchedule() {
         List<FitnessClass> upcomingClasses = getAllUpcomingClasses();
+        if (upcomingClasses == null) {
+            throw new IllegalArgumentException("No upcoming classes available.");
+        }
         for(FitnessClass fitnessClass : upcomingClasses) {
             System.out.println(fitnessClass.toStringLessInfo());
         }
@@ -821,6 +819,9 @@ public class FitnessService {
      * @return true if the classes are similar (same trainer and at least one common equipment), false otherwise.
      */
     private boolean findSimilarClasses(FitnessClass fitnessClass, FitnessClass targetClass) {
+        if (fitnessClass == null || targetClass == null) {
+            throw new IllegalArgumentException("Fitness classes must not be null");
+        }
         if (!fitnessClass.getTrainer().equals(targetClass.getTrainer())) {
             return false;
         }
@@ -843,6 +844,9 @@ public class FitnessService {
      * @throws IllegalArgumentException if no similar classes are found.
      */
     public List<FitnessClass> getSimilarClasses(FitnessClass targetClass) {
+        if (targetClass == null) {
+            throw new IllegalArgumentException("Target class must not be null.");
+        }
         List<FitnessClass> allClasses = fitnessClassRepository.getAll();
         List<FitnessClass> similarClasses = new ArrayList<>();
         for (FitnessClass fitnessClass : allClasses) {
@@ -854,7 +858,7 @@ public class FitnessService {
             }
         }
         if (similarClasses != null) {return similarClasses;}
-        else throw new IllegalArgumentException("No similar classes found.");
+        return null;
     }
 
     /**
@@ -938,6 +942,9 @@ public class FitnessService {
      */
     public ArrayList<FitnessClass> getAllClassesByTrainer(int trainerId) {
         List<FitnessClass> classes = getAllFitnessClasses();
+        if (classes == null) {
+            throw new IllegalArgumentException("No classes found by this trainer");
+        }
         return filterByTrainerID(trainerId, classes);
     }
 
@@ -950,6 +957,9 @@ public class FitnessService {
      * @return A filtered ArrayList<FitnessClass> containing only the classes taught by the specified trainer.
      */
     public ArrayList<FitnessClass> filterByTrainerID(int id, List<FitnessClass> classList) {
+        if (classList == null) {
+            throw new IllegalArgumentException("Class list must not be null.");
+        }
         ArrayList<FitnessClass> filteredList = new ArrayList<>();
         for (FitnessClass fitnessClass : classList) {
             if(fitnessClass.getTrainer().getId() == id) {
@@ -1003,6 +1013,9 @@ public class FitnessService {
      */
     public List<FitnessClass> sortUpcomingClassesASC() {
         List<FitnessClass> fitnessClasses = getAllUpcomingClasses();
+        if (fitnessClasses == null) {
+            throw new IllegalArgumentException("No upcoming classes available.");
+        }
         fitnessClasses.sort(Comparator.comparing(FitnessClass::getStartTime));
         return fitnessClasses;
     }
@@ -1016,6 +1029,9 @@ public class FitnessService {
      */
     public List<FitnessClass> sortUpcomingTrainerClassesASC(int trainerId) {
         List<FitnessClass> fitnessClasses = getTrainerUpcomingClasses(trainerId);
+        if (fitnessClasses == null) {
+            throw new IllegalArgumentException("No upcoming classes available.");
+        }
         fitnessClasses.sort(Comparator.comparing(FitnessClass::getStartTime));
         return fitnessClasses;
     }

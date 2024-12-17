@@ -32,7 +32,7 @@ public class TrainerDBRepository extends DBRepository<Trainer> {
      */
     @Override
     public void create(Trainer obj) {
-        String sql = "INSERT INTO trainer (id, name, password, specialisation) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO trainer (id, name, password, specialisation) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, obj.getId());
             statement.setString(2, obj.getName());
