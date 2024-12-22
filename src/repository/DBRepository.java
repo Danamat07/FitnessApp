@@ -18,7 +18,7 @@ public abstract class DBRepository<T extends HasId> implements IRepository<T>, A
     /**
      * The database connection used by the repository to interact with the database.
      */
-    protected final Connection connection;
+    protected Connection connection;
 
     /**
      * Constructs a DBRepository instance with the provided database connection details.
@@ -28,17 +28,12 @@ public abstract class DBRepository<T extends HasId> implements IRepository<T>, A
      * @param dbPassword The password to use when connecting to the database.
      * @throws RuntimeException If the connection cannot be established due to an SQLException.
      */
-    public DBRepository(String dbUrl, String dbUser, String dbPassword) {
+    DBRepository(String dbUrl, String dbUser, String dbPassword) {
         try {
-            // Initialize database connection
-            connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-
-            // Optionally validate connection
-            if (connection.isClosed() || !connection.isValid(2)) {
-                throw new RuntimeException("The database connection is invalid or closed");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Failed to connect to the database", e);
+            this.connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -49,9 +44,7 @@ public abstract class DBRepository<T extends HasId> implements IRepository<T>, A
      */
     @Override
     public void close() throws Exception {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
-        }
+        connection.close();
     }
 
 }

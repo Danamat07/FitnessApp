@@ -1070,8 +1070,8 @@ public class UI {
                 }
 
                 case 3 -> {
-                    String DB_URL = "jdbc:mysql://127.0.0.1:3306/fitnessapp?serverTimezone=UTC";
-                    String DB_USER = "root";
+                    String DB_URL = "jdbc:postgresql://localhost:5432/Fitness";
+                    String DB_USER = "postgres";
                     String DB_PASSWORD = "danamat07";
 
                     LocationDBRepository locationDBRepo = new LocationDBRepository(DB_URL, DB_USER, DB_PASSWORD);
