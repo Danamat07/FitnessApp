@@ -140,14 +140,7 @@ public class FitnessClass implements HasId {
     }
 
     public String toStringLessInfo() {
-        return "FitnessClass{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", trainer=" + trainer +
-                ", room=" + room +
-                ", location=" + location +
-                '}';
+        return "ID: " + getId() + " - " + getName() + "\nDate & Time: " + getStartTime() + " -> " + getEndTime() +
+                "\nLocation: " + getLocation().getAddress() + ", " + getRoom().getName();
     }
 }

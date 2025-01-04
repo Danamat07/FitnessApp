@@ -734,6 +734,25 @@ public class FitnessService {
     }
 
     /**
+     * Retrieves all upcoming fitness classes in which a member has not registered yet
+     * Only classes that have not yet started are included in the result.
+     * @return A list of upcoming FitnessClass objects.
+     * @throws IllegalArgumentException if no upcoming classes are available.
+     */
+    public List<FitnessClass> getAllUpcomingClasses_MemberNotRegisteredYet(int memberId) {
+        List<FitnessClass> upcomingClasses = getAllUpcomingClasses();
+        Member member = getMember(memberId);
+        List<FitnessClass> notRegisteredClasses = new ArrayList<>();
+        for (FitnessClass fitnessClass : upcomingClasses) {
+            if (!fitnessClass.getMembers().contains(member)) {
+                notRegisteredClasses.add(fitnessClass);
+            }
+        }
+        if (notRegisteredClasses != null) {return notRegisteredClasses;}
+        else throw new IllegalArgumentException("No existing upcoming classes at the moment.");
+    }
+
+    /**
      * Checks for scheduling conflicts when adding a new fitness class to a room.
      * It compares the start and end times of the new class with the existing classes
      * scheduled in the same room to ensure there is no overlap.
@@ -970,7 +989,7 @@ public class FitnessService {
     }
 
     /**
-     * Retrieves all fitness classes in which a member has participated.
+     * Retrieves all fitness classes in which a member has participated in the past.
      * This method fetches the fitness classes associated with a specific member based on the member's ID. It checks if the
      * member is registered in any classes. If no classes are found, it throws an exception.
      * @param memberId The ID of the member whose classes are to be retrieved.
@@ -980,10 +999,16 @@ public class FitnessService {
     public List<FitnessClass> getClassesByMember(int memberId) {
         Member member = memberRepository.read(memberId);
         List<FitnessClass> memberClasses = member.getFitnessClasses();
+        List<FitnessClass> pastMemberClasses = new ArrayList<>();
         if (memberClasses == null || memberClasses.isEmpty()) {
             throw new IllegalStateException("This member has not participated in any classes.");
         }
-        return memberClasses;
+        for (FitnessClass fitnessClass : memberClasses) {
+            if (fitnessClass.getEndTime().isBefore(LocalDateTime.now())) {
+                pastMemberClasses.add(fitnessClass);
+            }
+        }
+        return pastMemberClasses;
     }
 
     /**

@@ -41,6 +41,7 @@ public class FitnessController {
                 System.out.println("No equipment available.");
             } else {
                 for (Equipment equipment : equipmentList) {
+                    System.out.println("ID: " + equipment.getId());
                     System.out.println("Name: " + equipment.getName());
                     System.out.println("Quantity: " + equipment.getQuantity());
                     System.out.println("----------------------------------------");
@@ -199,6 +200,19 @@ public class FitnessController {
     }
 
     /**
+     * Retrieves a fitness calss by its ID.
+     * Logs any IllegalArgumentException that occurs and returns null if an exception is thrown.
+     */
+    public FitnessClass getFitnessClass(int id) {
+        try {
+            return fitnessService.getFitnessClass(id);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
+    /**
      * Retrieves and displays all fitness classes, including their name, start time, end time, trainer, room, and location.
      * If no fitness classes are available, a message is displayed. If an IllegalStateException occurs during retrieval,
      * it logs the error message.
@@ -210,12 +224,10 @@ public class FitnessController {
                 System.out.println("No fitness classes available.");
             } else {
                 for (FitnessClass fitnessClass : fitnessClassList) {
+                    System.out.println("ID: " + fitnessClass.getId());
                     System.out.println("Name: " + fitnessClass.getName());
                     System.out.println("Start time: " + fitnessClass.getStartTime());
                     System.out.println("End time: " + fitnessClass.getEndTime());
-                    System.out.println("Trainer: " + fitnessClass.getTrainer().getName());
-                    System.out.println("Room: " + fitnessClass.getRoom().getName());
-                    System.out.println("Location: " + fitnessClass.getLocation());
                     System.out.println("----------------------------------------");
                 }
             }
@@ -287,6 +299,19 @@ public class FitnessController {
     }
 
     /**
+     * Retrieves a location by its ID.
+     * Logs any IllegalArgumentException that occurs and returns null if an exception is thrown.
+     */
+    public Location getLocation(int id) {
+        try {
+            return fitnessService.getLocation(id);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
+    /**
      * Displays all locations, including their name and address.
      * If no locations are available, a message is displayed. Logs any IllegalStateException that occurs.
      */
@@ -297,6 +322,7 @@ public class FitnessController {
                 System.out.println("No locations available.");
             } else {
                 for (Location location : locationList) {
+                    System.out.println("ID: " + location.getId());
                     System.out.println("Name: " + location.getName());
                     System.out.println("Address: " + location.getAddress());
                     System.out.println("----------------------------------------");
@@ -462,6 +488,7 @@ public class FitnessController {
                 System.out.println("No memberships available.");
             } else {
                 for (Membership membership : membershipList) {
+                    System.out.println("ID: " + membership.getId());
                     System.out.println("Type: " + membership.getType());
                     System.out.println("Price: " + membership.getPrice());
                     System.out.println("----------------------------------------");
@@ -552,6 +579,19 @@ public class FitnessController {
     }
 
     /**
+     * Retrieves a room by its ID.
+     * Logs any IllegalArgumentException that occurs and returns null if an exception is thrown.
+     */
+    public Room getRoom(int id) {
+        try {
+            return fitnessService.getRoom(id);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
+    /**
      * Displays all rooms, including room name, max capacity, and location.
      * If no rooms are available, a message is displayed.
      * Logs any IllegalStateException that occurs.
@@ -563,6 +603,7 @@ public class FitnessController {
                 System.out.println("No rooms available.");
             } else {
                 for (Room room : roomList) {
+                    System.out.println("Room ID: " + room.getId());
                     System.out.println("Room Name: " + room.getName());
                     System.out.println("Max Capacity: " + room.getMaxCapacity());
                     System.out.println("Location: " + room.getLocation().getName());
@@ -748,6 +789,21 @@ public class FitnessController {
     }
 
     /**
+     * Retrieves and displays all upcoming fitness classes that a member is not registered in.
+     * Logs any IllegalArgumentException that occurs.
+     */
+    public void getAllUpcomingClasses_MemberNotRegisteredYet(int memberId) {
+        try {
+            List<FitnessClass> notRegisteredClasses = fitnessService.getAllUpcomingClasses_MemberNotRegisteredYet(memberId);
+            for (FitnessClass fitnessClass : notRegisteredClasses) {
+                System.out.println(fitnessClass.toStringLessInfo());
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    /**
      * Schedules a new fitness class with the specified details.
      * Logs any IllegalArgumentException that occurs.
      */
@@ -781,7 +837,7 @@ public class FitnessController {
         try {
             List<FitnessClass> similarClasses = fitnessService.getSimilarClasses(targetClass);
             for (FitnessClass fitnessClass : similarClasses) {
-                System.out.println(fitnessClass.toStringLessInfo());
+                System.out.println(fitnessClass.toStringLessInfo() + "\n");
             }
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -822,7 +878,7 @@ public class FitnessController {
         try {
             List<Feedback> feedbackList = fitnessService.getClassFeedback(classID);
             for(Feedback feedback: feedbackList){
-                System.out.println("Rating: " + feedback.getRating() + "/5 -> " + feedback.getComment());
+                System.out.println("Rating: " + feedback.getRating() + "/5\nComment: " + feedback.getComment() + "\n");
             }
         } catch (IllegalArgumentException e){
             System.err.println(e.getMessage());
@@ -850,14 +906,14 @@ public class FitnessController {
     }
 
     /**
-     * Displays all fitness classes registered by a specific member.
+     * Displays all fitness classes in which a member has participated in the past.
      * @throws IllegalArgumentException if no classes are found for the specified member.
      */
     public void displayClassesByMember(int memberId) {
         try {
             List<FitnessClass> classes = fitnessService.getClassesByMember(memberId);
             for (FitnessClass fitnessClass : classes) {
-                System.out.println(fitnessClass.toStringLessInfo());
+                System.out.println(fitnessClass.toStringLessInfo() + "\n");
             }
         } catch (IllegalArgumentException e) {
             System.err.println("Error: " + e.getMessage());
@@ -890,7 +946,7 @@ public class FitnessController {
             } else {
                 System.out.println("Upcoming Classes (sorted by start time):");
                 for (FitnessClass fitnessClass : sortedClasses) {
-                    System.out.println(fitnessClass.toStringLessInfo());
+                    System.out.println(fitnessClass.toStringLessInfo() + "\n");
                 }
             }
         } catch (IllegalArgumentException e) {
@@ -910,7 +966,7 @@ public class FitnessController {
             } else {
                 System.out.println("Upcoming Classes (sorted by start time):");
                 for (FitnessClass fitnessClass : sortedClasses) {
-                    System.out.println(fitnessClass.toStringLessInfo());
+                    System.out.println(fitnessClass.toStringLessInfo() + "\n");
                 }
             }
         } catch (IllegalArgumentException e) {
@@ -936,7 +992,7 @@ public class FitnessController {
     public void displayPastClassesAttendedByMember(int memberId) {
         try {
             for (FitnessClass fitnessClass : getPastClassesAttendedByMember(memberId)) {
-                System.out.println(fitnessClass.toStringLessInfo());
+                System.out.println(fitnessClass.toStringLessInfo() + "\n");
             }
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
