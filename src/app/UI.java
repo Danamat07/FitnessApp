@@ -125,10 +125,28 @@ public class UI {
             String userInput = scanner.nextLine();
             if (Objects.equals(userInput, "member")) {
                 System.out.println("\n------------------------------------------ ");
-                System.out.println("Full name: ");
-                String name = scanner.nextLine();
+                String name = null;
+                while (true) {
+                    try {
+                        System.out.println("Full name: ");
+                        name = scanner.nextLine();
+                        validateName(name);
+                        break;
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
                 System.out.println("Password: ");
-                String password = scanner.nextLine();
+                String password = null;
+                while (true) {
+                    try {
+                        password = scanner.nextLine();
+                        validatePassword(password);
+                        break;
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
                 LocalDateTime registrationDate = LocalDateTime.now();
                 List<FitnessClass> classes = new ArrayList<>();
                 int id = HelperFunctions.randomId();
@@ -142,12 +160,29 @@ public class UI {
                 menu();
             } else if (Objects.equals(userInput, "trainer")) {
                 System.out.println("\n------------------------------------------ ");
-                System.out.println("Full name: ");
-                String name = scanner.nextLine();
+                String name = null;
+                while (true) {
+                    try {
+                        System.out.println("Full name: ");
+                        name = scanner.nextLine();
+                        validateName(name);
+                        break;
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
                 System.out.println("Password: ");
-                String password = scanner.nextLine();
-                System.out.println("Your specialisation: ");
-                String specialisation = scanner.nextLine();
+                String password = null;
+                while (true) {
+                    try {
+                        password = scanner.nextLine();
+                        validatePassword(password);
+                        break;
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+                String specialisation = "not specified";
                 int id = HelperFunctions.randomId();
                 Trainer trainer = new Trainer(name, password, specialisation);
                 trainer.setId(id);
@@ -160,6 +195,41 @@ public class UI {
             }
         }
         scanner.close();
+    }
+
+    // Method to validate the name
+    private void validateName(String name) {
+        // Check if the name is null or empty
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty. Please enter a valid name.");
+        }
+        // Check if the name contains digits
+        if (name.matches(".*\\d.*")) {
+            throw new IllegalArgumentException("Name cannot contain numbers. Please enter a valid name.");
+        }
+        // Check if each word in the name has at least 3 consecutive letters
+        String[] words = name.split("\\s+");
+        for (String word : words) {
+            if (word.length() < 3) {
+                throw new IllegalArgumentException("Each word in the name must have at least 3 letters. Please enter a valid name.");
+            }
+        }
+    }
+
+    // Method to validate the password
+    private void validatePassword(String password) {
+        // Check if the password is null or has fewer than 4 characters
+        if (password == null || password.length() < 4) {
+            throw new IllegalArgumentException("Password must have at least 4 characters. Please enter a valid password.");
+        }
+        // Check if the password contains spaces
+        if (password.contains(" ")) {
+            throw new IllegalArgumentException("Password cannot contain spaces. Please enter a valid password.");
+        }
+        // Check if the password contains only letters and numbers
+        if (!password.matches("[a-zA-Z0-9]+")) {
+            throw new IllegalArgumentException("Password can only contain letters and numbers. Please enter a valid password.");
+        }
     }
 
     // deletes user account
