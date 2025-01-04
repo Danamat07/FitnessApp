@@ -814,23 +814,6 @@ public class FitnessService {
     }
 
     /**
-     * Displays the upcoming fitness classes scheduled in the system.
-     * The method retrieves all upcoming fitness classes using the getAllUpcomingClasses method
-     * and prints a summary of each class to the console. The summary contains essential class details,
-     * excluding more detailed information (using toStringLessInfo()).
-     * Note: This method is for viewing the schedule in a simple format.
-     */
-    public void viewSchedule() {
-        List<FitnessClass> upcomingClasses = getAllUpcomingClasses();
-        if (upcomingClasses == null) {
-            throw new IllegalArgumentException("No upcoming classes available.");
-        }
-        for(FitnessClass fitnessClass : upcomingClasses) {
-            System.out.println(fitnessClass.toStringLessInfo());
-        }
-    }
-
-    /**
      * Helper method to check if two fitness classes are similar based on their trainer and equipment.
      * Two classes are considered similar if they share the same trainer and at least one common piece of equipment.
      * @param fitnessClass The first fitness class to compare.

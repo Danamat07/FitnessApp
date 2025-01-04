@@ -759,36 +759,6 @@ public class FitnessController {
     }
 
     /**
-     * Retrieves and displays the upcoming fitness classes for a specific trainer.
-     * Logs any IllegalArgumentException that occurs.
-     */
-    public void getTrainerUpcomingClasses(int id) {
-        try {
-            List<FitnessClass> upcomingClasses = fitnessService.getTrainerUpcomingClasses(id);
-            for (FitnessClass fitnessClass : upcomingClasses) {
-                System.out.println(fitnessClass.toString());
-            }
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Retrieves and displays all upcoming fitness classes.
-     * Logs any IllegalArgumentException that occurs.
-     */
-    public void getAllUpcomingClasses() {
-        try {
-            List<FitnessClass> upcomingClasses = fitnessService.getAllUpcomingClasses();
-            for (FitnessClass fitnessClass : upcomingClasses) {
-                System.out.println(fitnessClass.toStringLessInfo());
-            }
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
-    /**
      * Retrieves and displays all upcoming fitness classes that a member is not registered in.
      * Logs any IllegalArgumentException that occurs.
      */
@@ -812,18 +782,6 @@ public class FitnessController {
         try{
             fitnessService.scheduleNewClass(className, startTime, endTime, trainerId, roomId, participantsCount,
                     locationId, equipment);
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Displays the schedule of all upcoming fitness classes.
-     * Logs any IllegalArgumentException that occurs while fetching the schedule.
-     */
-    public void viewSchedule() {
-        try {
-            fitnessService.viewSchedule();
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
