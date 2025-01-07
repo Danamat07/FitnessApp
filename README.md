@@ -24,4 +24,6 @@ Advanced Algorithms:
   - Helpers Layer -> provides utility methods. ⚙️
 
 # UML Diagram 📊
-![image](https://github.com/user-attachments/assets/17c5c81b-18ce-425d-8065-7e7402acd8ec)
+![image](https://github.com/user-attachments/assets/7285d30d-bd0a-45ae-a741-0f32a8307b10)
+
+![image](https://github.com/user-attachments/assets/da0dfe59-6647-4a5d-90b7-eb776c1a53b0)
