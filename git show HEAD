@@ -1,0 +1,11 @@
+[33mcommit d8dde401b91ab51c03541b0d3d08e05900090a87[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: mihaelahrihor <mihaelahrihor@icloud.com>
+Date:   Sun Nov 3 21:34:37 2024 +0300
+
+    Created MemberFitnessClass
+
+[33mcommit b5c29b976b508563b33568f4949693a043f4a56a[m
+Author: Matei_Dana <dana.matei@stud.ubbcluj.ro>
+Date:   Sun Nov 3 19:42:09 2024 +0200
+
+    created User, Trainer, Member and Membership classes
