@@ -1,5 +1,6 @@
 # FitnessApp 💪
 Welcome to Fitness App! This application is designed to streamline your fitness journey by making it easy to handle class registrations and manage your gym schedule. 🏆
+> ![Languages](https://img.shields.io/badge/Languages-Java%20%7C%20SQL-blue)
 
 # Features and Key Functions 🏋️‍♀️
 User Roles:
